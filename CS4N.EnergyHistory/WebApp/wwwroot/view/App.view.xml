@@ -1,0 +1,3 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+  <App id="rootControl" busy="false" busyIndicatorDelay="0" autoFocus="false"/>
+</mvc:View>

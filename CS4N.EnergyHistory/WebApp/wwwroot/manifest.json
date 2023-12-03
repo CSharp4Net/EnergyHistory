@@ -1,0 +1,48 @@
+{
+  "sap.app": {
+    "id": "CS4N.EnergyHistory",
+    "title": "Energy-History",
+    "type": "application",
+    "applicationVersion": "0.1",
+    "i18n": "i18n/i18n.properties"
+  },
+  "sap.ui": {
+    "fullWidth": true
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.1",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "rootView": {
+      "viewName": "CS4N.EnergyHistory.view.App",
+      "type": "XML"
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewPath": "CS4N.EnergyHistory.view",
+        "controlId": "rootControl",
+        "controlAggregation": "pages",
+        "viewType": "XML"
+      },
+      "routes": [
+        {
+          "name": "Overview",
+          "pattern": "",
+          "target": "overview"
+        }
+      ],
+      "targets": {
+        "overview": {
+          "viewName": "Overview",
+          "viewLevel": 0
+        }
+      }
+    }
+  }
+}

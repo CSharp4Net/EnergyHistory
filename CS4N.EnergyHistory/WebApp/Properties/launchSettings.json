@@ -1,0 +1,17 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Service": {
+      "commandName": "Project",
+      // Eigenschaft externalUrlConfiguration auf true setzen, wenn die URL zur Laufzeit definiert wird
+      "externalUrlConfiguration": true,
+      //"dotnetRunMessages": true,
+      //"launchBrowser": true,
+      //"launchUrl": "swagger"
+      //"applicationUrl": "http://localhost:5678",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
