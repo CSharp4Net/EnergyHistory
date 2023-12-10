@@ -6,8 +6,9 @@ namespace CS4N.EnergyHistory.Contracts
   {
     List<Station> GetStations();
 
-    Station GetStation(int id);
+    Station? GetStation(int id);
 
-    void AddStation(Station station);
+    void UpsertStation(Station station);
+    void DeleteStation(int id);
   }
 }

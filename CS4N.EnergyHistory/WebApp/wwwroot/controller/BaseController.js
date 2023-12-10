@@ -30,6 +30,17 @@
       MessageBox.error(this.i18n.getText(response.errorMessage), { title: this.i18n.getText(response.errorTitle) });
     },
 
+    setFocus(controlName, delayInMilliseconds) {
+      setTimeout(() => this.byId(controlName).focus(), delayInMilliseconds);
+    },
+
+    isNullOrEmpty(value) {
+      if (value === undefined || value === null)
+        return true;
+        
+      return value.trim() === "";
+    },
+
     /**
      * Führt die Navigation über den Router aus.
      * @public

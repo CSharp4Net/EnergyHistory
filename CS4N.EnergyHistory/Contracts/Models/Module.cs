@@ -6,7 +6,7 @@
     public string Manufacturer { get; set; } = "";
     public string Model { get; set; } = "";
     public string SerialNumber { get; set; } = "";
-    public double MaxPowerPeak { get; set; }
+    public int MaxPowerPeak { get; set; }
     //public PowerUnitType PowerUnit { get; set; }
   }
 }

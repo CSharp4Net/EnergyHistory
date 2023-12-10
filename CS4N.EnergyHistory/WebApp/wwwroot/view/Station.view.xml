@@ -21,12 +21,18 @@
             <f:formElements>
               <f:FormElement label="{i18n>text_Name}">
                 <f:fields>
-                  <Input required="true" value="{/station/name}" />
+                  <Input id="nameInput" required="true" value="{/station/name}" valueState="{/nameState}" placeholder="{i18n>place_UniqueName}"/>
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>text_MaxPowerPeak}">
                 <f:fields>
-                  <Input />
+                  <Input required="true" 
+                         type="Number" 
+                         textAlign="End" 
+                         value="{/station/maxPowerPeak}" 
+                         valueState="{/maxPowerPeakState}" 
+                         placeholder="{i18n>place_MaxPowerPeak}" 
+                         description="{i18n>text_Watt}" />
                 </f:fields>
               </f:FormElement>
             </f:formElements>

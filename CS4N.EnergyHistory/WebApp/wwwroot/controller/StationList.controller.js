@@ -40,8 +40,11 @@
         this.navigateTo("Station");
       },
 
-      onStationPress: function (evt) {
-        
+      onStationDetail: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          modelData = this.model.getProperty(modelPath);
+
+        this.navigateTo("Station", { id: modelData.id });
       },
       // #endregion
 

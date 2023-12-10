@@ -1,6 +1,7 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
 using CS4N.EnergyHistory.Core;
+using static System.Collections.Specialized.BitVector32;
 
 namespace CS4N.EnergyHistory.DataStore.File
 {
@@ -27,11 +28,20 @@ namespace CS4N.EnergyHistory.DataStore.File
       return stations.SingleOrDefault(entry => entry.Id == id);
     }
 
-    public void AddStation(Station station)
+    public void UpsertStation(Station station)
     {
       using var connection = GetConnection();
 
       connection.GetCollection<Station>().Upsert(station);
+
+      cachedStations = null;
+    }
+
+    public void DeleteStation(int id)
+    {
+      using var connection = GetConnection();
+
+      connection.GetCollection<Station>().Delete(id);
 
       cachedStations = null;
     }

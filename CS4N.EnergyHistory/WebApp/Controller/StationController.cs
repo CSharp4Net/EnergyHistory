@@ -26,5 +26,13 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     [HttpPost]
     public IActionResult Post([FromBody] Station station)
       => service.AddStation(station);
+
+    [HttpPatch]
+    public IActionResult Patch([FromBody] Station station)
+      => service.UpdateStation(station);
+
+    [HttpDelete]
+    public IActionResult Delete([FromBody] Station station)
+      => service.DeleteStation(station);
   }
 }

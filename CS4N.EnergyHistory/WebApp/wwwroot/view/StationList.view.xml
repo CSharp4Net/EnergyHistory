@@ -22,7 +22,7 @@
           </Column>
         </columns>
         <items>
-          <ColumnListItem vAlign="Middle" type="Detail" press="onStationPress">
+          <ColumnListItem vAlign="Middle" type="Detail" detailPress="onStationDetail">
             <cells>
               <Text text="{name}"/>
             </cells>
