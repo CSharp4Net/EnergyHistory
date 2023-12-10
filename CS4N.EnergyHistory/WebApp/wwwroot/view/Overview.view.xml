@@ -9,13 +9,14 @@
       </Bar>
     </customHeader>
     <content>
-      <IconTabBar expandable="false" stretchContentHeight="true">
+      <IconTabBar id="myTabBar" expandable="false" stretchContentHeight="true" select="onTabSelect">
         <items>
+          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" design="Horizontal" showAll="true" />
           <IconTabFilter key="settings" text="{i18n>text_Settings}" />
         </items>
         <content>
-          <HBox items="{/items}">
-            <GenericTile header="{name}"></GenericTile>
+          <HBox id="myTiles" items="{/items}">
+            <GenericTile header="{name}" press="onTilePress" class="sapUiTinyMargin"></GenericTile>
           </HBox>
         </content>
       </IconTabBar>

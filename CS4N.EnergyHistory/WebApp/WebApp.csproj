@@ -13,12 +13,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Components\DataStore.LiteDB\DataStore.File.csproj" />
 		<ProjectReference Include="..\Contracts\Contracts.csproj" />
 		<ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Repositories\" />
 	  <Folder Include="wwwroot\css\" />
 	  <Folder Include="wwwroot\image\" />
 	</ItemGroup>

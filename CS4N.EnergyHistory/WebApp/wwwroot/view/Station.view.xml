@@ -2,6 +2,9 @@
 	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
 		<customHeader>
 			<Bar>
+        <contentLeft>
+          <Button type="Back" press="onBackPress"/>
+        </contentLeft>
 				<contentMiddle>
 					<Image src="image/flash-energy-64.png" height="2rem"/>
 					<Title text="{i18n>title_Station}"/>
@@ -9,11 +12,34 @@
 			</Bar>
 		</customHeader>
 		<content>
-      <HBox>
-        <GenericTile>
-          
-        </GenericTile>
-      </HBox>
+      <f:Form editable="true">
+        <f:layout>
+          <f:ResponsiveGridLayout  columnsL="1" />
+        </f:layout>
+        <f:formContainers>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_Name}">
+                <f:fields>
+                  <Input required="true" value="{/station/name}" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_MaxPowerPeak}">
+                <f:fields>
+                  <Input />
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+        </f:formContainers>
+      </f:Form>
 		</content>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button icon="sap-icon://save" type="Accept" text="{i18n>text_Save}" width="150px" press="onSavePress" />
+        </contentRight>
+      </Bar>
+    </footer>
 	</Page>
 </mvc:View>

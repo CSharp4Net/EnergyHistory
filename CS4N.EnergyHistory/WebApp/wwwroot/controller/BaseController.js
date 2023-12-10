@@ -26,6 +26,10 @@
       MessageBox.error((error.responseText) ? error.responseText : error.statusText);
     },
 
+    showResponseError: function (response) {
+      MessageBox.error(this.i18n.getText(response.errorMessage), { title: this.i18n.getText(response.errorTitle) });
+    },
+
     /**
      * Führt die Navigation über den Router aus.
      * @public

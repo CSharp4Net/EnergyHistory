@@ -1,4 +1,6 @@
-﻿namespace CS4N.EnergyHistory.Core
+﻿using CS4N.EnergyHistory.Contracts;
+
+namespace CS4N.EnergyHistory.Core
 {
   public static class PathHelper
   {
@@ -9,6 +11,16 @@
 #else
       return Path.Combine(AppContext.BaseDirectory, "wwwroot");
 #endif
+    }
+
+    public static string GetWorkPath()
+    {
+      string workFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Constants.ApplicationName);
+
+      if (!Directory.Exists(workFolderPath))
+        Directory.CreateDirectory(workFolderPath);
+
+      return workFolderPath;
     }
   }
 }

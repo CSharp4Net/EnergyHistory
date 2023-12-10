@@ -11,13 +11,28 @@
       this._invoke("POST", urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback);
     },
 
+    patch: function (urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback) {
+      this._invoke("PATCH", urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback);
+    },
+
+    delete: function (urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback) {
+      this._invoke("DELETE", urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback);
+    },
+
     _invoke: function (method, urlPath, payload, onSuccessCallback, onErrorCallback, onCompleteCallback,) {
       const apiEndpoint = this._getRoolUrl() + "api/" + urlPath;
       this._apiCall(method, apiEndpoint, payload, onSuccessCallback, onErrorCallback, onCompleteCallback);
     },
 
     _getRoolUrl: function () {
-      return window.location.href.endsWith("#") ? window.location.href.substring(0, window.location.href.length - 1) : window.location.href;
+      const rootUrl = window.location.href.indexOf("#") > -1 ?
+        window.location.href.substring(0, window.location.href.indexOf("#")) :
+        window.location.href;
+
+      if (!rootUrl.endsWith("/"))
+        rootUrl += "/";
+
+      return rootUrl;
     },
 
     _apiCall: function (method, apiEndpoint, payload, onSuccessCallback, onErrorCallback, onCompleteCallback) {
