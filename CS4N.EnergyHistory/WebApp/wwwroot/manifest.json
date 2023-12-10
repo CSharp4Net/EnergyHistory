@@ -32,33 +32,42 @@
       },
       "routes": [
         {
-          "name": "Overview",
+          "name": "Cockpit",
           "pattern": "",
-          "target": "overview"
+          "target": "cockpit"
         },
         {
-          "name": "StationList",
-          "pattern": "Stations",
-          "target": "stationList"
+          "name": "StationDefinitionOverview",
+          "pattern": "StationDefinition/Overview",
+          "target": "stationDefinitionOverview"
+        },
+        {
+          "name": "StationDefinition",
+          "pattern": "StationDefinition/:id:",
+          "target": "stationDefinition"
         },
         {
           "name": "Station",
-          "pattern": "Station/:id:",
+          "pattern": "Station/{id}",
           "target": "station"
         }
       ],
       "targets": {
-        "overview": {
-          "viewName": "Overview",
+        "cockpit": {
+          "viewName": "Cockpit",
           "viewLevel": 0
         },
-        "stationList": {
-          "viewName": "StationList",
+        "stationDefinitionOverview": {
+          "viewName": "StationDefinitionOverview",
           "viewLevel": 1
+        },
+        "stationDefinition": {
+          "viewName": "StationDefinition",
+          "viewLevel": 2
         },
         "station": {
           "viewName": "Station",
-          "viewLevel": 2
+          "viewLevel": 1
         }
       }
     }

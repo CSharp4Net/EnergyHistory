@@ -5,12 +5,12 @@
   function (Controller, Connector, Filter) {
     "use strict";
 
-    return Controller.extend("CS4N.EnergyHistory.controller.Overview", {
+    return Controller.extend("CS4N.EnergyHistory.controller.Cockpit", {
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
-        this.getOwnerComponent().getRouter().getRoute("Overview").attachPatternMatched(this.onRouteMatched, this);
+        this.getOwnerComponent().getRouter().getRoute("Cockpit").attachPatternMatched(this.onRouteMatched, this);
       },
 
       // #region Methods
@@ -28,14 +28,20 @@
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("overview",
+        Connector.get("cockpit",
           this.onApiGetData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
 
-      onTilePress: function () {
-        this.navigateTo("StationList");
+      onTilePress: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          modelData = this.model.getProperty(modelPath);
+
+        if (this.isNullOrEmpty(modelData.navigationParameterAsJsonText))
+          this.navigateTo(modelData.navigationViewName);
+        else
+          this.navigateTo(modelData.navigationViewName, JSON.parse(modelData.navigationParameterAsJsonText));
       },
 
       onTabSelect: function (evt) {

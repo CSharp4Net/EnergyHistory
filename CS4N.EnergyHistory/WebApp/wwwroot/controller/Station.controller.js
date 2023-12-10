@@ -8,46 +8,59 @@
 
     return Controller.extend("CS4N.EnergyHistory.controller.Station", {
 
+      chartControl: null,
+
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
         this.getOwnerComponent().getRouter().getRoute("Station").attachPatternMatched(this.onRouteMatched, this);
+
+        const myChart = this.byId("myChart");
+        if (!myChart) {
+          var html1 = new sap.ui.core.HTML(this.createId("html1"), {
+            content: "<canvas id='myChart' responsive='true'></canvas>"
+          });
+          this.byId("canvasElementPanel").addContent(html1);
+        }
       },
 
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          station: {
-            id: 0,
-            name: "",
-            maxPowerPeak: "",
-
-          },
-          nameState: "None",
-          maxPowerPeakState: "None"
+          pageTitle: ""
         });
       },
 
-      validateInput: function (station) {
-        let allValid = true;
+      formatPowerValue: function (value) {
+        return this.i18n.getText("text_PowerValue").format(value.toLocaleString());
+      },
 
-        if (this.isNullOrEmpty(station.name)) {
-          this.model.setProperty("/nameState", "Error");
-          allValid = false;
+      buildChartControl: function () {
+        const ctx = document.getElementById('myChart');
+
+        if (this.chartControl) {
+          this.chartControl.clear();
+          this.chartControl.destroy();
         }
-        else
-          this.model.setProperty("/nameState", "None");
 
-        station.maxPowerPeak = Number(station.maxPowerPeak) || 0;
-
-        if (station.maxPowerPeak <= 0) {
-          this.model.setProperty("/maxPowerPeakState", "Error");
-          allValid = false;
-        }
-        else
-          this.model.setProperty("/maxPowerPeakState", "None");
-          
-        return allValid;
+        this.chartControl = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
       },
       // #endregion
 
@@ -55,61 +68,21 @@
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        const id = evt.getParameters().arguments.id;
-        if (id)
-          Connector.get("station/" + id,
-            this.onApiGetStation.bind(this),
-            this.handleApiError.bind(this),
-            () => container.setBusy(false));
-        else
-          this.setFocus("nameInput", 100);
+        const id = evt.getParameters().arguments.id,
+          container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.get("StationData/" + id,
+          this.onApiGetStation.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
       },
 
       onBackPress: function () {
-        this.navigateTo("StationList");
-      },
-
-      onSavePress: function () {
-        const station = this.model.getProperty("/station");
-
-        if (!this.validateInput(station))
-          return;
-
-        const container = this.byId("myPage");
-        container.setBusy(true);
-        if (station.id === 0)
-          Connector.post("station", station,
-            this.onApiAddStation.bind(this),
-            this.handleApiError.bind(this),
-            () => container.setBusy(false));
-        else
-          Connector.patch("statioN", station,
-            this.onApiUpdateStation.bind(this),
-            this.handleApiError.bind(this),
-            () => container.setBusy(false));
+        this.navigateTo("Cockpit");
       },
       // #endregion
 
       // #region API-Events
-      onApiAddStation: function (response) {
-        if (response.errorMessage) {
-          this.showResponseError(response);
-          return;
-        }
-
-        this.onBackPress();
-        MessageToast.show(this.i18n.getText("toast_StationAdded"));
-      },
-
-      onApiUpdateStation: function (response) {
-        if (response.errorMessage) {
-          this.showResponseError(response);
-          return;
-        }
-
-        MessageToast.show(this.i18n.getText("toast_StationUpdated"));
-      },
-
       onApiGetStation: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
@@ -117,6 +90,9 @@
         }
 
         this.model.setProperty("/station", response);
+        this.model.setProperty("/pageTitle", this.i18n.getText("title_Station").format(response.name, this.formatPowerValue(response.maxPowerPeak)));
+
+        this.buildChartControl();
       }
       // #endregion
     });

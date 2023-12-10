@@ -1,7 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models;
+using CS4N.EnergyHistory.Contracts.Models.Definition;
 using CS4N.EnergyHistory.Core;
-using static System.Collections.Specialized.BitVector32;
 
 namespace CS4N.EnergyHistory.DataStore.File
 {

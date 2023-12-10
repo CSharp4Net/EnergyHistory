@@ -1,18 +1,19 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
+using CS4N.EnergyHistory.Contracts.Models.Definition;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Services
 {
-  internal sealed class StationService : ServiceBase
+  internal sealed class StationDefinitionService : ServiceBase
   {
-    internal StationService(ILogger logger, IDataStore dataStore) : base(logger)
+    internal StationDefinitionService(ILogger logger, IDataStore dataStore) : base(logger)
     {
-      repository = new StationRepository(dataStore);
+      repository = new StationDefinitionRepository(dataStore);
     }
 
-    private StationRepository repository;
+    private StationDefinitionRepository repository;
 
     internal IActionResult GetStations()
     {

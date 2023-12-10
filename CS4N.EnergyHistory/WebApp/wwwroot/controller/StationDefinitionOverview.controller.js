@@ -4,12 +4,12 @@
   function (Controller, Connector) {
     "use strict";
 
-    return Controller.extend("CS4N.EnergyHistory.controller.StationList", {
+    return Controller.extend("CS4N.EnergyHistory.controller.StationDefinitionOverview", {
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
-        this.getOwnerComponent().getRouter().getRoute("StationList").attachPatternMatched(this.onRouteMatched, this);
+        this.getOwnerComponent().getRouter().getRoute("StationDefinitionOverview").attachPatternMatched(this.onRouteMatched, this);
       },
 
       // #region Methods
@@ -17,6 +17,10 @@
         this.model.setData({
           stations: []
         });
+      },
+
+      formatPowerValue: function (value) {
+        return this.i18n.getText("text_PowerValue").format(value.toLocaleString());
       },
       // #endregion
 
@@ -26,25 +30,25 @@
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("station/list",
+        Connector.get("StationDefinition/overview",
           this.onApiGetList.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
 
       onBackPress: function () {
-        this.navigateTo("Overview");
+        this.navigateTo("Cockpit");
       },
 
       onAddPress: function () {
-        this.navigateTo("Station");
+        this.navigateTo("StationDefinition");
       },
 
-      onStationDetail: function (evt) {
+      onStationPress: function (evt) {
         const modelPath = evt.getSource().getBindingContext().getPath(),
           modelData = this.model.getProperty(modelPath);
 
-        this.navigateTo("Station", { id: modelData.id });
+        this.navigateTo("StationDefinition", { id: modelData.id });
       },
       // #endregion
 

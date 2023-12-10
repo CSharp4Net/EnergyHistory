@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace CS4N.EnergyHistory.WebApp.Controller
 {
   [Route("api/[controller]")]
-  public sealed class OverviewController : ControllerBase
+  public sealed class CockpitController : ControllerBase
   {
-    public OverviewController(ILogger<OverviewController> logger, IDataStore dataStore)
+    public CockpitController(ILogger<CockpitController> logger, IDataStore dataStore)
     {
-      service = new OverviewService(logger, dataStore);
+      service = new CockpitService(logger, dataStore);
     }
 
-    private OverviewService service;
+    private CockpitService service;
 
     [HttpGet]
     public IActionResult Get()

@@ -1,21 +1,21 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models;
+using CS4N.EnergyHistory.Contracts.Models.Definition;
 using CS4N.EnergyHistory.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Controller
 {
   [Route("api/[controller]")]
-  public sealed class StationController : ControllerBase
+  public sealed class StationDefinitionController : ControllerBase
   {
-    public StationController(ILogger<StationController> logger, IDataStore dataStore)
+    public StationDefinitionController(ILogger<StationDefinitionController> logger, IDataStore dataStore)
     {
-      service = new StationService(logger, dataStore);
+      service = new StationDefinitionService(logger, dataStore);
     }
 
-    private StationService service;
+    private StationDefinitionService service;
 
-    [HttpGet("list")]
+    [HttpGet("overview")]
     public IActionResult GetList()
       => service.GetStations();
 

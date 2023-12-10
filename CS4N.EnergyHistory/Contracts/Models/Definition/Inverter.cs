@@ -1,6 +1,6 @@
-﻿namespace CS4N.EnergyHistory.Contracts.Models
+﻿namespace CS4N.EnergyHistory.Contracts.Models.Definition
 {
-  public sealed class Module
+  public sealed class Inverter
   {
     public int Id { get; set; }
     public string Manufacturer { get; set; } = "";

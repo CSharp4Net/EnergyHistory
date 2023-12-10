@@ -1,12 +1,12 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
-using Microsoft.AspNetCore.Mvc;
+using CS4N.EnergyHistory.Contracts.Models.Definition;
 
 namespace CS4N.EnergyHistory.WebApp.Repositories
 {
-  internal sealed class StationRepository : RepositoryBase
+  internal sealed class StationDefinitionRepository : RepositoryBase
   {
-    internal StationRepository(IDataStore dataStore) : base(dataStore) { }
+    internal StationDefinitionRepository(IDataStore dataStore) : base(dataStore) { }
 
     internal List<Station> GetStations()
       => DataStore.GetStations();

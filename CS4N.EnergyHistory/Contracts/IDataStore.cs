@@ -1,4 +1,4 @@
-﻿using CS4N.EnergyHistory.Contracts.Models;
+﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
 
 namespace CS4N.EnergyHistory.Contracts
 {

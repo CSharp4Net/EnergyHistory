@@ -7,45 +7,21 @@
         </contentLeft>
 				<contentMiddle>
 					<Image src="image/flash-energy-64.png" height="2rem"/>
-					<Title text="{i18n>title_Station}"/>
+					<Title text="{/pageTitle}"/>
 				</contentMiddle>
 			</Bar>
 		</customHeader>
 		<content>
-      <f:Form editable="true">
-        <f:layout>
-          <f:ResponsiveGridLayout  columnsL="1" />
-        </f:layout>
-        <f:formContainers>
-          <f:FormContainer>
-            <f:formElements>
-              <f:FormElement label="{i18n>text_Name}">
-                <f:fields>
-                  <Input id="nameInput" required="true" value="{/station/name}" valueState="{/nameState}" placeholder="{i18n>place_UniqueName}"/>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>text_MaxPowerPeak}">
-                <f:fields>
-                  <Input required="true" 
-                         type="Number" 
-                         textAlign="End" 
-                         value="{/station/maxPowerPeak}" 
-                         valueState="{/maxPowerPeakState}" 
-                         placeholder="{i18n>place_MaxPowerPeak}" 
-                         description="{i18n>text_Watt}" />
-                </f:fields>
-              </f:FormElement>
-            </f:formElements>
-          </f:FormContainer>
-        </f:formContainers>
-      </f:Form>
-		</content>
-    <footer>
-      <Bar>
-        <contentRight>
-          <Button icon="sap-icon://save" type="Accept" text="{i18n>text_Save}" width="150px" press="onSavePress" />
-        </contentRight>
-      </Bar>
-    </footer>
+      <Panel width="auto" id="canvasElementPanel" height="100%">
+        <Toolbar class="sapUiTinyMarginBottom">
+          <Select>
+            
+          </Select>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://edit" press="onEditPress" type="Emphasized"/>
+        </Toolbar>
+        <content></content>
+      </Panel>
+    </content>
 	</Page>
 </mvc:View>

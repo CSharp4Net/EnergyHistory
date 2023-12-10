@@ -8,9 +8,6 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	</PropertyGroup>
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\view\Overview.view.xml" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Components\DataStore.LiteDB\DataStore.File.csproj" />

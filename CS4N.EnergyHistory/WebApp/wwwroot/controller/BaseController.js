@@ -15,6 +15,16 @@
       this.getView().setModel(sap.ui.getCore().getModel("i18n"), "i18n");
       this.i18n = this.getView().getModel("i18n").getResourceBundle();
 
+      String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+          return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+            ;
+        });
+      };
+
       this.initController();
     },
 
