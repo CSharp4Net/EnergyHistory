@@ -1,6 +1,6 @@
 ﻿namespace CS4N.EnergyHistory.Contracts.Models.Definition
 {
-  public sealed class Station
+  public sealed class StationDefinition
   {
     public int Id { get; set; }
     public string Name { get; set; } = "";

@@ -8,39 +8,39 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
   {
     internal StationDefinitionRepository(IDataStore dataStore) : base(dataStore) { }
 
-    internal List<Station> GetStations()
-      => DataStore.GetStations();
+    internal List<StationDefinition> GetStations()
+      => DataStore.GetStationDefinitions();
 
-    internal Station? GetStation(int id)
-      => DataStore.GetStation(id);
+    internal StationDefinition? GetStation(int id)
+      => DataStore.GetStationDefinition(id);
 
-    internal ActionReply AddStation(Station station)
+    internal ActionReply AddStation(StationDefinition station)
     {
-      List<Station> collection = DataStore.GetStations();
+      List<StationDefinition> collection = DataStore.GetStationDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Id != station.Id))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
 
-      DataStore.UpsertStation(station);
+      DataStore.UpsertStationDefinition(station);
 
       return new ActionReply();
     }
 
-    internal ActionReply UpdateStation(Station station)
+    internal ActionReply UpdateStation(StationDefinition station)
     {
-      List<Station> collection = DataStore.GetStations();
+      List<StationDefinition> collection = DataStore.GetStationDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Id != station.Id))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
 
-      DataStore.UpsertStation(station);
+      DataStore.UpsertStationDefinition(station);
 
       return new ActionReply();
     }
 
-    internal ActionReply DeleteStation(Station station)
+    internal ActionReply DeleteStation(StationDefinition station)
     {
-      DataStore.DeleteStation(station.Id);
+      DataStore.DeleteStationDefinition(station.Id);
 
       return new ActionReply();
     }

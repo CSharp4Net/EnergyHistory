@@ -20,28 +20,36 @@
           var html1 = new sap.ui.core.HTML(this.createId("html1"), {
             content: "<canvas id='myChart' responsive='true'></canvas>"
           });
-          this.byId("canvasElementPanel").addContent(html1);
+          this.byId("chartPanel").addContent(html1);
         }
       },
 
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          pageTitle: ""
+          pageTitle: "...",
+          selectedTimePeriod: "Day",
+          selectedYear: new Date().getFullYear(),
+          selectedMonth: new Date().getMonth() + 1,
+          stationId: 0,
+          stationData: null,
+          chartPanelIsExpanded: false
         });
       },
 
       formatPowerValue: function (value) {
-        return this.i18n.getText("text_PowerValue").format(value.toLocaleString());
+        return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
       },
 
-      buildChartControl: function () {
-        const ctx = document.getElementById('myChart');
-
+      removeChartControl: function () {
         if (this.chartControl) {
-          this.chartControl.clear();
+          //this.chartControl.clear();
           this.chartControl.destroy();
         }
+      },
+
+      addChartControl: function () {
+        const ctx = document.getElementById('myChart');
 
         this.chartControl = new Chart(ctx, {
           type: 'bar',
@@ -62,37 +70,67 @@
           }
         });
       },
+
+      reloadData: function () {
+        const selectedTimePeriod = this.model.getProperty("/selectedTimePeriod"),
+          selectedYear = this.model.getProperty("/selectedYear"),
+          selectedMonth = this.model.getProperty("/selectedMonth"),
+          stationId = this.model.getProperty("/stationId");
+
+        const urlPath = selectedTimePeriod === 'Month' ?
+          "StationData/" + stationId + "/" + selectedYear + "/" + selectedMonth :
+          "StationData/" + stationId + "/" + selectedYear;
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.get(urlPath,
+          this.onApiGetStationData.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
+      },
       // #endregion
 
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
+        this.removeChartControl();
 
-        const id = evt.getParameters().arguments.id,
-          container = this.byId("myPage");
-        container.setBusy(true);
-        Connector.get("StationData/" + id,
-          this.onApiGetStation.bind(this),
-          this.handleApiError.bind(this),
-          () => container.setBusy(false));
+        this.model.setProperty("/stationId", evt.getParameters().arguments.id);
+        this.reloadData();
       },
 
       onBackPress: function () {
         this.navigateTo("Cockpit");
       },
+
+      onEditPress: function () {
+        const selectedTimePeriod = this.model.getProperty("/selectedTimePeriod");
+
+
+      },
+
+      onChartPanelExpand: function (evt) {
+        const expanded = evt.getParameter("expand");
+
+        if (expanded)
+          setTimeout(() => this.addChartControl(), 100);
+        else
+          this.removeChartControl();
+      },
       // #endregion
 
       // #region API-Events
-      onApiGetStation: function (response) {
+      onApiGetStationData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
         this.model.setProperty("/station", response);
-        this.model.setProperty("/pageTitle", this.i18n.getText("title_Station").format(response.name, this.formatPowerValue(response.maxPowerPeak)));
+        //this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), [response.name, this.formatPowerValue(response.maxPowerPeak)]));
 
-        this.buildChartControl();
+        if (this.model.getProperty("/chartPanelIsExpanded"))
+          this.addChartControl();
       }
       // #endregion
     });

@@ -17,14 +17,14 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     internal IActionResult GetStations()
     {
-      List<Station> collection = repository.GetStations();
+      List<StationDefinition> collection = repository.GetStations();
 
       return new OkObjectResult(collection);
     }
 
     internal IActionResult GetStation(int id)
     {
-      Station? station = repository.GetStation(id);
+      StationDefinition? station = repository.GetStation(id);
 
       if (station == null)
         return new OkObjectResult(new ActionReply("message_StationNotFound"));
@@ -32,21 +32,21 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(station);
     }
 
-    internal IActionResult AddStation(Station station)
+    internal IActionResult AddStation(StationDefinition station)
     {
       ActionReply actionReply = repository.AddStation(station);
 
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult UpdateStation(Station station)
+    internal IActionResult UpdateStation(StationDefinition station)
     {
       ActionReply actionReply = repository.UpdateStation(station);
 
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult DeleteStation(Station station)
+    internal IActionResult DeleteStation(StationDefinition station)
     {
       ActionReply actionReply = repository.DeleteStation(station);
 

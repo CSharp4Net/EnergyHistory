@@ -24,15 +24,15 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetStation(id);
 
     [HttpPost]
-    public IActionResult Post([FromBody] Station station)
+    public IActionResult Post([FromBody] StationDefinition station)
       => service.AddStation(station);
 
     [HttpPatch]
-    public IActionResult Patch([FromBody] Station station)
+    public IActionResult Patch([FromBody] StationDefinition station)
       => service.UpdateStation(station);
 
     [HttpDelete]
-    public IActionResult Delete([FromBody] Station station)
+    public IActionResult Delete([FromBody] StationDefinition station)
       => service.DeleteStation(station);
   }
 }

@@ -14,17 +14,6 @@
       // Lokalisierung aus globalen Model verfügbar machen
       this.getView().setModel(sap.ui.getCore().getModel("i18n"), "i18n");
       this.i18n = this.getView().getModel("i18n").getResourceBundle();
-
-      String.prototype.format = function () {
-        var args = arguments;
-        return this.replace(/{(\d+)}/g, function (match, number) {
-          return typeof args[number] != 'undefined'
-            ? args[number]
-            : match
-            ;
-        });
-      };
-
       this.initController();
     },
 
@@ -49,6 +38,15 @@
         return true;
         
       return value.trim() === "";
+    },
+
+    format: function (formatText, formatArguments) {
+      let args = Array.isArray(formatArguments) ?
+        Array.prototype.slice.call(formatArguments, 0) : [formatArguments];
+      for (var i = 0; i < args.length; i++) {
+        formatText = formatText.replaceAll("{" + i + "}", args[i])
+      }
+      return formatText;
     },
 
     /**

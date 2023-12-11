@@ -20,7 +20,7 @@
       },
 
       formatPowerValue: function (value) {
-        return this.i18n.getText("text_PowerValue").format(value.toLocaleString());
+        return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
       },
       // #endregion
 

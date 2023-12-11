@@ -1,0 +1,16 @@
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationData">
+	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+		<customHeader>
+			<Bar>
+        <contentLeft>
+          <Button type="Back" press="onBackPress"/>
+        </contentLeft>
+				<contentMiddle>
+					<Image src="image/flash-energy-64.png" height="2rem"/>
+					<Title text="{/pageTitle}"/>
+				</contentMiddle>
+			</Bar>
+		</customHeader>
+		<content></content>
+	</Page>
+</mvc:View>

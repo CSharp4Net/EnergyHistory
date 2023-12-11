@@ -1,14 +1,18 @@
-﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
+﻿using CS4N.EnergyHistory.Contracts.Models.Data;
+using CS4N.EnergyHistory.Contracts.Models.Definition;
 
 namespace CS4N.EnergyHistory.Contracts
 {
   public interface IDataStore
   {
-    List<Station> GetStations();
+    List<StationDefinition> GetStationDefinitions();
+    StationDefinition? GetStationDefinition(int id);
+    void UpsertStationDefinition(StationDefinition definition);
+    void DeleteStationDefinition(int id);
 
-    Station? GetStation(int id);
-
-    void UpsertStation(Station station);
-    void DeleteStation(int id);
+    List<StationDataMonth> GetStationDataOfYear(int stationId, int year);
+    StationDataMonth? GetStationDataOfMonth(int stationId, int year, int month);
+    void UpsertStationDataOfMonth(StationDataMonth month);
+    void DeleteStationDataOfMonth(int stationId, int year, int month);
   }
 }
