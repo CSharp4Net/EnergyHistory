@@ -12,23 +12,48 @@
 			</Bar>
 		</customHeader>
 		<content>
-      <Panel expandable="true" expanded="true">
-
-        <content></content>
-      </Panel>
-      <Panel width="auto" id="chartPanel" expandable="true" expanded="{/chartPanelIsExpanded}" expand="onChartPanelExpand" expandAnimation="false">
-        <headerToolbar>
-          <Toolbar class="sapUiTinyMarginBottom">
-            <Text text="{i18n>text_TimePeriod}"/>
-            <Select selectedKey="{/selectedTimePeriod}">
-              <core:ListItem key="Month" text="{i18n>text_Month}"/>
-              <core:ListItem key="Year" text="{i18n>text_Year}" />
-            </Select>
-            <ToolbarSpacer/>
-            <Button icon="sap-icon://edit" press="onEditPress"/>
-          </Toolbar>
-        </headerToolbar>
-      </Panel>
+      <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
+        <items>
+          <IconTabFilter text="{i18n>text_Common}">
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout  columnsL="1" />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_Id}">
+                      <f:fields>
+                        <Text text="{/station/definition/id}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_MaximumPerformance}">
+                      <f:fields>
+                        <Text text="{ path: '/station/definition/maxWattPeak', formatter: '.formatPowerValue' }"/>
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+          </IconTabFilter>
+          <IconTabFilter text="{i18n>text_Chart}">
+            <Panel width="auto" id="chartPanel" expandable="true" expanded="{/chartPanelIsExpanded}" expand="onChartPanelExpand" expandAnimation="false">
+              <headerToolbar>
+                <Toolbar class="sapUiTinyMarginBottom">
+                  <Text text="{i18n>text_TimePeriod}"/>
+                  <Select selectedKey="{/selectedTimePeriod}">
+                    <core:ListItem key="Month" text="{i18n>text_Month}"/>
+                    <core:ListItem key="Year" text="{i18n>text_Year}" />
+                  </Select>
+                  <ToolbarSpacer/>
+                  <Button icon="sap-icon://edit" press="onEditPress"/>
+                </Toolbar>
+              </headerToolbar>
+            </Panel>
+          </IconTabFilter>
+        </items>
+      </IconTabBar>      
     </content>
 	</Page>
 </mvc:View>

@@ -18,8 +18,8 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     public IActionResult GetKpiValue(string stationId)
       => service.GetKpiValue(stationId);
 
-    //[HttpGet("{stationId}")]
-    //public IActionResult GetStationData(double stationId)
-    //  => service.GetStationData(stationId);
+    [HttpGet("{stationId}")]
+    public IActionResult GetStationData(string stationId)
+      => service.GetStationData(stationId);
   }
 }

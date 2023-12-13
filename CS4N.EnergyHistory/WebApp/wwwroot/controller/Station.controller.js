@@ -28,7 +28,7 @@
       resetModel: function () {
         this.model.setData({
           pageTitle: "...",
-          selectedTimePeriod: "Day",
+          selectedTimePeriod: "Month",
           selectedYear: new Date().getFullYear(),
           selectedMonth: new Date().getMonth() + 1,
           stationId: 0,
@@ -38,6 +38,9 @@
       },
 
       formatPowerValue: function (value) {
+        if (!value)
+          return value;
+
         return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
       },
 
@@ -72,18 +75,10 @@
       },
 
       reloadData: function () {
-        const selectedTimePeriod = this.model.getProperty("/selectedTimePeriod"),
-          selectedYear = this.model.getProperty("/selectedYear"),
-          selectedMonth = this.model.getProperty("/selectedMonth"),
-          stationId = this.model.getProperty("/stationId");
-
-        const urlPath = selectedTimePeriod === 'Month' ?
-          "StationData/" + stationId + "/" + selectedYear + "/" + selectedMonth :
-          "StationData/" + stationId + "/" + selectedYear;
-
-        const container = this.byId("myPage");
+        const stationId = this.model.getProperty("/stationId"),
+          container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get(urlPath,
+        Connector.get("StationData/" + stationId,
           this.onApiGetStationData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -127,7 +122,7 @@
         }
 
         this.model.setProperty("/station", response);
-        //this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), [response.name, this.formatPowerValue(response.maxPowerPeak)]));
+        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), response.definition.name));
 
         if (this.model.getProperty("/chartPanelIsExpanded"))
           this.addChartControl();
