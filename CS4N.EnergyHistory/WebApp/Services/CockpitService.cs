@@ -20,11 +20,15 @@ namespace CS4N.EnergyHistory.WebApp.Services
     {
       List<GenericTileData> items = [];
 
-      var stationSettings = new GenericTileData("settings", "Stationen", "StationDefinitionOverview");
+      var stationSettings = new GenericTileData("settings", "Stationen", "StationDefinitionOverview")
+      { 
+        IconUrl = "sap-icon://action-settings"
+      };
       var stationTiles = repository.GetStations()
         .Select(station => new GenericTileData("stations", station.Name, "Station")
         {
-          NavigationParameterAsJsonText = JsonSerializer.Serialize(new { id = station.Id })
+          NavigationParameterAsJsonText = JsonSerializer.Serialize(new { id = station.Id }),
+          IconUrl = station.IconUrl
         })
         .ToList();
 
