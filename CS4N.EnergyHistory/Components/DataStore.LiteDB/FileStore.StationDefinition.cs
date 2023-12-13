@@ -15,35 +15,40 @@ namespace CS4N.EnergyHistory.DataStore.File
       return cachedStationDefinitions = LoadStationDefinitionsFile() ?? [];
     }
 
-    public StationDefinition? GetStationDefinition(double id)
+    public StationDefinition? GetStationDefinition(string id)
     {
       var definition = GetStationDefinitions()
-        .SingleOrDefault(entry => entry.Id == id);
+        .SingleOrDefault(entry => entry.Id.Equals(id));
 
-      return definition; // JsonSerializer.Deserialize<StationDefinition>(JsonSerializer.Serialize(definition));
+      return definition;
     }
 
     public void UpsertStationDefinition(StationDefinition definition)
     {
       var definitions = GetStationDefinitions();
 
-      if (definition.Id == 0)
+      if (string.IsNullOrEmpty(definition.Id))
       {
-        definition.Id = DateTime.Now.Ticks;
+        definition.Id = Guid.NewGuid().ToString();
         definitions.Add(definition);
       }
       else
       {
-        var existingDefinition = definitions.SingleOrDefault(entry => entry.Id == definition.Id);
+        var existingDefinition = definitions.SingleOrDefault(entry => entry.Id.Equals(definition.Id));
 
         if (existingDefinition == null)
         {
-          definition.Id = DateTime.Now.Ticks;
+          definition.Id = Guid.NewGuid().ToString();
           definitions.Add(definition);
         }
         else
         {
-          existingDefinition = definition;
+          existingDefinition.Name = definition.Name;
+          existingDefinition.MaxWattPeak = definition.MaxWattPeak;
+          existingDefinition.IconUrl = definition.IconUrl;
+          existingDefinition.Location = definition.Location;
+          existingDefinition.Modules = definition.Modules;
+          existingDefinition.Inverters = definition.Inverters;
         }
       }
 
@@ -52,7 +57,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedStationDefinitions.Clear();
     }
 
-    public void DeleteStationDefinition(double id)
+    public void DeleteStationDefinition(string id)
     {
       var definitions = GetStationDefinitions();
 

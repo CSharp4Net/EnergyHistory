@@ -21,7 +21,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       return cachedStationDatas;
     }
 
-    public StationData GetStationData(double stationId)
+    public StationData GetStationData(string stationId)
     {
       var data = cachedStationDatas.SingleOrDefault(entry => entry.StationId == stationId);
       if (data != null)
@@ -46,7 +46,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedStationDatas.Clear();
     }
 
-    public void DeleteStationData(double stationId)
+    public void DeleteStationData(string stationId)
     {
       DeleteStationDataFile(stationId);
 

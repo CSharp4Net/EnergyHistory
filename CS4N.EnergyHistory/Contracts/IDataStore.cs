@@ -6,13 +6,13 @@ namespace CS4N.EnergyHistory.Contracts
   public interface IDataStore
   {
     List<StationDefinition> GetStationDefinitions();
-    StationDefinition? GetStationDefinition(double id);
+    StationDefinition? GetStationDefinition(string id);
     void UpsertStationDefinition(StationDefinition definition);
-    void DeleteStationDefinition(double id);
+    void DeleteStationDefinition(string id);
 
     List<StationData> GetStationDatas();
-    StationData GetStationData(double stationId);
+    StationData GetStationData(string stationId);
     void UpsertStationData(StationData data);
-    void DeleteStationData(double stationId);
+    void DeleteStationData(string stationId);
   }
 }

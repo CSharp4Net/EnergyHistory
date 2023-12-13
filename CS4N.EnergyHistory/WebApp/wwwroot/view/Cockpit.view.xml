@@ -9,9 +9,9 @@
       </Bar>
     </customHeader>
     <content>
-      <IconTabBar id="myTabBar" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false">
+      <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
         <items>
-          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" design="Horizontal" showAll="true" visible="{/stationAdded}" />
+          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" visible="{/stationAdded}" />
           <IconTabFilter key="settings" text="{i18n>text_Settings}" />
         </items>
         <content>
@@ -22,7 +22,7 @@
                   <core:Icon src="{iconUrl}"
                              size="3rem"
                              color="Tile"/>
-                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" icon="{kpi/iconUrl}" />
+                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" icon="{kpi/iconUrl}" visible="{kpiSet}" />
                 </HBox>
               </TileContent>
             </GenericTile>

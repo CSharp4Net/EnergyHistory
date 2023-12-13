@@ -11,7 +11,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal List<StationDefinition> GetStations()
       => DataStore.GetStationDefinitions();
 
-    internal StationDefinition? GetStation(double id)
+    internal StationDefinition? GetStation(string id)
       => DataStore.GetStationDefinition(id);
 
     internal ActionReply AddStation(StationDefinition station)

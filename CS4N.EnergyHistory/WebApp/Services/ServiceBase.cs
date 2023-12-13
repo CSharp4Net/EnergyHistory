@@ -7,6 +7,6 @@
       this.logger = logger;
     }
 
-    private readonly ILogger logger;
+    protected readonly ILogger logger;
   }
 }

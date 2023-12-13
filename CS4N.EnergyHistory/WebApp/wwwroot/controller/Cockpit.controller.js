@@ -17,6 +17,7 @@
       resetModel: function () {
         this.model.setData({
           items: [],
+          selectedTabKey: "settings",
           stationCount: 0,
           stationAdded: false
         });
@@ -61,9 +62,11 @@
         this.model.setProperty("/stationAdded", stations.length > 0);
 
         if (stations.length === 0)
-          this.byId("myTabBar").fireSelect({ key: "settings" });
+          this.model.setProperty("/selectedTabKey", "settings");
         else
-          this.byId("myTabBar").fireSelect({ key: "stations" });
+          this.model.setProperty("/selectedTabKey", "stations");
+
+        this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", this.model.getProperty("/selectedTabKey")));
       }
       // #endregion
     });

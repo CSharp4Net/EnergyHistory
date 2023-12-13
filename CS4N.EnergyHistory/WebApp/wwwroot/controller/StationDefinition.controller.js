@@ -18,7 +18,7 @@
       resetModel: function () {
         this.model.setData({
           station: {
-            id: 0,
+            id: "",
             name: "",
             maxWattPeak: "",
 

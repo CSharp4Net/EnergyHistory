@@ -44,7 +44,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       System.IO.File.WriteAllText(filePath, fileContent, Encoding.UTF8);
     }
-    private StationData? LoadStationDataFile(double stationId)
+    private StationData? LoadStationDataFile(string stationId)
     {
       string filePath = Path.Combine(StoreFolderPath, $"{stationId}.json");
 
@@ -55,7 +55,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       return JsonSerializer.Deserialize<StationData>(fileContent);
     }
-    private void DeleteStationDataFile(double stationId)
+    private void DeleteStationDataFile(string stationId)
     {
       string filePath = Path.Combine(StoreFolderPath, $"{stationId}.json");
 

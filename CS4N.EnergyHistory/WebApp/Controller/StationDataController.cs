@@ -7,7 +7,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
   [Route("api/[controller]")]
   public sealed class StationDataController : ControllerBase
   {
-    public StationDataController(ILogger<StationDataController> logger, IDataStore dataStore)
+    public StationDataController(ILogger logger, IDataStore dataStore)
     {
       service = new StationDataService(logger, dataStore);
     }
@@ -15,7 +15,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     private StationDataService service;
 
     [HttpGet("{stationId}/kpi")]
-    public IActionResult GetKpiValue(double stationId)
+    public IActionResult GetKpiValue(string stationId)
       => service.GetKpiValue(stationId);
 
     //[HttpGet("{stationId}")]

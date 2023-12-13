@@ -8,7 +8,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
   [Route("api/[controller]")]
   public sealed class StationDefinitionController : ControllerBase
   {
-    public StationDefinitionController(ILogger<StationDefinitionController> logger, IDataStore dataStore)
+    public StationDefinitionController(ILogger logger, IDataStore dataStore)
     {
       service = new StationDefinitionService(logger, dataStore);
     }
@@ -20,7 +20,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetStations();
 
     [HttpGet("{id}")]
-    public IActionResult Get(double id)
+    public IActionResult Get(string id)
       => service.GetStation(id);
 
     [HttpPost]

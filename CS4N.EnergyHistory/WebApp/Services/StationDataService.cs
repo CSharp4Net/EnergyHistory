@@ -15,7 +15,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private StationDataRepository repository;
 
-    internal IActionResult GetKpiValue(double stationId)
+    internal IActionResult GetKpiValue(string stationId)
     {
       StationData data = repository.GetStationData(stationId);
 

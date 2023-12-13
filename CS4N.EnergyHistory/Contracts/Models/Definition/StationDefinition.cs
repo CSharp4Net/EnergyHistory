@@ -2,7 +2,7 @@
 {
   public sealed class StationDefinition
   {
-    public double Id { get; set; }
+    public string Id { get; set; } = "";
     public string Name { get; set; } = "";
     public double MaxWattPeak { get; set; }
     public string IconUrl { get; set; } = "sap-icon://photo-voltaic";
