@@ -6,7 +6,7 @@
     public int StationId { get; set; }
     public int Year { get; set; }
     public int Number { get; set; }
-    public int PowerTotal { get; set; }
+    public int CollectedWh { get; set; }
 
     public List<StationDataDay> Days { get; set; } = [];
   }

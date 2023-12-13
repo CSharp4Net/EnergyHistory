@@ -7,11 +7,15 @@ namespace CS4N.EnergyHistory.DataStore.File
 {
   public sealed partial class FileStore : IDataStore
   {
-    private LiteDB.LiteDatabase GetConnection()
-    {
-      string filePath = Path.Combine(PathHelper.GetWorkPath(), "FileStore.db");
+    public string StoreFolderPath => Path.Combine(PathHelper.GetWorkPath(), "FileStore");
 
-      return new LiteDB.LiteDatabase(filePath);
+    private const string _fileNameTemplateStationDefinition = "{stationId}.json";
+    private const string _fileNameTemplateYearData = "{stationId}-{year}.json";
+    private const string _fileNameTemplateMonthData = "{stationId}-{year}-{month}.json";
+
+    private void WriteStationDefinitionFile(StationDefinition data)
+    { 
+    
     }
   }
 }

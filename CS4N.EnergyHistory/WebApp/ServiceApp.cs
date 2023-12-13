@@ -1,5 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Core;
+using CS4N.EnergyHistory.Core.Logging;
 using CS4N.EnergyHistory.DataStore.File;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
@@ -49,6 +50,7 @@ namespace CS4N.EnergyHistory.WebApp
 
     static void ConfigureServices(IServiceCollection services)
     {
+      services.AddSingleton<ILogger, FileLogger>();
       services.AddSingleton<IDataStore, FileStore>();
 
       // Erweitert die Server-Implementierung um die Nutzung von Controller-Klassen für die API

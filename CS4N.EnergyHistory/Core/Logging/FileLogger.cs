@@ -3,16 +3,11 @@
 namespace CS4N.EnergyHistory.Core.Logging
 {
 
-  public sealed class FileLogger : ILogger
+  public sealed class FileLogger(LogLevel logLevel) : ILogger
   {
-    public FileLogger(LogLevel logLevel, string logFolderPath)
-    {
-      LogLevel = logLevel;
-      LogFolderPath = logFolderPath;
-    }
+    public LogLevel LogLevel { get; init; } = logLevel;
 
-    public LogLevel LogLevel { get; init; }
-    public string LogFolderPath { get; init; }
+    public string LogFolderPath => Path.Combine(PathHelper.GetWorkPath(), "Log");
     public string LogFilePath => Path.Combine(LogFolderPath, $"{DateTime.Today:yyyy-MM-dd}.log");
 
     private object _locker = new object();

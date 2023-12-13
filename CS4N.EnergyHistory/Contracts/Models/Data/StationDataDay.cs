@@ -3,6 +3,6 @@
   public sealed class StationDataDay
   {
     public DateTime Date { get; set; }
-    public int PowerTotal { get; set; }
+    public int CollectedWh { get; set; }
   }
 }
