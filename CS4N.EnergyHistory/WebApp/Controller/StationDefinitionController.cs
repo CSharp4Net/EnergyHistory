@@ -20,7 +20,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetStations();
 
     [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public IActionResult Get(double id)
       => service.GetStation(id);
 
     [HttpPost]

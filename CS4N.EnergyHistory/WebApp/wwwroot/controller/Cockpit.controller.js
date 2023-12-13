@@ -17,7 +17,8 @@
       resetModel: function () {
         this.model.setData({
           items: [],
-          stationCount: 0
+          stationCount: 0,
+          stationAdded: false
         });
       },
       // #endregion
@@ -57,6 +58,7 @@
 
         const stations = response.filter(item => item.category === "stations");
         this.model.setProperty("/stationCount", stations.length);
+        this.model.setProperty("/stationAdded", stations.length > 0);
 
         if (stations.length === 0)
           this.byId("myTabBar").fireSelect({ key: "settings" });

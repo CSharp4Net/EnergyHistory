@@ -21,14 +21,14 @@
             <Text text="{i18n>text_Station}" />
           </Column>
           <Column hAlign="End">
-            <Text text="{i18n>text_MaxPowerPeak}" />
+            <Text text="{i18n>text_MaximumPerformance}" />
           </Column>
         </columns>
         <items>
           <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
             <cells>
               <Text text="{name}"/>
-              <Text text="{ path: 'maxPowerPeak', formatter: '.formatPowerValue' }"/>
+              <Text text="{ path: 'maxWattPeak', formatter: '.formatPowerValue' }"/>
             </cells>
           </ColumnListItem>
         </items>

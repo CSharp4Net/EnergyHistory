@@ -28,8 +28,6 @@ namespace CS4N.EnergyHistory.WebApp.Services
         })
         .ToList();
 
-      stationSettings.KpiValue = stationTiles.Count.ToString();
-
       items.Add(stationSettings);
       items.AddRange(stationTiles);
 

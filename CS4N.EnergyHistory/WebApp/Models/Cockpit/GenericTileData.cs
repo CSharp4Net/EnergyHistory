@@ -9,7 +9,6 @@
 
     public string IconUrl { get; set; } = "";
 
-    public string KpiUnit { get; set; } = "";
-    public string KpiValue { get; set; } = "";
+    public KpiData? Kpi { get; set; }
   }
 }

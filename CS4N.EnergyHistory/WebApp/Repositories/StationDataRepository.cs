@@ -12,51 +12,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal StationDefinition? GetStation(int id)
       => DataStore.GetStationDefinition(id);
 
-    internal StationDataMonth GetStationDataOfMonth(int stationId, int year, int month)
-    {
-      StationDataMonth? data = DataStore.GetStationDataOfMonth(stationId, year, month);
-
-      data ??= new StationDataMonth
-      {
-        StationId = stationId,
-        Year = year,
-        Number = month
-      };
-
-      return data;
-    }
-
-    internal StationDataYear GetStationDataOfYear(int stationId, int year)
-    {
-      List<StationDataMonth> collection = DataStore.GetStationDataOfYear(stationId, year);
-
-      return new StationDataYear
-      {
-        Number = year,
-        Months = collection,
-        PowerTotal = collection.Sum(data => data.PowerTotal)
-      };
-    }
-
-    internal ActionReply AddDataOfMonth(StationDataMonth data)
-    {
-      DataStore.UpsertStationDataOfMonth(data);
-
-      return new ActionReply();
-    }
-
-    internal ActionReply UpdateDataOfMonth(StationDataMonth data)
-    {
-      DataStore.UpsertStationDataOfMonth(data);
-
-      return new ActionReply();
-    }
-
-    internal ActionReply DeleteDataOfMonth(StationDataMonth data)
-    {
-      DataStore.DeleteStationDefinition(data.Id);
-
-      return new ActionReply();
-    }
+    internal StationData GetStationData(double stationId)
+      => DataStore.GetStationData(stationId);
   }
 }

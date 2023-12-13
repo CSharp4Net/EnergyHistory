@@ -3,9 +3,9 @@
 namespace CS4N.EnergyHistory.Core.Logging
 {
 
-  public sealed class FileLogger(LogLevel logLevel) : ILogger
+  public sealed class FileLogger : ILogger
   {
-    public LogLevel LogLevel { get; init; } = logLevel;
+    public LogLevel LogLevel { get; init; } = LogLevel.Debug;
 
     public string LogFolderPath => Path.Combine(PathHelper.GetWorkPath(), "Log");
     public string LogFilePath => Path.Combine(LogFolderPath, $"{DateTime.Today:yyyy-MM-dd}.log");

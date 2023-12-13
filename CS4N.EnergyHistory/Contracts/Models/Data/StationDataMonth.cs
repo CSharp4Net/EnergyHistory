@@ -1,12 +1,12 @@
-﻿namespace CS4N.EnergyHistory.Contracts.Models.Data
+﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
+
+namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
   public sealed class StationDataMonth
   {
-    public int Id { get; set; }
-    public int StationId { get; set; }
-    public int Year { get; set; }
     public int Number { get; set; }
-    public int CollectedWh { get; set; }
+    public double CollectedTotal { get; set; }
+    public bool ManualInput { get; set; }
 
     public List<StationDataDay> Days { get; set; } = [];
   }

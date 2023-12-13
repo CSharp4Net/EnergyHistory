@@ -1,8 +1,10 @@
-﻿namespace CS4N.EnergyHistory.Contracts.Models.Data
+﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
+
+namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
   public sealed class StationDataDay
   {
-    public DateTime Date { get; set; }
-    public int CollectedWh { get; set; }
+    public int Number { get; set; }
+    public double CollectedTotal { get; set; }
   }
 }

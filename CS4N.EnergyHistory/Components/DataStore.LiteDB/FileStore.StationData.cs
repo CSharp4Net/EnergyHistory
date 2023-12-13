@@ -4,47 +4,53 @@ namespace CS4N.EnergyHistory.DataStore.File
 {
   partial class FileStore
   {
-    private static List<StationDataMonth> cachedStationDataOfMonths = [];
+    private static List<StationData> cachedStationDatas = [];
 
-    public List<StationDataMonth> GetStationDataOfYear(int stationId, int year)
+    public List<StationData> GetStationDatas()
     {
-      var dataOfMonths = cachedStationDataOfMonths.Where(entry => entry.StationId == stationId && entry.Year == year).ToList();
-      if (dataOfMonths.Count == 0)
+      if (cachedStationDatas.Count > 0)
+        return cachedStationDatas;
+
+      var definitions = GetStationDefinitions();
+
+      cachedStationDatas = [];
+
+      foreach (var definition in definitions)
+        cachedStationDatas.Add(GetStationData(definition.Id));
+
+      return cachedStationDatas;
+    }
+
+    public StationData GetStationData(double stationId)
+    {
+      var data = cachedStationDatas.SingleOrDefault(entry => entry.StationId == stationId);
+      if (data != null)
+        return data;
+
+      data = LoadStationDataFile(stationId);
+
+      data ??= new StationData
       {
-        using var connection = GetConnection();
+        StationId = stationId
+      };
 
-        dataOfMonths = connection.GetCollection<StationDataMonth>().Find(entry => entry.StationId == stationId && entry.Year == year).ToList();
+      cachedStationDatas.Add(data);
 
-        cachedStationDataOfMonths.AddRange(dataOfMonths);
-      }
-
-      return dataOfMonths;
+      return data;
     }
 
-    public StationDataMonth? GetStationDataOfMonth(int stationId, int year, int month)
+    public void UpsertStationData(StationData data)
     {
-      var dataOfMonths = GetStationDataOfYear(stationId, year);
+      WriteStationDataFile(data);
 
-      return dataOfMonths.SingleOrDefault(entry => entry.Number == month);
+      cachedStationDatas.Clear();
     }
 
-    public void UpsertStationDataOfMonth(StationDataMonth month)
+    public void DeleteStationData(double stationId)
     {
-      using var connection = GetConnection();
+      DeleteStationDataFile(stationId);
 
-      connection.GetCollection<StationDataMonth>().Upsert(month);
-
-      cachedStationDataOfMonths.RemoveAll(entry => entry.StationId == month.StationId && entry.Year == month.Year && entry.Number == month.Number);
-    }
-
-    public void DeleteStationDataOfMonth(int stationId, int year, int month)
-    {
-      using var connection = GetConnection();
-
-      connection.GetCollection<StationDataMonth>()
-        .DeleteMany(entry => entry.StationId == stationId && entry.Year == year && entry.Number == month);
-
-      cachedStationDataOfMonths = null;
+      cachedStationDatas.Clear();
     }
   }
 }

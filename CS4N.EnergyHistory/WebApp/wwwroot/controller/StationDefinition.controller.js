@@ -20,11 +20,11 @@
           station: {
             id: 0,
             name: "",
-            maxPowerPeak: "",
+            maxWattPeak: "",
 
           },
           nameState: "None",
-          maxPowerPeakState: "None"
+          maxWattPeakState: "None"
         });
       },
 
@@ -38,14 +38,14 @@
         else
           this.model.setProperty("/nameState", "None");
 
-        station.maxPowerPeak = Number(station.maxPowerPeak) || 0;
+        station.maxWattPeak = Number(station.maxWattPeak) || 0;
 
-        if (station.maxPowerPeak <= 0) {
-          this.model.setProperty("/maxPowerPeakState", "Error");
+        if (station.maxWattPeak <= 0) {
+          this.model.setProperty("/maxWattPeakState", "Error");
           allValid = false;
         }
         else
-          this.model.setProperty("/maxPowerPeakState", "None");
+          this.model.setProperty("/maxWattPeakState", "None");
           
         return allValid;
       },

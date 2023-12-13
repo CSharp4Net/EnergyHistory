@@ -22,7 +22,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(collection);
     }
 
-    internal IActionResult GetStation(int id)
+    internal IActionResult GetStation(double id)
     {
       StationDefinition? station = repository.GetStation(id);
 

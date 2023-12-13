@@ -2,9 +2,11 @@
 
 namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
-  public sealed class StationData (StationDefinition station)
+  public sealed class StationData
   {
-    public StationDefinition Station { get; init; } = station;
+    public double StationId { get; set; }
+    public double CollectedTotal { get; set; }
+    public bool ManualInput { get; set; }
 
     public List<StationDataYear> Years { get; set; } = [];
   }

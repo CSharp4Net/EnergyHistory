@@ -11,14 +11,14 @@
     <content>
       <IconTabBar id="myTabBar" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false">
         <items>
-          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" design="Horizontal" showAll="true" />
+          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" design="Horizontal" showAll="true" visible="{/stationAdded}" />
           <IconTabFilter key="settings" text="{i18n>text_Settings}" />
         </items>
         <content>
           <HBox id="myTiles" items="{/items}">
             <GenericTile header="{name}" press="onTilePress" class="sapUiTinyMargin">
-              <TileContent unit="{kpiUnit}">
-                <NumericContent value="{kpiValue}" icon="{iconUrl}"/>
+              <TileContent unit="{kpi/unit}">
+                <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" icon="{kpi/iconUrl}" />
               </TileContent>
             </GenericTile>
           </HBox>

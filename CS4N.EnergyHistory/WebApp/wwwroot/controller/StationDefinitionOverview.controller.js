@@ -55,6 +55,9 @@
       // #region API-Events
       onApiGetList: function (response) {
         this.model.setProperty("/stations", response);
+
+        if (response.length == 0)
+          this.navigateTo("StationDefinition");
       }
       // #endregion
     });
