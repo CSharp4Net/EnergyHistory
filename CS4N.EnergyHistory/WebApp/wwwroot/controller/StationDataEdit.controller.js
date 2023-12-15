@@ -25,12 +25,76 @@ sap.ui.define([
           stationId: "",
           selectedYear: 0,
           selectedMonth: 0,
-          stationData: null
+          stationData: null,
+          stationDataHeader: {
+            manualInput: true
+          },
+          stationDataEntries: [],
+          collectedTotalState: "None"
         });
       },
 
       formatPowerValue: function (value) {
         return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
+      },
+
+      formatDate: function (date, number) {
+        const selectedYear = this.model.getProperty("/selectedYear"),
+          selectedMonth = this.model.getProperty("/selectedMonth");
+
+        if (selectedYear > 0) {
+          if (selectedMonth > 0)
+            return new Date(date).toLocaleDateString();
+          else
+            return new Date(date).toLocaleString("default", { month: "long", year: "numeric" });
+        }
+        else
+          return number;
+      },
+
+      setStationDataEntries: function () {
+        let selectedYear = this.model.getProperty("/selectedYear");
+        const selectedMonth = this.model.getProperty("/selectedMonth"),
+          stationData = this.model.getProperty("/stationData");
+
+        if (selectedYear !== "" && selectedYear > 0) {
+          selectedYear = Number(selectedYear);
+
+          const yearData = stationData.years.filter(entry => entry.number === selectedYear);
+          if (yearData.length === 0) {
+            // Jahr wurde noch nicht erfasst, Template abrufen und erneut ausführen
+            Connector.get("StationData/template/" + selectedYear,
+              (response) => {
+                stationData.years.push(response);
+                this.setStationDataEntries();
+              },
+              this.handleApiError.bind(this));
+            return;
+          }
+
+          if (selectedMonth > 0) {
+            const monthData = yearData[0].months.filter(entry => entry.number === selectedMonth);
+            // Alle Tage auflisten
+            this.model.setProperty("/stationDataHeader", monthData[0]);
+            this.model.setProperty("/stationDataEntries", monthData[0].days);
+          }
+          else {
+            // Alle Monate auflisten
+            this.model.setProperty("/stationDataHeader", yearData[0]);
+            this.model.setProperty("/stationDataEntries", yearData[0].months);
+          }
+        }
+        else {
+          // Alle Jahre auflisten
+          this.model.setProperty("/stationDataHeader", stationData);
+          this.model.setProperty("/stationDataEntries", stationData.years);
+        }
+
+        const stationDataHeader = this.model.getProperty("/stationDataHeader");
+        if (stationDataHeader.manualInput && stationDataHeader.collectedTotal === 0) {
+          this.model.setProperty("/stationDataHeader/collectedTotal", "");
+          this.setFocus("collectedTotalInput", 100);
+        }
       },
       // #endregion
 
@@ -61,6 +125,10 @@ sap.ui.define([
       onBackPress: function () {
         this.navigateTo("StationData", { id: this.model.getProperty("/stationId") });
       },
+
+      onYearChange: function () {
+        this.setStationDataEntries();
+      },
       // #endregion
 
       // #region API-Events
@@ -73,6 +141,8 @@ sap.ui.define([
         this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_StationEdit"), response.stationDefinition.name));
         this.model.setProperty("/stationDefinition", response.stationDefinition);
         this.model.setProperty("/stationData", response.stationData);
+
+        this.setStationDataEntries();
       }
       // #endregion
     });

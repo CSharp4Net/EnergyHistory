@@ -99,7 +99,8 @@ namespace CS4N.EnergyHistory.WebApp.Services
       StationDefinition stationDefinition = repository.GetStation(stationId)!;
       StationData stationData = repository.GetStationData(stationId);
 
-      return new OkObjectResult(new {
+      return new OkObjectResult(new
+      {
         stationDefinition,
         stationData
       });
@@ -108,6 +109,11 @@ namespace CS4N.EnergyHistory.WebApp.Services
     internal IActionResult PostStationDataForEdit(StationData stationData)
     {
       return new OkObjectResult(repository.SetStationData(stationData));
+    }
+
+    internal IActionResult GetStationDataTemplate(int year)
+    {
+      return new OkObjectResult(new StationDataYear(year));
     }
   }
 }

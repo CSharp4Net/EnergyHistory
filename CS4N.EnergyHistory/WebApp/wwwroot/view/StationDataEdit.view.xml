@@ -1,35 +1,100 @@
 ﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationDataEdit">
-	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
-		<customHeader>
-			<Bar>
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+    <customHeader>
+      <Bar>
         <contentLeft>
           <Button type="Back" text="{i18n>text_Station}" press="onBackPress"/>
         </contentLeft>
-				<contentMiddle>
-					<Image src="image/flash-energy-64.png" height="2rem"/>
-					<Title text="{/pageTitle}"/>
-				</contentMiddle>
-			</Bar>
-		</customHeader>
-		<content>
-      <Table items="{/stations}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy">
+        <contentMiddle>
+          <Image src="image/flash-energy-64.png" height="2rem"/>
+          <Title text="{/pageTitle}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <subHeader>
+      <Bar>
+        <contentLeft>
+          <Text text="{i18n>text_Year}"/>
+          <ComboBox items="{/stationData/years}" selectedKey="{/selectedYear}" placeholder="{i18n>place_AllYears}" change="onYearChange">
+            <core:ListItem key="{number}" text="{number}" />
+          </ComboBox>
+        </contentLeft>
+        <contentMiddle>
+          <Text text="{i18n>text_Month}"/>
+          <Select selectedKey="{/selectedMonth}" editable="{= ${/selectedYear} > 0 }">
+            <core:ListItem key="1"  text="{i18n>text_January}" />
+            <core:ListItem key="2"  text="{i18n>text_February}" />
+            <core:ListItem key="3"  text="{i18n>text_march}" />
+            <core:ListItem key="4"  text="{i18n>text_April}" />
+            <core:ListItem key="5"  text="{i18n>text_May}" />
+            <core:ListItem key="6"  text="{i18n>text_June}" />
+            <core:ListItem key="7"  text="{i18n>text_July}" />
+            <core:ListItem key="8"  text="{i18n>text_August}" />
+            <core:ListItem key="9"  text="{i18n>text_September}" />
+            <core:ListItem key="10" text="{i18n>text_October}" />
+            <core:ListItem key="11" text="{i18n>text_November}" />
+            <core:ListItem key="12" text="{i18n>text_December}" />
+          </Select>
+        </contentMiddle>
+      </Bar>
+    </subHeader>
+    <content>
+      <f:Form editable="true">
+        <f:layout>
+          <f:ResponsiveGridLayout  columnsL="1" />
+        </f:layout>
+        <f:formContainers>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_CollectedTotal}">
+                <f:fields>
+                  <Input id="collectedTotalInput"
+                         value="{/stationDataHeader/collectedTotal}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         editable="{/stationDataHeader/manualInput}"/>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_ManualInput}">
+                <f:fields>
+                  <CheckBox selected="{/stationDataHeader/manualInput}" text="{i18n>place_ManualInput}" wrapping="true" />
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+        </f:formContainers>
+      </f:Form>
+      <Table items="{/stationDataEntries}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy" visible="{= !${/stationDataHeader/manualInput} }">
         <columns>
           <Column>
-            <Text text="{i18n>text_Station}" />
+            <Text text="{i18n>text_Period}" />
           </Column>
           <Column hAlign="End">
-            <Text text="{i18n>text_MaximumPerformance}" />
+            <Text text="{i18n>text_Collected}" />
           </Column>
         </columns>
         <items>
-          <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
+          <ColumnListItem vAlign="Middle">
             <cells>
-              <Text text="{name}"/>
-              <Text text="{ path: 'maxWattPeak', formatter: '.formatPowerValue' }"/>
+              <Text text="{ parts: ['date', 'number'], formatter: '.formatDate' }"/>
+              <Input value="{collectedTotal}"
+                     type="Number"
+                     textAlign="End"
+                     placeholder="0"
+                     editable="{= !${/stationDataHeader/manualInput} }"/>
             </cells>
           </ColumnListItem>
         </items>
       </Table>
     </content>
-	</Page>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
 </mvc:View>
