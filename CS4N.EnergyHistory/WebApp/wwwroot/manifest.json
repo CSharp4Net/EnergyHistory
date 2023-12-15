@@ -47,9 +47,14 @@
           "target": "stationDefinition"
         },
         {
-          "name": "Station",
-          "pattern": "Station/{id}",
-          "target": "station"
+          "name": "StationData",
+          "pattern": "StationData/{id}",
+          "target": "stationData"
+        },
+        {
+          "name": "StationDataEdit",
+          "pattern": "StationData/{id}/Edit",
+          "target": "stationDataEdit"
         }
       ],
       "targets": {
@@ -65,9 +70,13 @@
           "viewName": "StationDefinition",
           "viewLevel": 2
         },
-        "station": {
-          "viewName": "Station",
-          "viewLevel": 1
+        "stationData": {
+          "viewName": "StationData",
+          "viewLevel": 2
+        },
+        "stationDataEdit": {
+          "viewName": "StationDataEdit",
+          "viewLevel": 3
         }
       }
     }

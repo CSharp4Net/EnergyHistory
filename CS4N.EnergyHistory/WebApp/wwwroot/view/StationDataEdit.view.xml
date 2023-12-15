@@ -1,0 +1,35 @@
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationDataEdit">
+	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+		<customHeader>
+			<Bar>
+        <contentLeft>
+          <Button type="Back" text="{i18n>text_Station}" press="onBackPress"/>
+        </contentLeft>
+				<contentMiddle>
+					<Image src="image/flash-energy-64.png" height="2rem"/>
+					<Title text="{/pageTitle}"/>
+				</contentMiddle>
+			</Bar>
+		</customHeader>
+		<content>
+      <Table items="{/stations}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy">
+        <columns>
+          <Column>
+            <Text text="{i18n>text_Station}" />
+          </Column>
+          <Column hAlign="End">
+            <Text text="{i18n>text_MaximumPerformance}" />
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
+            <cells>
+              <Text text="{name}"/>
+              <Text text="{ path: 'maxWattPeak', formatter: '.formatPowerValue' }"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+	</Page>
+</mvc:View>

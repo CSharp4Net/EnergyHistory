@@ -27,7 +27,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       items.Add(stationSettings);
 
       var stationTiles = repository.GetStations()
-        .Select(station => new GenericTileData("stations", station.Name, "Station")
+        .Select(station => new GenericTileData("stations", station.Name, "StationData")
         {
           NavigationParameterAsJsonText = JsonSerializer.Serialize(new { id = station.Id }),
           IconUrl = station.IconUrl
