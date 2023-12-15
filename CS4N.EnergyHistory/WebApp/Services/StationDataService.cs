@@ -28,7 +28,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       });
     }
 
-    internal IActionResult GetStationData(string stationId, int year = 0, int month = 0)
+    internal IActionResult GetStationViewData(string stationId, int year = 0, int month = 0)
     {
       StationDefinition definition = repository.GetStation(stationId)!;
 
@@ -92,6 +92,22 @@ namespace CS4N.EnergyHistory.WebApp.Services
       }
 
       return new OkObjectResult(result);
+    }
+
+    internal IActionResult GetStationDataForEdit(string stationId)
+    {
+      StationDefinition stationDefinition = repository.GetStation(stationId)!;
+      StationData stationData = repository.GetStationData(stationId);
+
+      return new OkObjectResult(new {
+        stationDefinition,
+        stationData
+      });
+    }
+
+    internal IActionResult PostStationDataForEdit(StationData stationData)
+    {
+      return new OkObjectResult(repository.SetStationData(stationData));
     }
   }
 }

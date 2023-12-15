@@ -25,7 +25,7 @@ sap.ui.define([
           stationId: "",
           selectedYear: 0,
           selectedMonth: 0,
-          stationData: []
+          stationData: null
         });
       },
 
@@ -49,6 +49,13 @@ sap.ui.define([
         this.model.setProperty("/stationId", data.stationId);
         this.model.setProperty("/selectedYear", data.selectedYear);
         this.model.setProperty("/selectedMonth", data.selectedMonth);
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.get("StationData/" + data.stationId,
+          this.onApiGetStationData.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
       },
 
       onBackPress: function () {
@@ -57,11 +64,15 @@ sap.ui.define([
       // #endregion
 
       // #region API-Events
-      onApiGetStation: function (response) {
+      onApiGetStationData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
+
+        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_StationEdit"), response.stationDefinition.name));
+        this.model.setProperty("/stationDefinition", response.stationDefinition);
+        this.model.setProperty("/stationData", response.stationData);
       }
       // #endregion
     });

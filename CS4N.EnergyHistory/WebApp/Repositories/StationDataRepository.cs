@@ -1,5 +1,4 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models;
 using CS4N.EnergyHistory.Contracts.Models.Data;
 using CS4N.EnergyHistory.Contracts.Models.Definition;
 
@@ -14,5 +13,12 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
 
     internal StationData GetStationData(string stationId)
       => DataStore.GetStationData(stationId);
+
+    internal StationData SetStationData(StationData stationData)
+    { 
+      DataStore.UpsertStationData(stationData);
+
+      return stationData;
+    }
   }
 }

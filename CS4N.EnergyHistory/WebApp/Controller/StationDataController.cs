@@ -1,4 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts;
+using CS4N.EnergyHistory.Contracts.Models.Data;
 using CS4N.EnergyHistory.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,15 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetKpiValue(stationId);
 
     [HttpGet("{stationId}/{year}/{month}")]
-    public IActionResult GetStationData(string stationId, int year, int month)
-      => service.GetStationData(stationId, year, month);
+    public IActionResult GetStationViewData(string stationId, int year, int month)
+      => service.GetStationViewData(stationId, year, month);
+
+    [HttpGet("{stationId}")]
+    public IActionResult GetStationDataForEdit(string stationId)
+      => service.GetStationDataForEdit(stationId);
+
+    [HttpPost]
+    public IActionResult PostStationDataForEdit([FromBody] StationData stationData)
+      => service.PostStationDataForEdit(stationData);
   }
 }
