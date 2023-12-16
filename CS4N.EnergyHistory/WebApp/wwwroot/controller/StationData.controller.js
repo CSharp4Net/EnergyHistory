@@ -10,7 +10,8 @@ sap.ui.define([
 
     return Controller.extend("CS4N.EnergyHistory.controller.StationData", {
 
-      chartControl: null,
+      myChart: null,
+      chartContainer: null,
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
@@ -35,7 +36,7 @@ sap.ui.define([
           pageTitle: "...",
           selectedTimePeriod: "Month",
           selectedYear: new Date().getFullYear(),
-          selectedMonth: new Date().getMonth() + 1,
+          selectedMonth: 0,
           station: {
             stationId: "",
             stationName: "",
@@ -53,20 +54,23 @@ sap.ui.define([
       },
 
       createChartControl: function (chartType) {
-        const chartContainerId = this.createId("myChart"),
-          chartContainer = document.getElementById(chartContainerId).getContext('2d');
+        const chartContainerId = this.createId("myChart");
+        this.chartContainer = document.getElementById(chartContainerId).getContext('2d');
 
         if (this.myChart)
           this.myChart.destroy();
 
-        this.myChart = new Chart(chartContainer, {
+        this.myChart = new Chart(this.chartContainer, {
           type: chartType,
           data: {},
           options: {
-            animation: { duration: 500 },
-            //title: { display: true, text: ":)" },
+            animation: {
+              duration: 500,
+              //onComplete: this.drawElementValues.bind(this)
+            },
+            title: { display: true, text: "Hallo Welt" },
             //elements: { line: { tension: 0 } },
-            legend: { display: false },
+            //legend: { display: false },
             maintainAspectRatio: false,
             responsiveAnimationDuration: 500
           }
@@ -87,7 +91,7 @@ sap.ui.define([
       },
 
       drawElementValues: function () {
-        const ctx = this.myChart.ctx;
+        const ctx = this.chartContainer.ctx;
         ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
         ctx.fillStyle = this.myChartFontColor;
         ctx.textAlign = "center";

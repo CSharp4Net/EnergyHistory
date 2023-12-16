@@ -53,12 +53,14 @@ sap.ui.define([
       },
 
       setStationDataEntries: function () {
-        let selectedYear = this.model.getProperty("/selectedYear");
-        const selectedMonth = this.model.getProperty("/selectedMonth"),
-          stationData = this.model.getProperty("/stationData");
+        let selectedYear = this.model.getProperty("/selectedYear"),
+          selectedMonth = this.model.getProperty("/selectedMonth");
+
+        const stationData = this.model.getProperty("/stationData");
 
         if (selectedYear !== "" && selectedYear > 0) {
           selectedYear = Number(selectedYear);
+          selectedMonth = Number(selectedMonth);
 
           const yearData = stationData.years.filter(entry => entry.number === selectedYear);
           if (yearData.length === 0) {
@@ -129,6 +131,46 @@ sap.ui.define([
       onYearChange: function () {
         this.setStationDataEntries();
       },
+
+      onMonthChange: function () {
+        this.setStationDataEntries();
+      },
+
+      onSavePress: function () {
+        const stationData = this.model.getProperty("/stationData");
+
+        // TODO : Validate
+
+        let total = 0;
+        for (let i = 0; i < stationData.years.length; i++) {
+          const yearData = stationData.years[i];
+          let yearTotal = 0;
+          for (let j = 0; j < yearData.months.length; j++) {
+            const monthData = yearData.months[j];
+            let monthTotal = 0;
+            for (let k = 0; k < monthData.days.length; k++) {
+              const dayData = monthData.days[k];
+              monthTotal += dayData.collectedTotal;
+            }
+            if (!monthData.manualInput)
+              monthData.collectedTotal = monthTotal;       
+            yearTotal += monthData.collectedTotal;
+          }
+          if (!yearData.manualInput)
+            yearData.collectedTotal = yearTotal;
+          total += yearData.collectedTotal;
+        }
+
+        if (!stationData.manualInput)
+          stationData.collectedTotal = total;
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.post("StationData", stationData,
+          this.onApiPostStationData.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
+      },
       // #endregion
 
       // #region API-Events
@@ -143,6 +185,16 @@ sap.ui.define([
         this.model.setProperty("/stationData", response.stationData);
 
         this.setStationDataEntries();
+      },
+
+      onApiPostStationData: function (response) {
+        if (response.errorMessage) {
+          this.showResponseError(response);
+          return;
+        }
+
+        this.model.setProperty("/stationData", response);
+        MessageToast.show(this.i18n.getText("toast_StationDataSaved"));
       }
       // #endregion
     });

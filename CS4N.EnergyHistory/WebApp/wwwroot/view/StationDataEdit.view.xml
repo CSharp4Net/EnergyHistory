@@ -21,7 +21,7 @@
         </contentLeft>
         <contentMiddle>
           <Text text="{i18n>text_Month}"/>
-          <Select selectedKey="{/selectedMonth}" editable="{= ${/selectedYear} > 0 }">
+          <Select selectedKey="{/selectedMonth}" editable="{= ${/selectedYear} > 0 }" change="onMonthChange">
             <core:ListItem key="1"  text="{i18n>text_January}" />
             <core:ListItem key="2"  text="{i18n>text_February}" />
             <core:ListItem key="3"  text="{i18n>text_march}" />
@@ -92,7 +92,7 @@
     <footer>
       <Bar>
         <contentRight>
-          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" />
+          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" press="onSavePress" />
         </contentRight>
       </Bar>
     </footer>
