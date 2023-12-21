@@ -8,8 +8,8 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
   {
     internal StationDataRepository(IDataStore dataStore) : base(dataStore) { }
 
-    internal StationDefinition? GetStation(string id)
-      => DataStore.GetStationDefinition(id);
+    internal StationDefinition? GetStation(string guid)
+      => DataStore.GetStationDefinition(guid);
 
     internal StationData GetStationData(string stationId)
       => DataStore.GetStationData(stationId);

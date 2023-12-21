@@ -31,7 +31,7 @@
         const container = this.byId("myPage");
         container.setBusy(true);
         Connector.get("cockpit",
-          this.onApiGetData.bind(this),
+          this.onApiGetCockpitItems.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
@@ -54,7 +54,7 @@
       // #endregion
 
       // #region API-Events
-      onApiGetData: function (response) {
+      onApiGetCockpitItems: function (response) {
         this.model.setProperty("/items", response);
 
         const stations = response.filter(item => item.category === "stations");

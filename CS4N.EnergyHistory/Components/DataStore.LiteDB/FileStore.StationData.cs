@@ -16,22 +16,22 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedStationDatas = [];
 
       foreach (var definition in definitions)
-        cachedStationDatas.Add(GetStationData(definition.Id));
+        cachedStationDatas.Add(GetStationData(definition.Guid));
 
       return cachedStationDatas;
     }
 
-    public StationData GetStationData(string stationId)
+    public StationData GetStationData(string stationGuid)
     {
-      var data = cachedStationDatas.SingleOrDefault(entry => entry.StationId == stationId);
+      var data = cachedStationDatas.SingleOrDefault(entry => entry.StationGuid == stationGuid);
       if (data != null)
         return data;
 
-      data = LoadStationDataFile(stationId);
+      data = LoadStationDataFile(stationGuid);
 
       data ??= new StationData
       {
-        StationId = stationId
+        StationGuid = stationGuid
       };
 
       cachedStationDatas.Add(data);
@@ -46,9 +46,9 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedStationDatas.Clear();
     }
 
-    public void DeleteStationData(string stationId)
+    public void DeleteStationData(string stationGuid)
     {
-      DeleteStationDataFile(stationId);
+      DeleteStationDataFile(stationGuid);
 
       cachedStationDatas.Clear();
     }

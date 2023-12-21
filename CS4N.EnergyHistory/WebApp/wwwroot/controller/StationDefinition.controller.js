@@ -17,14 +17,18 @@
       // #region Methods
       resetModel: function () {
         this.model.setData({
+          newRecord: true,
           station: {
-            id: "",
+            guid: "",
             name: "",
             maxWattPeak: "",
-
+            powerUnit: "W",
+            capacityUnit: "kW",
+            installedAt: ""
           },
           nameState: "None",
-          maxWattPeakState: "None"
+          maxWattPeakState: "None",
+          validValues: null
         });
       },
 
@@ -46,8 +50,18 @@
         }
         else
           this.model.setProperty("/maxWattPeakState", "None");
-          
+
+        if (this.isNullOrEmpty(station.installedAt))
+          station.installedAt = null;
+
         return allValid;
+      },
+
+      formatDateTime: function (value) {
+        if (this.isNullOrEmpty(value))
+          return value;
+
+        return new Date(value).toLocaleString();
       },
       // #endregion
 
@@ -55,17 +69,18 @@
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        const id = evt.getParameters().arguments.id;
-        if (id) {
-          const container = this.byId("myPage");
-          container.setBusy(true);
-          Connector.get("StationDefinition/" + id,
-            this.onApiGetStation.bind(this),
-            this.handleApiError.bind(this),
-            () => container.setBusy(false));
-        }
-        else
+        const guid = evt.getParameters().arguments.guid;
+        if (!guid) {
           this.setFocus("nameInput", 100);
+          return;
+        }
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.get("StationDefinition/" + guid,
+          this.onApiGetStation.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
       },
 
       onBackPress: function () {
@@ -80,7 +95,7 @@
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        if (station.id === 0)
+        if (this.isNullOrEmpty(station.guid))
           Connector.post("StationDefinition", station,
             this.onApiAddStation.bind(this),
             this.handleApiError.bind(this),
@@ -90,6 +105,30 @@
             this.onApiUpdateStation.bind(this),
             this.handleApiError.bind(this),
             () => container.setBusy(false));
+      },
+
+      onDeletePress: function () {
+        MessageBox.confirm(this.i18n.getText("message_ConfirmDeleteStation"), {
+          actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+          emphasizedAction: MessageBox.Action.YES,
+          onClose: (evt) => {
+            if (evt != "YES")
+              return;
+
+            const station = this.model.getProperty("/station");
+
+            const container = this.byId("myPage");
+            container.setBusy(true);
+            Connector.delete("StationDefinition", station,
+              this.onApiDeleteStation.bind(this),
+              this.handleApiError.bind(this),
+              () => container.setBusy(false));
+          }
+        });
+      },
+
+      onIconExplorerPress: function () {
+        window.open("https://ui5.sap.com/test-resources/sap/m/demokit/iconExplorer/webapp/index.html#/overview/SAP-icons", '_blank').focus();
       },
       // #endregion
 
@@ -119,7 +158,18 @@
           return;
         }
 
+        this.model.setProperty("/newRecord", false);
         this.model.setProperty("/station", response);
+      },
+
+      onApiDeleteStation: function (response) {
+        if (response.errorMessage) {
+          this.showResponseError(response);
+          return;
+        }
+
+        this.onBackPress();
+        MessageToast.show(this.i18n.getText("toast_StationDeleted"));
       }
       // #endregion
     });

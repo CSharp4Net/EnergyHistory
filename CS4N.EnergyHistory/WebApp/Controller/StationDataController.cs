@@ -15,17 +15,17 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private StationDataService service;
 
-    [HttpGet("{stationId}/kpi")]
-    public IActionResult GetKpiValue(string stationId)
-      => service.GetKpiValue(stationId);
+    [HttpGet("{stationGuid}/kpi")]
+    public IActionResult GetKpiValue(string stationGuid)
+      => service.GetKpiValue(stationGuid);
 
-    [HttpGet("{stationId}/{year}/{month}")]
-    public IActionResult GetStationViewData(string stationId, int year, int month)
-      => service.GetStationViewData(stationId, year, month);
+    [HttpGet("{stationGuid}/{year}/{month}")]
+    public IActionResult GetStationViewData(string stationGuid, int year, int month)
+      => service.GetStationViewData(stationGuid, year, month);
 
-    [HttpGet("{stationId}")]
-    public IActionResult GetStationDataForEdit(string stationId)
-      => service.GetStationDataForEdit(stationId);
+    [HttpGet("{stationGuid}")]
+    public IActionResult GetStationDataForEdit(string stationGuid)
+      => service.GetStationDataForEdit(stationGuid);
 
     [HttpGet("template/{year}")]
     public IActionResult GetStationDataTemplate(int year)

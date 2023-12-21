@@ -125,7 +125,7 @@ sap.ui.define([
       },
 
       onBackPress: function () {
-        this.navigateTo("StationData", { id: this.model.getProperty("/stationId") });
+        this.navigateTo("StationData", { guid: this.model.getProperty("/stationId") });
       },
 
       onYearChange: function () {

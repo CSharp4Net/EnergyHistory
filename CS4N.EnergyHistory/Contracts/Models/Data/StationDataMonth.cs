@@ -1,8 +1,4 @@
-﻿using CS4N.EnergyHistory.Contracts.Models.Data;
-using CS4N.EnergyHistory.Contracts.Models.Definition;
-using System.ComponentModel.Design;
-
-namespace CS4N.EnergyHistory.Contracts.Models.Data
+﻿namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
   public sealed class StationDataMonth
   {

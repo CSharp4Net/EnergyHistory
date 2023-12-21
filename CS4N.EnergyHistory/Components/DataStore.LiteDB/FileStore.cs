@@ -4,7 +4,6 @@ using CS4N.EnergyHistory.Contracts.Models.Definition;
 using CS4N.EnergyHistory.Core;
 using System.Text;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CS4N.EnergyHistory.DataStore.File
 {
@@ -31,6 +30,9 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       string fileContent = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
 
+      if (string.IsNullOrWhiteSpace(fileContent))
+        return new List<StationDefinition>();
+
       return JsonSerializer.Deserialize<List<StationDefinition>>(fileContent);
     }
 
@@ -40,7 +42,7 @@ namespace CS4N.EnergyHistory.DataStore.File
         Directory.CreateDirectory(StoreFolderPath);
 
       string fileContent = JsonSerializer.Serialize(data);
-      string filePath = Path.Combine(StoreFolderPath, $"{data.StationId}.json");
+      string filePath = Path.Combine(StoreFolderPath, $"{data.StationGuid}.json");
 
       System.IO.File.WriteAllText(filePath, fileContent, Encoding.UTF8);
     }

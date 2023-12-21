@@ -1,7 +1,4 @@
-﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace CS4N.EnergyHistory.Contracts.Models.Data
+﻿namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
   public sealed class StationDataDay
   {

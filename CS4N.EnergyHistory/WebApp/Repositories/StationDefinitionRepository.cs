@@ -11,14 +11,14 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal List<StationDefinition> GetStations()
       => DataStore.GetStationDefinitions();
 
-    internal StationDefinition? GetStation(string id)
-      => DataStore.GetStationDefinition(id);
+    internal StationDefinition? GetStation(string guid)
+      => DataStore.GetStationDefinition(guid);
 
     internal ActionReply AddStation(StationDefinition station)
     {
       List<StationDefinition> collection = DataStore.GetStationDefinitions();
 
-      if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Id != station.Id))
+      if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
 
       DataStore.UpsertStationDefinition(station);
@@ -30,7 +30,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     {
       List<StationDefinition> collection = DataStore.GetStationDefinitions();
 
-      if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Id != station.Id))
+      if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
 
       DataStore.UpsertStationDefinition(station);
@@ -40,7 +40,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
 
     internal ActionReply DeleteStation(StationDefinition station)
     {
-      DataStore.DeleteStationDefinition(station.Id);
+      DataStore.DeleteStationDefinition(station.Guid);
 
       return new ActionReply();
     }

@@ -1,8 +1,9 @@
 ﻿namespace CS4N.EnergyHistory.Contracts
 {
-  public enum PowerUnitType
-  {
-    Kwh = 0,
-    Wh = 1
+  public enum ChartDataAreaType
+  { 
+    Month = 0,
+    Year = 1,
+    Total = 2
   }
 }

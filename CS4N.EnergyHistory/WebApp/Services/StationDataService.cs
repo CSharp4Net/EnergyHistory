@@ -17,9 +17,9 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private StationDataRepository repository;
 
-    internal IActionResult GetKpiValue(string stationId)
+    internal IActionResult GetKpiValue(string stationGuid)
     {
-      Contracts.Models.Data.StationData data = repository.GetStationData(stationId);
+      Contracts.Models.Data.StationData data = repository.GetStationData(stationGuid);
 
       return new OkObjectResult(new KpiData
       {
@@ -28,18 +28,18 @@ namespace CS4N.EnergyHistory.WebApp.Services
       });
     }
 
-    internal IActionResult GetStationViewData(string stationId, int year = 0, int month = 0)
+    internal IActionResult GetStationViewData(string stationGuid, int year = 0, int month = 0)
     {
-      StationDefinition definition = repository.GetStation(stationId)!;
+      StationDefinition definition = repository.GetStation(stationGuid)!;
 
       var result = new ViewData
       {
-        StationId = definition.Id,
+        StationId = definition.Guid,
         StationName = definition.Name,
         StationMaxWattPeak = definition.MaxWattPeak
       };
 
-      StationData data = repository.GetStationData(stationId);
+      StationData data = repository.GetStationData(stationGuid);
 
       result.StationCollectedTotal = data.CollectedTotal;
 
@@ -94,10 +94,10 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(result);
     }
 
-    internal IActionResult GetStationDataForEdit(string stationId)
+    internal IActionResult GetStationDataForEdit(string stationGuid)
     {
-      StationDefinition stationDefinition = repository.GetStation(stationId)!;
-      StationData stationData = repository.GetStationData(stationId);
+      StationDefinition stationDefinition = repository.GetStation(stationGuid)!;
+      StationData stationData = repository.GetStationData(stationGuid);
 
       return new OkObjectResult(new
       {

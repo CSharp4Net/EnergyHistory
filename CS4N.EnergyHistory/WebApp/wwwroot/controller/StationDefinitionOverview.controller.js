@@ -19,8 +19,13 @@
         });
       },
 
-      formatPowerValue: function (value) {
-        return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
+      formatPowerValue: function (value, unit) {
+        let textTemplate = this.i18n.getText("text_PowerValue");
+
+        textTemplate = textTemplate.replace("{value}", value.toLocaleString());
+        textTemplate = textTemplate.replace("{unit}", unit);
+
+        return textTemplate;
       },
       // #endregion
 
@@ -46,18 +51,15 @@
 
       onStationPress: function (evt) {
         const modelPath = evt.getSource().getBindingContext().getPath(),
-          modelData = this.model.getProperty(modelPath);
+          station = this.model.getProperty(modelPath);
 
-        this.navigateTo("StationDefinition", { id: modelData.id });
+        this.navigateTo("StationDefinition", { guid: station.guid });
       },
       // #endregion
 
       // #region API-Events
       onApiGetList: function (response) {
         this.model.setProperty("/stations", response);
-
-        if (response.length == 0)
-          this.navigateTo("StationDefinition");
       }
       // #endregion
     });

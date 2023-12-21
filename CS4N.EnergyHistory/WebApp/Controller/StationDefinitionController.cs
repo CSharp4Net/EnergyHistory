@@ -19,9 +19,9 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     public IActionResult GetList()
       => service.GetStations();
 
-    [HttpGet("{id}")]
-    public IActionResult Get(string id)
-      => service.GetStation(id);
+    [HttpGet("{guid}")]
+    public IActionResult Get(string guid)
+      => service.GetStation(guid);
 
     [HttpPost]
     public IActionResult Post([FromBody] StationDefinition station)

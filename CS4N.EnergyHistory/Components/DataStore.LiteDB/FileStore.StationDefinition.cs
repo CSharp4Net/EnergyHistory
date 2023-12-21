@@ -15,10 +15,10 @@ namespace CS4N.EnergyHistory.DataStore.File
       return cachedStationDefinitions = LoadStationDefinitionsFile() ?? [];
     }
 
-    public StationDefinition? GetStationDefinition(string id)
+    public StationDefinition? GetStationDefinition(string guid)
     {
       var definition = GetStationDefinitions()
-        .SingleOrDefault(entry => entry.Id.Equals(id));
+        .SingleOrDefault(entry => entry.Guid.Equals(guid));
 
       return definition;
     }
@@ -27,29 +27,22 @@ namespace CS4N.EnergyHistory.DataStore.File
     {
       var definitions = GetStationDefinitions();
 
-      if (string.IsNullOrEmpty(definition.Id))
+      var savedDefinition = definitions.SingleOrDefault(entry => entry.Guid.Equals(definition.Guid));
+      if (savedDefinition == null || string.IsNullOrEmpty(definition.Guid))
       {
-        definition.Id = Guid.NewGuid().ToString();
+        definition.Guid = Guid.NewGuid().ToString();
+        definition.CreatedAt = DateTime.Now;
         definitions.Add(definition);
       }
       else
       {
-        var existingDefinition = definitions.SingleOrDefault(entry => entry.Id.Equals(definition.Id));
+        int savedIndex = definitions.IndexOf(savedDefinition);
 
-        if (existingDefinition == null)
-        {
-          definition.Id = Guid.NewGuid().ToString();
-          definitions.Add(definition);
-        }
-        else
-        {
-          existingDefinition.Name = definition.Name;
-          existingDefinition.MaxWattPeak = definition.MaxWattPeak;
-          existingDefinition.IconUrl = definition.IconUrl;
-          existingDefinition.Location = definition.Location;
-          existingDefinition.Modules = definition.Modules;
-          existingDefinition.Inverters = definition.Inverters;
-        }
+        definitions.RemoveAt(savedIndex);
+
+        definition.UpdatedAt = DateTime.Now;
+
+        definitions.Insert(savedIndex, definition);
       }
 
       WriteStationDefinitionsFile(definitions);
@@ -57,11 +50,11 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedStationDefinitions.Clear();
     }
 
-    public void DeleteStationDefinition(string id)
+    public void DeleteStationDefinition(string guid)
     {
       var definitions = GetStationDefinitions();
 
-      definitions.RemoveAll(entry => entry.Id == id);
+      definitions.RemoveAll(entry => entry.Guid == guid);
 
       WriteStationDefinitionsFile(definitions);
 

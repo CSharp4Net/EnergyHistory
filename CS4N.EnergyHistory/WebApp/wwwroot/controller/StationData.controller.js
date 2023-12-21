@@ -38,7 +38,7 @@ sap.ui.define([
           selectedYear: new Date().getFullYear(),
           selectedMonth: 0,
           station: {
-            stationId: "",
+            stationGuid: "",
             stationName: "",
             stationMaxWattPeak: 0,
             chartData: null
@@ -127,7 +127,7 @@ sap.ui.define([
           this.model.setProperty("/selectedMonth", data.selectedMonth);
         }
 
-        this.reloadData(evt.getParameters().arguments.id);
+        this.reloadData(evt.getParameters().arguments.guid);
       },
 
       onBackPress: function () {
@@ -143,7 +143,7 @@ sap.ui.define([
           selectedMonth: this.model.getProperty("/selectedMonth")
         }));
 
-        this.navigateTo("StationDataEdit", { id: stationId });
+        this.navigateTo("StationDataEdit", { guid: stationId });
       },
       // #endregion
 

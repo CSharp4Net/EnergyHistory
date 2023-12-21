@@ -15,7 +15,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     private CockpitService service;
 
     [HttpGet]
-    public IActionResult Get()
-      => service.GetItems();
+    public IActionResult GetItemsData()
+      => service.GetItemsData();
   }
 }

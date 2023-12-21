@@ -2,12 +2,19 @@
 {
   public sealed class StationDefinition
   {
-    public string Id { get; set; } = "";
+    public string Guid { get; set; } = "";
     public string Name { get; set; } = "";
     public double MaxWattPeak { get; set; }
-    public string IconUrl { get; set; } = "sap-icon://photo-voltaic";
+    public string IconUrl { get; set; } = Constants.IconUrl_StationDefault;
+    public string PowerUnit { get; set; } = Constants.PowerUnit_Watt;
+    public string CapacityUnit { get; set; } = Constants.CapacityUnit_KilowattHour;
+    public string InstalledAt { get; set; } = "";
+
+    public Location? Location { get; set; }
     public List<Inverter> Inverters { get; set; } = new List<Inverter>();
     public List<Module> Modules { get; set; } = new List<Module>();
-    public Location? Location { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
   }
 }

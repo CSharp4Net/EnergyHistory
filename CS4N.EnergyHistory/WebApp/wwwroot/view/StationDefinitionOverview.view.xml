@@ -3,19 +3,19 @@
 		<customHeader>
 			<Bar>
         <contentLeft>
-          <Button type="Back" press="onBackPress"/>
+          <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
 				<contentMiddle>
 					<Image src="image/flash-energy-64.png" height="2rem"/>
 					<Title text="{i18n>title_StationDefinitionOverview}"/>
 				</contentMiddle>
         <contentRight>
-          <Button icon="sap-icon://add" press="onAddPress" />
+          <Button icon="sap-icon://add" press="onAddPress" type="Accept" />
         </contentRight>
       </Bar>
     </customHeader>
     <content>
-      <Table items="{/stations}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy">
+      <Table items="{/stations}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy" noDataText="{i18n>text_NoRecords}">
         <columns>
           <Column>
             <Text text="{i18n>text_Station}" />
@@ -28,7 +28,7 @@
           <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
             <cells>
               <Text text="{name}"/>
-              <Text text="{ path: 'maxWattPeak', formatter: '.formatPowerValue' }"/>
+              <Text text="{ parts: ['maxWattPeak', 'powerUnit'], formatter: '.formatPowerValue' }"/>
             </cells>
           </ColumnListItem>
         </items>
