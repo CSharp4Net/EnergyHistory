@@ -25,7 +25,7 @@
 
     public int Number { get; set; }
     public double CollectedTotal { get; set; }
-    public bool ManualInput { get; set; }
+    public bool AutomaticSummation { get; set; } = true;
 
     public List<StationDataMonth> Months { get; set; } = [];
   }

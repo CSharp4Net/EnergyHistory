@@ -41,6 +41,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal ActionReply DeleteStation(StationDefinition station)
     {
       DataStore.DeleteStationDefinition(station.Guid);
+      DataStore.DeleteStationData(station.Guid);
 
       return new ActionReply();
     }

@@ -1,4 +1,5 @@
-﻿const localStorageEntry_StationDataToEdit = "StationDataToEdit";
+﻿const localStorageEntry_ViewData = "StationDataEdit-ViewData";
+const localStorageEntry_StationDataYear = "StationDataEdit-StationData.Year";
 
 sap.ui.define([
   "CS4N/EnergyHistory/controller/BaseController",
@@ -21,9 +22,6 @@ sap.ui.define([
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          pageTitle: "...",
-          selectedYear: 0,
-          selectedMonth: 0,
           viewData: {
             stationDefinition: null,
             stationData: null
@@ -32,69 +30,49 @@ sap.ui.define([
         });
       },
 
-      formatPowerValue: function (value) {
-        return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
+      formatPowerValue: function (value, unit) {
+        value = Number(value) || 0;
+
+        let textTemplate = this.i18n.getText("text_PowerValue");
+
+        textTemplate = textTemplate.replace("{value}", value.toLocaleString());
+        textTemplate = textTemplate.replace("{unit}", unit);
+
+        return textTemplate;
       },
 
-      formatDate: function (date, number) {
-        const selectedYear = this.model.getProperty("/selectedYear"),
-          selectedMonth = this.model.getProperty("/selectedMonth");
-
-        if (selectedYear > 0) {
-          if (selectedMonth > 0)
-            return new Date(date).toLocaleDateString();
-          else
-            return new Date(date).toLocaleString("default", { month: "long", year: "numeric" });
-        }
-        else
-          return number;
-      },
-
-      setStationDataEntries: function () {
-        let selectedYear = this.model.getProperty("/selectedYear"),
-          selectedMonth = this.model.getProperty("/selectedMonth");
-
+      calculateSums: function () {
         const stationData = this.model.getProperty("/viewData/stationData");
 
-        if (selectedYear !== "" && selectedYear > 0) {
-          selectedYear = Number(selectedYear);
-          selectedMonth = Number(selectedMonth);
+        let total = 0;
+        for (let i = 0; i < stationData.years.length; i++) {
+          // Jahreswerte summieren
+          const yearData = stationData.years[i];
+          let yearTotal = 0;
 
-          const yearData = stationData.years.filter(entry => entry.number === selectedYear);
-          if (yearData.length === 0) {
-            // Jahr wurde noch nicht erfasst, Template abrufen und erneut ausführen
-            Connector.get("StationData/template/" + selectedYear,
-              (response) => {
-                stationData.years.push(response);
-                this.setStationDataEntries();
-              },
-              this.handleApiError.bind(this));
-            return;
+          for (let j = 0; j < yearData.months.length; j++) {
+            // Monatswert summieren
+            const monthData = yearData.months[j];
+
+            yearTotal += Number(monthData.collectedTotal);
           }
 
-          if (selectedMonth > 0) {
-            const monthData = yearData[0].months.filter(entry => entry.number === selectedMonth);
-            // Alle Tage auflisten
-            this.model.setProperty("/stationDataHeader", monthData[0]);
-            this.model.setProperty("/stationDataEntries", monthData[0].days);
-          }
-          else {
-            // Alle Monate auflisten
-            this.model.setProperty("/stationDataHeader", yearData[0]);
-            this.model.setProperty("/stationDataEntries", yearData[0].months);
-          }
-        }
-        else {
-          // Alle Jahre auflisten
-          this.model.setProperty("/stationDataHeader", stationData);
-          this.model.setProperty("/stationDataEntries", stationData.years);
+          if (yearData.automaticSummation)
+            // Summe der Monatswerte verwenden
+            yearData.collectedTotal = Number(yearTotal.toFixed(3)) || 0;
+          else
+            // Manuelle Eingabe typsicher machen
+            yearData.collectedTotal = Number(yearData.collectedTotal) || 0;
+
+          total += Number(yearData.collectedTotal);
         }
 
-        const stationDataHeader = this.model.getProperty("/stationDataHeader");
-        if (stationDataHeader.manualInput && stationDataHeader.collectedTotal === 0) {
-          this.model.setProperty("/stationDataHeader/collectedTotal", "");
-          this.setFocus("collectedTotalInput", 100);
-        }
+        if (stationData.automaticSummation)
+          // Summe der Jahreswerte verwenden
+          stationData.collectedTotal = total;
+        else
+          // Manuelle Eingabe typsicher machen
+          stationData.collectedTotal = Number(stationData.collectedTotal) || 0;
       },
       // #endregion
 
@@ -102,69 +80,74 @@ sap.ui.define([
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        const cachedData = localStorage.getItem(localStorageEntry_StationDataToEdit);
-        if (this.isNullOrEmpty(cachedData)) {
-          this.onBackPress();
+        const cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
+        if (!this.isNullOrEmpty(cachedViewData)) {
+          localStorage.removeItem(localStorageEntry_ViewData);
+
+          const viewData = JSON.parse(cachedViewData);
+
+          this.model.setProperty("/viewData", viewData);
+
+          const cachedYearData = localStorage.getItem(localStorageEntry_StationDataYear);
+          if (!this.isNullOrEmpty(cachedYearData)) {
+            localStorage.removeItem(localStorageEntry_StationDataYear);
+
+            const yearData = JSON.parse(cachedYearData);
+
+            this.model.setProperty(yearData.modelPath, yearData);
+          }
+
+          if (viewData.stationData.automaticSummation)
+            this.calculateSums();
+
+          this.model.refresh();
           return;
         }
 
-        const data = JSON.parse(cachedData);
-        
-        this.model.setProperty("/selectedYear", data.selectedYear);
-        this.model.setProperty("/selectedMonth", data.selectedMonth);
-
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/" + data.stationGuid,
+        Connector.get("StationData/" + evt.getParameters().arguments.guid,
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
 
       onBackPress: function () {
-        this.navigateTo("StationData", { guid: this.model.getProperty("/stationId") });
+        this.navigateTo("StationData", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
       },
 
-      onYearChange: function () {
-        this.setStationDataEntries();
-      },
+      onYearPress: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          yearData = this.model.getProperty(modelPath);
 
-      onMonthChange: function () {
-        this.setStationDataEntries();
+        yearData.modelPath = modelPath;
+
+        localStorage.setItem(localStorageEntry_ViewData, JSON.stringify(this.model.getProperty("/viewData")));
+        localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(yearData));
+
+        this.navigateTo("StationDataEditYear", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
       },
 
       onSavePress: function () {
-        const stationData = this.model.getProperty("/viewData/stationData");
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.post("StationData", this.model.getProperty("/viewData/stationData"),
+          this.onApiPostStationData.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
+      },
 
-        // TODO : Validate
+      onAddYearPress: function () {
+        const yearCollection = this.model.getProperty("/viewData/stationData/years");
+        let targetYear = new Date().getFullYear();
 
-        let total = 0;
-        for (let i = 0; i < stationData.years.length; i++) {
-          const yearData = stationData.years[i];
-          let yearTotal = 0;
-          for (let j = 0; j < yearData.months.length; j++) {
-            const monthData = yearData.months[j];
-            let monthTotal = 0;
-            for (let k = 0; k < monthData.days.length; k++) {
-              const dayData = monthData.days[k];
-              monthTotal += dayData.collectedTotal;
-            }
-            if (!monthData.manualInput)
-              monthData.collectedTotal = monthTotal;       
-            yearTotal += monthData.collectedTotal;
-          }
-          if (!yearData.manualInput)
-            yearData.collectedTotal = yearTotal;
-          total += yearData.collectedTotal;
-        }
-
-        if (!stationData.manualInput)
-          stationData.collectedTotal = total;
+        if (yearCollection.some(entry => entry.number === targetYear))
+          targetYear = yearCollection.reduce((lowest, obj) => Math.min(obj.number, lowest), Infinity) - 1;
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("StationData", stationData,
-          this.onApiPostStationData.bind(this),
+        Connector.get("StationData/template/" + targetYear,
+          this.onApiGetNewYearTemplate.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
@@ -177,10 +160,16 @@ sap.ui.define([
           return;
         }
 
-        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_StationEdit"), response.stationDefinition.name));
         this.model.setProperty("/viewData", response);
 
-        this.setStationDataEntries();
+        if (response.stationData.years.length === 0) {
+          Connector.get("StationData/template/" + new Date().getFullYear(),
+            (response) => {
+              this.model.getProperty("/viewData/stationData/years").push(response);
+              this.model.refresh();
+            },
+            this.handleApiError.bind(this));
+        }
       },
 
       onApiPostStationData: function (response) {
@@ -191,6 +180,18 @@ sap.ui.define([
 
         this.model.setProperty("/viewData/stationData", response);
         MessageToast.show(this.i18n.getText("toast_StationDataSaved"));
+      },
+
+      onApiGetNewYearTemplate: function (response) {
+        const yearCollection = this.model.getProperty("/viewData/stationData/years");
+
+        yearCollection.push(response);
+        response.modelPath = "/viewData/stationData/years/" + (yearCollection.length - 1);
+
+        localStorage.setItem(localStorageEntry_ViewData, JSON.stringify(this.model.getProperty("/viewData")));
+        localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(response));
+
+        this.navigateTo("StationDataEditYear", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
       }
       // #endregion
     });

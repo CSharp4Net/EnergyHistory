@@ -1,13 +1,13 @@
-﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationDataEdit">
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationDataEditYear">
   <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
     <customHeader>
       <Bar>
         <contentLeft>
-          <Button type="Back" text="{/viewData/stationDefinition/name}" press="onBackPress"/>
+          <Button type="Back" text="{i18n>text_Record}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
           <Image src="image/flash-energy-64.png" height="2rem"/>
-          <Title text="{i18n>text_Record}"/>
+          <Title text="{/viewData/yearData/number}"/>
         </contentMiddle>
       </Bar>
     </customHeader>
@@ -23,12 +23,12 @@
                 <f:fields>
                   <HBox renderType="Bare">
                     <Input id="collectedTotalInput"
-                           value="{/viewData/stationData/collectedTotal}"
+                           value="{/viewData/yearData/collectedTotal}"
                            valueState="{/collectedTotalState}"
                            type="Number"
                            textAlign="End"
                            placeholder="0"
-                           editable="{= !${/viewData/stationData/automaticSummation} }"/>
+                           editable="{= !${/viewData/yearData/automaticSummation} }"/>
                     <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" width="10%" />
                   </HBox>
                 </f:fields>
@@ -36,8 +36,8 @@
               <f:FormElement label="{i18n>text_Summation}">
                 <f:fields>
                   <HBox renderType="Bare">
-                    <Switch state="{/viewData/stationData/automaticSummation}" type="AcceptReject" />
-                    <Text text="{i18n>place_AutomaticSummationOfTotal}" />
+                    <Switch state="{/viewData/yearData/automaticSummation}" type="AcceptReject" />
+                    <Text text="{i18n>place_AutomaticSummationOfYear}" />
                   </HBox>
                 </f:fields>
               </f:FormElement>
@@ -45,34 +45,32 @@
           </f:FormContainer>
         </f:formContainers>
       </f:Form>
-      <Table items="{/viewData/stationData/years}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCompact">
+      <Table items="{/viewData/yearData/months}" alternateRowColors="true" fixedLayout="false">
         <columns>
           <Column>
-            <HBox renderType="Bare" alignItems="Center">
-              <Text text="{i18n>text_Year}" />
-              <Button icon="sap-icon://add" type="Accept" class="sapUiTinyMarginBegin" press="onAddYearPress" />
-            </HBox>
+            <Text text="{i18n>text_Month}" />
           </Column>
           <Column hAlign="End">
             <Text text="{i18n>text_Collected}" />
           </Column>
         </columns>
         <items>
-          <ColumnListItem vAlign="Middle" type="Navigation" press="onYearPress">
+          <ColumnListItem vAlign="Middle">
             <cells>
-              <Text text="{number}" />
-              <Text text="{ parts: ['collectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }" />
+              <Text text="{ path: 'number', formatter: '.formatMonth' }" />
+              <HBox renderType="Bare" alignItems="Center">
+                <Input value="{collectedTotal}"
+                       type="Number"
+                       textAlign="End"
+                       valueLiveUpdate="true"
+                       placeholder="0"
+                       change="onMonthCollectedTotalChange"/>
+                <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" wrappingType="Hyphenated" />
+              </HBox>
             </cells>
           </ColumnListItem>
         </items>
       </Table>
     </content>
-    <footer>
-      <Bar>
-        <contentRight>
-          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" press="onSavePress" />
-        </contentRight>
-      </Bar>
-    </footer>
   </Page>
 </mvc:View>

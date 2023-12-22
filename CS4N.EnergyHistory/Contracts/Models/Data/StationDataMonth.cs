@@ -55,7 +55,7 @@
 
     public int Number { get; set; }
     public double CollectedTotal { get; set; }
-    public bool ManualInput { get; set; } = true;
+    public bool AutomaticSummation { get; set; } = false;
 
     public DateTime Date { get; init; }
 

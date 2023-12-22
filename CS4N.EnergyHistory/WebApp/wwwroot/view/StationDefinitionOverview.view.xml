@@ -1,14 +1,14 @@
 ﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.StationDefinitionOverview">
-	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
-		<customHeader>
-			<Bar>
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+    <customHeader>
+      <Bar>
         <contentLeft>
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
-				<contentMiddle>
-					<Image src="image/flash-energy-64.png" height="2rem"/>
-					<Title text="{i18n>title_StationDefinitionOverview}"/>
-				</contentMiddle>
+        <contentMiddle>
+          <Image src="image/flash-energy-64.png" height="2rem"/>
+          <Title text="{i18n>title_StationDefinitionOverview}"/>
+        </contentMiddle>
         <contentRight>
           <Button icon="sap-icon://add" press="onAddPress" type="Accept" />
         </contentRight>
@@ -27,12 +27,15 @@
         <items>
           <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
             <cells>
-              <Text text="{name}"/>
+              <HBox renderType="Bare" alignItems="Center">
+                <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
+                <Text text="{name}" class="sapUiTinyMarginBegin"/>
+              </HBox>
               <Text text="{ parts: ['maxWattPeak', 'powerUnit'], formatter: '.formatPowerValue' }"/>
             </cells>
           </ColumnListItem>
         </items>
       </Table>
     </content>
-	</Page>
+  </Page>
 </mvc:View>

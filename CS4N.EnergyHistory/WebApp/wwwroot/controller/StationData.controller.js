@@ -1,6 +1,4 @@
-﻿const localStorageEntry_StationDataToEdit = "StationDataToEdit";
-
-sap.ui.define([
+﻿sap.ui.define([
   "CS4N/EnergyHistory/controller/BaseController",
   "CS4N/EnergyHistory/connector/ApiConnector",
   "sap/m/MessageBox",
@@ -33,7 +31,6 @@ sap.ui.define([
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          pageTitle: "...",
           selectedTimePeriod: "Month",
           selectedYear: new Date().getFullYear(),
           selectedMonth: 0,
@@ -127,16 +124,7 @@ sap.ui.define([
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-
-        const cachedData = localStorage.getItem(localStorageEntry_StationDataToEdit);
-        if (!this.isNullOrEmpty(cachedData)) {
-          localStorage.removeItem(localStorageEntry_StationDataToEdit);
-
-          const data = JSON.parse(cachedData);
-          this.model.setProperty("/selectedYear", data.selectedYear);
-          this.model.setProperty("/selectedMonth", data.selectedMonth);
-        }
-
+        
         this.reloadData(evt.getParameters().arguments.guid);
       },
 
@@ -146,12 +134,6 @@ sap.ui.define([
 
       onEditPress: function () {
         const stationGuid = this.model.getProperty("/viewData/stationDefinition/guid");
-
-        localStorage.setItem(localStorageEntry_StationDataToEdit, JSON.stringify({
-          stationGuid,
-          selectedYear: this.model.getProperty("/selectedYear"),
-          selectedMonth: this.model.getProperty("/selectedMonth")
-        }));
 
         this.navigateTo("StationDataEdit", { guid: stationGuid });
       },
@@ -165,7 +147,6 @@ sap.ui.define([
         }
 
         this.model.setProperty("/viewData", response);
-        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), response.stationDefinition.name));
 
         this.createChartControl("bar");
         this.resetChart();

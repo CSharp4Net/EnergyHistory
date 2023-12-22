@@ -50,6 +50,8 @@
                         <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true">
                           <core:ListItem key="W" text="{i18n>text_WattShortcut}" additionalText="{i18n>text_Watt}" />
                           <core:ListItem key="kW" text="{i18n>text_KilowattShortcut}" additionalText="{i18n>text_Kilowatt}" />
+                          <core:ListItem key="MW" text="{i18n>text_MegawattShortcut}" additionalText="{i18n>text_Megawatt}" />
+                          <core:ListItem key="GW" text="{i18n>text_GigawattShortcut}" additionalText="{i18n>text_Gigawatt}" />
                         </Select>
                       </f:fields>
                     </f:FormElement>
@@ -58,6 +60,8 @@
                         <Select selectedKey="{/station/capacityUnit}" showSecondaryValues="true">
                           <core:ListItem key="Wh" text="{i18n>text_WattHourShortcut}" additionalText="{i18n>text_WattHour}" />
                           <core:ListItem key="kWh" text="{i18n>text_KilowattHourShortcut}" additionalText="{i18n>text_KilowattHour}" />
+                          <core:ListItem key="MWh" text="{i18n>text_MegawattHourShortcut}" additionalText="{i18n>text_MegawattHour}" />
+                          <core:ListItem key="GWh" text="{i18n>text_GigawattHourShortcut}" additionalText="{i18n>text_GigawattHour}" />
                         </Select>
                       </f:fields>
                     </f:FormElement>
@@ -72,7 +76,7 @@
             </f:Form>
           </IconTabFilter>
           <IconTabFilter text="{i18n>text_Internal}">
-            <f:Form editable="true">
+            <f:Form editable="false">
               <f:layout>
                 <f:ResponsiveGridLayout  columnsL="1" />
               </f:layout>

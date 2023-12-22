@@ -55,6 +55,11 @@
           "name": "StationDataEdit",
           "pattern": "StationData/{guid}/Edit",
           "target": "stationDataEdit"
+        },
+        {
+          "name": "StationDataEditYear",
+          "pattern": "StationData/{guid}/Edit/Year",
+          "target": "stationDataEditYear"
         }
       ],
       "targets": {
@@ -77,6 +82,10 @@
         "stationDataEdit": {
           "viewName": "StationDataEdit",
           "viewLevel": 3
+        },
+        "stationDataEditYear": {
+          "viewName": "StationDataEditYear",
+          "viewLevel": 4
         }
       }
     }

@@ -6,7 +6,7 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
   {
     public string StationGuid { get; set; } = "";
     public double CollectedTotal { get; set; }
-    public bool ManualInput { get; set; }
+    public bool AutomaticSummation { get; set; } = true;
     public string ChartAreaType { get; set; } = Constants.StationDataDefaultChartAreaType;
 
     public List<StationDataYear> Years { get; set; } = [];

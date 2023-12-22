@@ -7,7 +7,7 @@
         </contentLeft>
 				<contentMiddle>
 					<Image src="image/flash-energy-pastel-32.png" height="2rem"/>
-					<Title text="{/pageTitle}"/>
+					<Title text="{/viewData/stationDefinition/name}"/>
 				</contentMiddle>
         <contentRight>
           <Button icon="sap-icon://electronic-medical-record" text="{i18n>text_Record}" press="onEditPress" />          
