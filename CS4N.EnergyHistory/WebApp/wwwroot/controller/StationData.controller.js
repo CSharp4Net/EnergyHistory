@@ -37,20 +37,30 @@ sap.ui.define([
           selectedTimePeriod: "Month",
           selectedYear: new Date().getFullYear(),
           selectedMonth: 0,
-          station: {
-            stationGuid: "",
-            stationName: "",
-            stationMaxWattPeak: 0,
-            chartData: null
+          viewData: {
+            stationDefinition: null,
+            stationCollectedTotal: 0,
+            chartData: []
           }
         });
       },
 
-      formatPowerValue: function (value) {
-        if (!value)
+      formatPowerValue: function (value, unit) {
+        value = Number(value) || 0;
+
+        let textTemplate = this.i18n.getText("text_PowerValue");
+
+        textTemplate = textTemplate.replace("{value}", value.toLocaleString());
+        textTemplate = textTemplate.replace("{unit}", unit);
+
+        return textTemplate;
+      },
+
+      formatDate: function (value) {
+        if (this.isNullOrEmpty(value))
           return value;
 
-        return this.format(this.i18n.getText("text_PowerValue"), value.toLocaleString());
+        return new Date(value).toLocaleDateString();
       },
 
       createChartControl: function (chartType) {
@@ -78,7 +88,7 @@ sap.ui.define([
       },
 
       resetChart: function () {
-        const chartData = this.model.getProperty("/station/chartData");
+        const chartData = this.model.getProperty("/viewData/chartData");
 
         this.myChart.data.labels = chartData.map(entry => entry.x);
         this.myChart.data.datasets = [{
@@ -104,11 +114,11 @@ sap.ui.define([
         });
       },
 
-      reloadData: function (stationId) {
+      reloadData: function (stationGuid) {
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/" + stationId + "/" + this.model.getProperty("/selectedYear") + "/" + this.model.getProperty("/selectedMonth"),
-          this.onApiGetStationData.bind(this),
+        Connector.get("StationData/" + stationGuid + "/" + this.model.getProperty("/selectedYear") + "/" + this.model.getProperty("/selectedMonth"),
+          this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
@@ -135,27 +145,27 @@ sap.ui.define([
       },
 
       onEditPress: function () {
-        const stationId = this.model.getProperty("/station/stationId");
+        const stationGuid = this.model.getProperty("/viewData/stationDefinition/guid");
 
         localStorage.setItem(localStorageEntry_StationDataToEdit, JSON.stringify({
-          stationId,
+          stationGuid,
           selectedYear: this.model.getProperty("/selectedYear"),
           selectedMonth: this.model.getProperty("/selectedMonth")
         }));
 
-        this.navigateTo("StationDataEdit", { guid: stationId });
+        this.navigateTo("StationDataEdit", { guid: stationGuid });
       },
       // #endregion
 
       // #region API-Events
-      onApiGetStationData: function (response) {
+      onApiGetViewData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
-        this.model.setProperty("/station", response);
-        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), response.stationName));
+        this.model.setProperty("/viewData", response);
+        this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_Station"), response.stationDefinition.name));
 
         this.createChartControl("bar");
         this.resetChart();

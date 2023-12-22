@@ -11,8 +11,8 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal StationDefinition? GetStation(string guid)
       => DataStore.GetStationDefinition(guid);
 
-    internal StationData GetStationData(string stationId)
-      => DataStore.GetStationData(stationId);
+    internal StationData GetStationData(string stationGuid)
+      => DataStore.GetStationData(stationGuid);
 
     internal StationData SetStationData(StationData stationData)
     { 

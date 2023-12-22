@@ -1,8 +1,8 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models.Data;
 using CS4N.EnergyHistory.Contracts.Models.Definition;
-using CS4N.EnergyHistory.WebApp.Models.Cockpit;
-using CS4N.EnergyHistory.WebApp.Models.Station;
+using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
+using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,31 +17,18 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private StationDataRepository repository;
 
-    internal IActionResult GetKpiValue(string stationGuid)
-    {
-      Contracts.Models.Data.StationData data = repository.GetStationData(stationGuid);
-
-      return new OkObjectResult(new KpiData
-      {
-        Value = data.CollectedTotal,
-        Unit = "Wh"
-      });
-    }
-
     internal IActionResult GetStationViewData(string stationGuid, int year = 0, int month = 0)
     {
       StationDefinition definition = repository.GetStation(stationGuid)!;
 
-      var result = new ViewData
+      var viewData = new StationDataView
       {
-        StationId = definition.Guid,
-        StationName = definition.Name,
-        StationMaxWattPeak = definition.MaxWattPeak
+        StationDefinition = definition
       };
 
       StationData data = repository.GetStationData(stationGuid);
 
-      result.StationCollectedTotal = data.CollectedTotal;
+      viewData.StationCollectedTotal = data.CollectedTotal;
 
       if (year > 0 && month > 0)
       {
@@ -53,7 +40,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           monthData = new StationDataMonth(year, month);
         }
 
-        result.ChartData = monthData.Days
+        viewData.ChartData = monthData.Days
           .Select(month => new ChartDataEntry
           {
             X = month.Number.ToString(),
@@ -71,7 +58,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           yearData = new StationDataYear(year);
         }
 
-        result.ChartData = yearData.Months
+        viewData.ChartData = yearData.Months
           .Select(month => new ChartDataEntry
           {
             X = month.Number.ToString(),
@@ -82,7 +69,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       else
       {
         // Daten aller Jahre
-        result.ChartData = data.Years
+        viewData.ChartData = data.Years
           .Select(year => new ChartDataEntry
           {
             X = year.Number.ToString(),
@@ -91,19 +78,18 @@ namespace CS4N.EnergyHistory.WebApp.Services
           .ToList();
       }
 
-      return new OkObjectResult(result);
+      return new OkObjectResult(viewData);
     }
 
     internal IActionResult GetStationDataForEdit(string stationGuid)
     {
-      StationDefinition stationDefinition = repository.GetStation(stationGuid)!;
-      StationData stationData = repository.GetStationData(stationGuid);
-
-      return new OkObjectResult(new
+      var viewData = new StationDataEditView
       {
-        stationDefinition,
-        stationData
-      });
+        StationDefinition = repository.GetStation(stationGuid),
+        StationData = repository.GetStationData(stationGuid)
+      };
+
+      return new OkObjectResult(viewData);
     }
 
     internal IActionResult PostStationDataForEdit(StationData stationData)

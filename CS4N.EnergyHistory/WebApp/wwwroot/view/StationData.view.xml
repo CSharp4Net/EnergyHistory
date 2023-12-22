@@ -10,7 +10,7 @@
 					<Title text="{/pageTitle}"/>
 				</contentMiddle>
         <contentRight>
-          <Button icon="sap-icon://edit" press="onEditPress" />          
+          <Button icon="sap-icon://electronic-medical-record" text="{i18n>text_Record}" press="onEditPress" />          
         </contentRight>
 			</Bar>
 		</customHeader>
@@ -25,24 +25,33 @@
           <IconTabFilter text="{i18n>text_Common}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" />
+                <f:ResponsiveGridLayout columnsM="2" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
                   <f:formElements>
                     <f:FormElement label="{i18n>text_Id}">
                       <f:fields>
-                        <Text text="{/station/stationId}" />
+                        <Text text="{/viewData/stationDefinition/guid}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_MaximumPerformance}">
                       <f:fields>
-                        <Text text="{ path: '/station/stationMaxWattPeak', formatter: '.formatPowerValue' }"/>
+                        <Text text="{ parts: ['/viewData/stationDefinition/maxWattPeak', '/viewData/stationDefinition/powerUnit'], formatter: '.formatPowerValue' }"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_CollectedTotal}">
                       <f:fields>
-                        <Text text="{ path: '/station/stationCollectedTotal', formatter: '.formatPowerValue' }"/>
+                        <Text text="{ parts: ['/viewData/stationCollectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }"/>
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_InstalledAt}">
+                      <f:fields>
+                        <Text text="{ path: '/viewData/stationDefinition/installedAt', formatter: '.formatDate' }" />
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>

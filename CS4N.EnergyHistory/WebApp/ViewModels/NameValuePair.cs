@@ -1,4 +1,4 @@
-﻿namespace CS4N.EnergyHistory.WebApp.Models
+﻿namespace CS4N.EnergyHistory.WebApp.ViewModels
 {
   public sealed class NameValuePair (string name, string value)
   {

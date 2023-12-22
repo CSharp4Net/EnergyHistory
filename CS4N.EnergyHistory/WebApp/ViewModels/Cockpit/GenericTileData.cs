@@ -1,4 +1,4 @@
-﻿namespace CS4N.EnergyHistory.WebApp.Models.Cockpit
+﻿namespace CS4N.EnergyHistory.WebApp.ViewModels.Cockpit
 {
   public sealed class GenericTileData (string category, string name, string entryViewName)
   {

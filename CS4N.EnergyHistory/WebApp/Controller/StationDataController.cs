@@ -15,10 +15,6 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private StationDataService service;
 
-    [HttpGet("{stationGuid}/kpi")]
-    public IActionResult GetKpiValue(string stationGuid)
-      => service.GetKpiValue(stationGuid);
-
     [HttpGet("{stationGuid}/{year}/{month}")]
     public IActionResult GetStationViewData(string stationGuid, int year, int month)
       => service.GetStationViewData(stationGuid, year, month);

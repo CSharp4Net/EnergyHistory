@@ -1,5 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.WebApp.Models.Cockpit;
+using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -40,7 +40,11 @@ namespace CS4N.EnergyHistory.WebApp.Services
         .Select(station => new GenericTileData("stations", station.Name, "StationData")
         {
           NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = station.Guid }),
-          IconUrl = station.IconUrl
+          IconUrl = station.IconUrl,
+          //Kpi = new KpiData
+          //{ 
+          //  Value = repository.GetStationData(stationGuid)
+          //}
         })
         .ToList();
     }

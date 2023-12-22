@@ -21,15 +21,13 @@ sap.ui.define([
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          pageTitle: "",
-          stationId: "",
+          pageTitle: "...",
           selectedYear: 0,
           selectedMonth: 0,
-          stationData: null,
-          stationDataHeader: {
-            manualInput: true
+          viewData: {
+            stationDefinition: null,
+            stationData: null
           },
-          stationDataEntries: [],
           collectedTotalState: "None"
         });
       },
@@ -56,7 +54,7 @@ sap.ui.define([
         let selectedYear = this.model.getProperty("/selectedYear"),
           selectedMonth = this.model.getProperty("/selectedMonth");
 
-        const stationData = this.model.getProperty("/stationData");
+        const stationData = this.model.getProperty("/viewData/stationData");
 
         if (selectedYear !== "" && selectedYear > 0) {
           selectedYear = Number(selectedYear);
@@ -111,15 +109,14 @@ sap.ui.define([
         }
 
         const data = JSON.parse(cachedData);
-
-        this.model.setProperty("/stationId", data.stationId);
+        
         this.model.setProperty("/selectedYear", data.selectedYear);
         this.model.setProperty("/selectedMonth", data.selectedMonth);
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/" + data.stationId,
-          this.onApiGetStationData.bind(this),
+        Connector.get("StationData/" + data.stationGuid,
+          this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
@@ -137,7 +134,7 @@ sap.ui.define([
       },
 
       onSavePress: function () {
-        const stationData = this.model.getProperty("/stationData");
+        const stationData = this.model.getProperty("/viewData/stationData");
 
         // TODO : Validate
 
@@ -174,15 +171,14 @@ sap.ui.define([
       // #endregion
 
       // #region API-Events
-      onApiGetStationData: function (response) {
+      onApiGetViewData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
         this.model.setProperty("/pageTitle", this.format(this.i18n.getText("title_StationEdit"), response.stationDefinition.name));
-        this.model.setProperty("/stationDefinition", response.stationDefinition);
-        this.model.setProperty("/stationData", response.stationData);
+        this.model.setProperty("/viewData", response);
 
         this.setStationDataEntries();
       },
@@ -193,7 +189,7 @@ sap.ui.define([
           return;
         }
 
-        this.model.setProperty("/stationData", response);
+        this.model.setProperty("/viewData/stationData", response);
         MessageToast.show(this.i18n.getText("toast_StationDataSaved"));
       }
       // #endregion

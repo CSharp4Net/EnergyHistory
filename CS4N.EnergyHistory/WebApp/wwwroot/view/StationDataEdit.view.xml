@@ -15,7 +15,7 @@
       <Bar>
         <contentLeft>
           <Text text="{i18n>text_Year}"/>
-          <ComboBox items="{/stationData/years}" selectedKey="{/selectedYear}" placeholder="{i18n>place_AllYears}" change="onYearChange">
+          <ComboBox items="{/viewData/stationData/years}" selectedKey="{/selectedYear}" placeholder="{i18n>place_AllYears}" change="onYearChange">
             <core:ListItem key="{number}" text="{number}" />
           </ComboBox>
         </contentLeft>

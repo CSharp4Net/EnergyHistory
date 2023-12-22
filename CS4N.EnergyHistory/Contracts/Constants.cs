@@ -9,6 +9,8 @@
     public const string CapacityUnit_WattHour = "Wh";
     public const string CapacityUnit_KilowattHour = "kWh";
 
-    public const string IconUrl_StationDefault = "sap-icon://photo-voltaic";
+    public const string StationDefinitionDefaultIconUrl = "sap-icon://photo-voltaic";
+
+    public const string StationDataDefaultChartAreaType = "Month";
   }
 }
