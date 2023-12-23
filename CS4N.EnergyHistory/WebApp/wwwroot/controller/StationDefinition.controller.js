@@ -54,6 +54,13 @@
         if (this.isNullOrEmpty(station.installedAt))
           station.installedAt = null;
 
+        station.purchaseCosts = Number(station.purchaseCosts) || 0;
+
+        if (station.purchaseCosts < 0)
+          station.purchaseCosts = 0;
+
+        this.model.refresh();
+
         return allValid;
       },
 

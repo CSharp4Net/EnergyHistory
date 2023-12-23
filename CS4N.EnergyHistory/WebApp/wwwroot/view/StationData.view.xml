@@ -22,19 +22,14 @@
               <html:canvas id="myChart" />
             </Panel>
           </IconTabFilter>
-          <IconTabFilter text="{i18n>text_Common}">
-            <f:Form editable="true">
+          <IconTabFilter text="{i18n>text_Summary}">
+            <f:Form editable="false">
               <f:layout>
                 <f:ResponsiveGridLayout columnsM="2" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement label="{i18n>text_Id}">
-                      <f:fields>
-                        <Text text="{/viewData/stationDefinition/guid}" />
-                      </f:fields>
-                    </f:FormElement>
                     <f:FormElement label="{i18n>text_MaximumPerformance}">
                       <f:fields>
                         <Text text="{ parts: ['/viewData/stationDefinition/maxWattPeak', '/viewData/stationDefinition/powerUnit'], formatter: '.formatPowerValue' }"/>

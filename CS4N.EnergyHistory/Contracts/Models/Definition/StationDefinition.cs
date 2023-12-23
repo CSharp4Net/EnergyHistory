@@ -9,6 +9,10 @@
     public string PowerUnit { get; set; } = Constants.PowerUnit_Watt;
     public string CapacityUnit { get; set; } = Constants.CapacityUnit_KilowattHour;
     public string InstalledAt { get; set; } = "";
+    public string CurrencyUnit { get; set; } = "€";
+    public decimal PurchaseCosts { get; set; }
+    public decimal PriceOfConsumedKilowattHour { get; set; }
+    public decimal PriceOfFedIntoKilowattHour { get; set; }
 
     public Location? Location { get; set; }
     public List<Inverter> Inverters { get; set; } = new List<Inverter>();

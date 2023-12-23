@@ -16,16 +16,16 @@
         this.getView().setModel(this.model);
         this.getOwnerComponent().getRouter().getRoute("StationData").attachPatternMatched(this.onRouteMatched, this);
 
-        // Füge einen Verweis auf die ChartJS-Library hinzu, welche das MDE ausliefert
-        const jsScript = document.createElement("script");
-        jsScript.id = "getChartJS";
-        jsScript.type = "text/javascript";
-        jsScript.src = "./lib/ChartJS/Chart.min.js";
-        jsScript.addEventListener("load", () => {
-          // Dieser Event-Handler wird einmalig beim Öffnen der App ausgelöst, danach
-          // hält der Browser sich Chart.JS und die App im Cache
-        });
-        document.getElementsByTagName('HEAD')[0].appendChild(jsScript);
+        //// Füge einen Verweis auf die ChartJS-Library hinzu
+        //const jsScript = document.createElement("script");
+        //jsScript.id = "getChartJS";
+        //jsScript.type = "text/javascript";
+        //jsScript.src = "./lib/ChartJS/Chart.min.js";
+        //jsScript.addEventListener("load", () => {
+        //  // Dieser Event-Handler wird einmalig beim Öffnen der App ausgelöst, danach
+        //  // hält der Browser sich Chart.JS und die App im Cache
+        //});
+        //document.getElementsByTagName('HEAD')[0].appendChild(jsScript);
       },
 
       // #region Methods

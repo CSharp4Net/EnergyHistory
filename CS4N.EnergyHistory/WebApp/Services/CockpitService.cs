@@ -3,6 +3,7 @@ using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using CS4N.EnergyHistory.Contracts.Models.Data;
 
 namespace CS4N.EnergyHistory.WebApp.Services
 {
@@ -10,10 +11,12 @@ namespace CS4N.EnergyHistory.WebApp.Services
   {
     internal CockpitService(ILogger logger, IDataStore dataStore) : base(logger)
     {
-      repository = new StationDefinitionRepository(dataStore);
+      definitionRepository = new StationDefinitionRepository(dataStore);
+      dataRepository = new StationDataRepository(dataStore);
     }
 
-    private StationDefinitionRepository repository;
+    private StationDefinitionRepository definitionRepository;
+    private StationDataRepository dataRepository;
 
     internal IActionResult GetItemsData()
     {
@@ -36,17 +39,28 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private List<GenericTileData> GetStationItems()
     {
-      return repository.GetStations()
-        .Select(station => new GenericTileData("stations", station.Name, "StationData")
+      var stations = definitionRepository.GetStations();
+
+      List<GenericTileData> result = [];
+
+      foreach (var station in stations)
+      {
+        var data = dataRepository.GetStationData(station.Guid);
+
+        result.Add(new GenericTileData("stations", station.Name, "StationData")
         {
           NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = station.Guid }),
           IconUrl = station.IconUrl,
-          //Kpi = new KpiData
-          //{ 
-          //  Value = repository.GetStationData(stationGuid)
-          //}
-        })
-        .ToList();
+          Kpi = new KpiData
+          {
+            Value = Math.Round(data.CollectedTotal).ToString(),
+            ValueColor = "Good",
+            Unit = station.CapacityUnit
+          }
+        }); ;
+      }
+
+      return result;
     }
   }
 }

@@ -108,6 +108,9 @@ sap.ui.define([
         const yearData = this.model.getProperty("/viewData/yearData");
         let yearTotal = 0;
 
+        if (!yearData.automaticSummation)
+          return;
+
         for (let j = 0; j < yearData.months.length; j++) {
           // Monatswert summieren
           const monthData = yearData.months[j];
