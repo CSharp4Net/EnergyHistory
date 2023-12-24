@@ -129,9 +129,10 @@ sap.ui.define([
       },
 
       onSavePress: function () {
-        const container = this.byId("myPage");
+        const stationData = this.model.getProperty("/viewData/stationData"),
+          container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("StationData", this.model.getProperty("/viewData/stationData"),
+        Connector.post("StationData", stationData,
           this.onApiPostStationData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -146,7 +147,7 @@ sap.ui.define([
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/template/" + targetYear,
+        Connector.get("StationData/template/" + this.model.getProperty("/viewData/stationDefinition").guid + "/" + targetYear,
           this.onApiGetNewYearTemplate.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -163,7 +164,7 @@ sap.ui.define([
         this.model.setProperty("/viewData", response);
 
         if (response.stationData.years.length === 0) {
-          Connector.get("StationData/template/" + new Date().getFullYear(),
+          Connector.get("StationData/template/" + response.stationDefinition.guid + "/" + new Date().getFullYear(),
             (response) => {
               this.model.getProperty("/viewData/stationData/years").push(response);
               this.model.refresh();

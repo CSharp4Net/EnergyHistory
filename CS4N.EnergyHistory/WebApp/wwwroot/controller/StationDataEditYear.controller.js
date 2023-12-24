@@ -80,29 +80,35 @@ sap.ui.define([
           this.onBackPress();
           return;
         }
+        localStorage.removeItem(localStorageEntry_StationDataYear);
 
-        const cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
+        const cachedViewData = localStorage.getItem(localStorageEntry_ViewData),
+          viewData = JSON.parse(cachedViewData),
+          yearData = JSON.parse(cachedYearData);
 
-        this.model.setProperty("/viewData/stationDefinition", JSON.parse(cachedViewData).stationDefinition);
-        this.model.setProperty("/viewData/yearData", JSON.parse(cachedYearData));
+        // 0-Werte für bessere Eingabe umwandeln
+        yearData.months.map(entry => {
+          if (entry.collectedTotal === 0)
+            entry.collectedTotal = "";
+        });
+
+        this.model.setProperty("/viewData/stationDefinition", viewData.stationDefinition);
+        this.model.setProperty("/viewData/yearData", yearData);
       },
 
       onBackPress: function () {
-        localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(this.model.getProperty("/viewData/yearData")));
+        const yearData = this.model.getProperty("/viewData/yearData");
+
+        // 0-Werte wiederherstellen
+        yearData.months.map(entry => {
+          if (entry.collectedTotal === "")
+            entry.collectedTotal = 0;
+        });
+
+        localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(yearData));
 
         this.navigateTo("StationDataEdit", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
       },
-
-      //onMonthPress: function (evt) {
-      //  const modelPath = evt.getSource().getBindingContext().getPath(),
-      //    monthData = this.model.getProperty(modelPath);
-
-      //  monthData.modelPath = modelPath;
-
-      //  localStorage.setItem(localStorageEntry_StationDataMonth, JSON.stringify(monthData));
-
-      //  this.navigateTo("StationDataEditMonth", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
-      //},
 
       onMonthCollectedTotalChange: function () {
         const yearData = this.model.getProperty("/viewData/yearData");
@@ -130,29 +136,25 @@ sap.ui.define([
 
         this.model.refresh();
       },
+
+      onRemovePress: function () {
+        const cachedViewData = localStorage.getItem(localStorageEntry_ViewData),
+          viewData = JSON.parse(cachedViewData),
+          yearData = this.model.getProperty("/viewData/yearData"),
+          pathElements = yearData.modelPath.split("/"),
+          arrayIndex = pathElements[pathElements.length -1];
+
+        viewData.stationData.years.splice(arrayIndex, 1);
+
+        localStorage.setItem(localStorageEntry_ViewData, JSON.stringify(viewData));
+
+        this.navigateTo("StationDataEdit", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
+        MessageToast.show(this.i18n.getText("toast_YearRemoved"));
+      },
       // #endregion
 
       // #region API-Events
-      onApiGetViewData: function (response) {
-        if (response.errorMessage) {
-          this.showResponseError(response);
-          return;
-        }
 
-        this.model.setProperty("/viewData", response);
-
-        this.setStationDataEntries();
-      },
-
-      onApiPostStationData: function (response) {
-        if (response.errorMessage) {
-          this.showResponseError(response);
-          return;
-        }
-
-        this.model.setProperty("/viewData/stationData", response);
-        MessageToast.show(this.i18n.getText("toast_StationDataSaved"));
-      }
       // #endregion
     });
   });

@@ -19,7 +19,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     internal IActionResult GetStationViewData(string stationGuid, int year = 0, int month = 0)
     {
-      StationDefinition definition = repository.GetStation(stationGuid)!;
+      StationDefinition definition = repository.GetStationDefinition(stationGuid)!;
 
       var viewData = new StationDataView
       {
@@ -32,21 +32,21 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       if (year > 0 && month > 0)
       {
-        // Daten aus dem Monat
-        var monthData = data.Years.SingleOrDefault(entry => entry.Number == year)?.Months.SingleOrDefault(entry => entry.Number == month);
-        if (monthData == null)
-        {
-          // Jahr existiert noch nicht, leeres Jahr verwenden
-          monthData = new StationDataMonth(year, month);
-        }
+        //// Daten aus dem Monat
+        //var monthData = data.Years.SingleOrDefault(entry => entry.Number == year)?.Months.SingleOrDefault(entry => entry.Number == month);
+        //if (monthData == null)
+        //{
+        //  // Jahr existiert noch nicht, leeres Jahr verwenden
+        //  monthData = new StationDataMonth(year, month);
+        //}
 
-        viewData.ChartData = monthData.Days
-          .Select(month => new ChartDataEntry
-          {
-            X = month.Number.ToString(),
-            Y = month.CollectedTotal
-          })
-          .ToList();
+        //viewData.ChartData = monthData.Days
+        //  .Select(month => new ChartDataEntry
+        //  {
+        //    X = month.Number.ToString(),
+        //    Y = month.CollectedTotal
+        //  })
+        //  .ToList();
       }
       else if (year > 0 && month == 0)
       {
@@ -55,7 +55,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
         if (yearData == null)
         {
           // Jahr existiert noch nicht, leeres Jahr verwenden
-          yearData = new StationDataYear(year);
+          yearData = new StationDataYear(definition, year);
         }
 
         viewData.ChartData = yearData.Months
@@ -85,7 +85,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
     {
       var viewData = new StationDataEditView
       {
-        StationDefinition = repository.GetStation(stationGuid),
+        StationDefinition = repository.GetStationDefinition(stationGuid),
         StationData = repository.GetStationData(stationGuid)
       };
 
@@ -97,9 +97,11 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(repository.SetStationData(stationData));
     }
 
-    internal IActionResult GetStationDataTemplate(int year)
+    internal IActionResult GetStationDataTemplate(string stationGuid, int year)
     {
-      return new OkObjectResult(new StationDataYear(year));
+      var definition = repository.GetStationDefinition(stationGuid);
+
+      return new OkObjectResult(new StationDataYear(definition, year));
     }
   }
 }

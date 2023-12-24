@@ -9,6 +9,9 @@
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{/viewData/yearData/number}"/>
         </contentMiddle>
+        <contentRight>
+          <Button type="Reject" press="onRemovePress" icon="sap-icon://delete"/>
+        </contentRight>
       </Bar>
     </customHeader>
     <content>
