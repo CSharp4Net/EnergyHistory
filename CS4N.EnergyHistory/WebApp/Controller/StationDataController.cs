@@ -23,7 +23,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     public IActionResult GetStationDataForEdit(string stationGuid)
       => service.GetStationDataForEdit(stationGuid);
 
-    [HttpGet("template/{year}")]
+    [HttpGet("template/{stationGuid}/{year}")]
     public IActionResult GetStationDataTemplate(string stationGuid, int year)
       => service.GetStationDataTemplate(stationGuid, year);
 

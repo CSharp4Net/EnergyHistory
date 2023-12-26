@@ -69,17 +69,17 @@
 
         this.myChart = new Chart(this.chartContainer, {
           type: chartType,
-          data: {},
+          //data: {},
           options: {
-            animation: {
-              duration: 500,
-              //onComplete: this.drawElementValues.bind(this)
-            },
-            title: { display: true, text: "Hallo Welt" },
-            //elements: { line: { tension: 0 } },
-            //legend: { display: false },
+            //  animation: {
+            //    duration: 500,
+            //    //onComplete: this.drawElementValues.bind(this)
+            //  },
+            //  title: { display: true, text: "Hallo Welt" },
+            //  //elements: { line: { tension: 0 } },
+            //  //legend: { display: false },
             maintainAspectRatio: false,
-            responsiveAnimationDuration: 500
+            //  responsiveAnimationDuration: 500
           }
         });
       },
@@ -87,12 +87,22 @@
       resetChart: function () {
         const chartData = this.model.getProperty("/viewData/chartData");
 
-        this.myChart.data.labels = chartData.map(entry => entry.x);
+        let textTemplate = this.i18n.getText("text_PowerValue");
+
+        textTemplate = textTemplate.replace("{value}", this.model.getProperty("/viewData/stationCollectedTotal"));
+        textTemplate = textTemplate.replace("{unit}", this.model.getProperty("/viewData/stationDefinition/capacityUnit"));
+
+        const title = this.format(this.i18n.getText("title_StationDataYearChart"), [
+          this.model.getProperty("/selectedYear"),
+          textTemplate]);
+
+        //this.myChart.data.labels = chartData.map(entry => entry.x);
         this.myChart.data.datasets = [{
+          label: title,
           data: chartData,
           borderWidth: 1,
-          backgroundColor: this.myChartElementColor,
-          borderColor: this.myChartElementBorderColor
+          //backgroundColor: this.myChartElementColor,
+          //borderColor: this.myChartElementBorderColor
         }];
         this.myChart.update();
       },
@@ -124,7 +134,7 @@
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-        
+
         this.reloadData(evt.getParameters().arguments.guid);
       },
 
