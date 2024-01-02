@@ -21,13 +21,13 @@
           station: {
             guid: "",
             name: "",
-            maxWattPeak: "",
+            powerPeak: "",
             powerUnit: "W",
             capacityUnit: "kW",
             installedAt: ""
           },
           nameState: "None",
-          maxWattPeakState: "None",
+          powerPeakState: "None",
           validValues: null
         });
       },
@@ -42,14 +42,14 @@
         else
           this.model.setProperty("/nameState", "None");
 
-        station.maxWattPeak = Number(station.maxWattPeak) || 0;
+        station.powerPeak = Number(station.powerPeak) || 0;
 
-        if (station.maxWattPeak <= 0) {
-          this.model.setProperty("/maxWattPeakState", "Error");
+        if (station.powerPeak <= 0) {
+          this.model.setProperty("/powerPeakState", "Error");
           allValid = false;
         }
         else
-          this.model.setProperty("/maxWattPeakState", "None");
+          this.model.setProperty("/powerPeakState", "None");
 
         if (this.isNullOrEmpty(station.installedAt))
           station.installedAt = null;

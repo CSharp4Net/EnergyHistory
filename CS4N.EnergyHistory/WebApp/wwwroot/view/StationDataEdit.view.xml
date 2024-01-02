@@ -14,7 +14,7 @@
     <content>
       <f:Form editable="true">
         <f:layout>
-          <f:ResponsiveGridLayout columnsL="1" />
+          <f:ResponsiveGridLayout columnsM="2" />
         </f:layout>
         <f:formContainers>
           <f:FormContainer>
@@ -56,12 +56,16 @@
           <Column hAlign="End">
             <Text text="{i18n>text_Collected}" />
           </Column>
+          <Column hAlign="End">
+            <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
+          </Column>
         </columns>
         <items>
           <ColumnListItem vAlign="Middle" type="Navigation" press="onYearPress">
             <cells>
               <Text text="{number}" />
               <Text text="{ parts: ['collectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }" />
+              <Text text="{ parts: ['priceOfConsumedKilowattHour', '/viewData/stationDefinition/currencyUnit'], formatter: '.formatPowerValue' }" />
             </cells>
           </ColumnListItem>
         </items>

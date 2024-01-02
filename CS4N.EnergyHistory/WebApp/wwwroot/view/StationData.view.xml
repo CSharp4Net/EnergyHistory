@@ -32,7 +32,7 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_MaximumPerformance}">
                       <f:fields>
-                        <Text text="{ parts: ['/viewData/stationDefinition/maxWattPeak', '/viewData/stationDefinition/powerUnit'], formatter: '.formatPowerValue' }"/>
+                        <Text text="{ parts: ['/viewData/stationDefinition/powerPeak', '/viewData/stationDefinition/powerUnit'], formatter: '.formatPowerValue' }"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_CollectedTotal}">

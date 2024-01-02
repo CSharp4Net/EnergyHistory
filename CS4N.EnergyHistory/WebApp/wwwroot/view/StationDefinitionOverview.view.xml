@@ -31,7 +31,7 @@
                 <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
                 <Text text="{name}" class="sapUiTinyMarginBegin"/>
               </HBox>
-              <Text text="{ parts: ['maxWattPeak', 'powerUnit'], formatter: '.formatPowerValue' }"/>
+              <Text text="{ parts: ['powerPeak', 'powerUnit'], formatter: '.formatPowerValue' }"/>
             </cells>
           </ColumnListItem>
         </items>

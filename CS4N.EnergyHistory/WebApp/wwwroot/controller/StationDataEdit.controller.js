@@ -41,6 +41,18 @@ sap.ui.define([
         return textTemplate;
       },
 
+      formatPriceValue: function (power, amount, currency) {
+        power = Number(power) || 0;
+        amount = Number(amount) || 0;
+
+        let textTemplate = this.i18n.getText("text_PriceValue");
+
+        textTemplate = textTemplate.replace("{amount}", (power * amount).toLocaleString());
+        textTemplate = textTemplate.replace("{currency}", currency);
+
+        return textTemplate;
+      },
+
       calculateSums: function () {
         const stationData = this.model.getProperty("/viewData/stationData");
 
@@ -79,6 +91,7 @@ sap.ui.define([
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
+        this.model.setProperty("/viewData/stationDefinition/guid", evt.getParameters().arguments.guid);
 
         const cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
         if (!this.isNullOrEmpty(cachedViewData)) {

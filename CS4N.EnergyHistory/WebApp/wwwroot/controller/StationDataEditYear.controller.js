@@ -23,7 +23,9 @@ sap.ui.define([
       resetModel: function () {
         this.model.setData({
           viewData: {
-            stationDefinition: null,
+            stationDefinition: {
+              guid: ""
+            },
             yearData: null
           },
           collectedTotalState: "None"
@@ -74,6 +76,7 @@ sap.ui.define([
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
+        this.model.setProperty("/viewData/stationDefinition/guid", evt.getParameters().arguments.guid);
 
         const cachedYearData = localStorage.getItem(localStorageEntry_StationDataYear);
         if (this.isNullOrEmpty(cachedYearData)) {
@@ -88,8 +91,9 @@ sap.ui.define([
 
         // 0-Werte für bessere Eingabe umwandeln
         yearData.months.map(entry => {
-          if (entry.collectedTotal === 0)
-            entry.collectedTotal = "";
+          if (entry.collectedTotal === 0) entry.collectedTotal = "";
+          if (entry.priceOfConsumedKilowattHour === 0) entry.priceOfConsumedKilowattHour = "";
+          if (entry.priceOfFedIntoKilowattHour === 0) entry.priceOfFedIntoKilowattHour = "";
         });
 
         this.model.setProperty("/viewData/stationDefinition", viewData.stationDefinition);
@@ -99,13 +103,25 @@ sap.ui.define([
       onBackPress: function () {
         const yearData = this.model.getProperty("/viewData/yearData");
 
-        // 0-Werte wiederherstellen
-        yearData.months.map(entry => {
-          if (entry.collectedTotal === "")
-            entry.collectedTotal = 0;
-        });
+        if (yearData) {
+          // 0-Werte wiederherstellen
+          yearData.months.map(entry => {
+            if (entry.collectedTotal === "")
+              entry.collectedTotal = 0;
 
-        localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(yearData));
+            if (entry.priceOfConsumedKilowattHour === "")
+              entry.priceOfConsumedKilowattHour = 0;
+            else
+              entry.priceOfConsumedKilowattHour = Number(entry.priceOfConsumedKilowattHour) || 0;
+
+            if (entry.priceOfFedIntoKilowattHour === "")
+              entry.priceOfFedIntoKilowattHour = 0;
+            else
+              entry.priceOfFedIntoKilowattHour = Number(entry.priceOfFedIntoKilowattHour) || 0;
+          });
+
+          localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(yearData));
+        }
 
         this.navigateTo("StationDataEdit", { guid: this.model.getProperty("/viewData/stationDefinition/guid") });
       },
@@ -142,7 +158,7 @@ sap.ui.define([
           viewData = JSON.parse(cachedViewData),
           yearData = this.model.getProperty("/viewData/yearData"),
           pathElements = yearData.modelPath.split("/"),
-          arrayIndex = pathElements[pathElements.length -1];
+          arrayIndex = pathElements[pathElements.length - 1];
 
         viewData.stationData.years.splice(arrayIndex, 1);
 

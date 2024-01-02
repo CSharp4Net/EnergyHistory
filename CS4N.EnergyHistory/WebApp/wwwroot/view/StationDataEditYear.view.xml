@@ -22,26 +22,24 @@
         <f:formContainers>
           <f:FormContainer>
             <f:formElements>
-              <f:FormElement label="{i18n>text_Collected}">
-                <f:fields>
-                  <HBox renderType="Bare">
-                    <Input id="collectedTotalInput"
-                           value="{/viewData/yearData/collectedTotal}"
-                           valueState="{/collectedTotalState}"
-                           type="Number"
-                           textAlign="End"
-                           placeholder="0"
-                           editable="{= !${/viewData/yearData/automaticSummation} }"/>
-                    <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" width="10%" />
-                  </HBox>
-                </f:fields>
-              </f:FormElement>
               <f:FormElement label="{i18n>text_Summation}">
                 <f:fields>
                   <HBox renderType="Bare">
                     <Switch state="{/viewData/yearData/automaticSummation}" type="AcceptReject" />
                     <Text text="{i18n>place_AutomaticSummationOfYear}" />
                   </HBox>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_Collected}">
+                <f:fields>
+                  <Input id="collectedTotalInput"
+                         value="{/viewData/yearData/collectedTotal}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         editable="{= !${/viewData/yearData/automaticSummation} }"/>
+                  <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" />
                 </f:fields>
               </f:FormElement>
             </f:formElements>
@@ -56,6 +54,9 @@
           <Column hAlign="End">
             <Text text="{i18n>text_Collected}" />
           </Column>
+          <Column hAlign="End">
+            <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
+          </Column>
         </columns>
         <items>
           <ColumnListItem vAlign="Middle">
@@ -69,6 +70,15 @@
                        placeholder="0"
                        change="onMonthCollectedTotalChange"/>
                 <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" wrappingType="Hyphenated" />
+              </HBox>
+              <HBox renderType="Bare" alignItems="Center">
+                <Input value="{priceOfConsumedKilowattHour}"
+                       type="Number"
+                       textAlign="End"
+                       valueLiveUpdate="true"
+                       placeholder="0"
+                       change="onMonthCollectedTotalChange"/>
+                <Text text="{/viewData/stationDefinition/currencyUnit}" class="sapUiTinyMarginBegin" wrappingType="Hyphenated" />
               </HBox>
             </cells>
           </ColumnListItem>

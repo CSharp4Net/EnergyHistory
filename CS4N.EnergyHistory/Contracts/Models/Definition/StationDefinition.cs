@@ -2,16 +2,61 @@
 {
   public sealed class StationDefinition
   {
+    /// <summary>
+    /// Eindeutige ID
+    /// </summary>
     public string Guid { get; set; } = "";
+    /// <summary>
+    /// Name
+    /// </summary>
     public string Name { get; set; } = "";
-    public double MaxWattPeak { get; set; }
+    /// <summary>
+    /// ICON-Url
+    /// </summary>
     public string IconUrl { get; set; } = Constants.StationDefinitionDefaultIconUrl;
+
+    /// <summary>
+    /// Leistungsspitze
+    /// </summary>
+    public double PowerPeak { get; set; }
+    /// <summary>
+    /// Leistungseinheit
+    /// </summary>
     public string PowerUnit { get; set; } = Constants.PowerUnit_Watt;
+    /// <summary>
+    /// Kapazitätseinheit
+    /// </summary>
     public string CapacityUnit { get; set; } = Constants.CapacityUnit_KilowattHour;
+
+    /// <summary>
+    /// Installiert am (Format yyyy-MM-dd)
+    /// </summary>
     public string InstalledAt { get; set; } = "";
+
+    /// <summary>
+    /// Währungseinheit
+    /// </summary>
     public string CurrencyUnit { get; set; } = "€";
+    /// <summary>
+    /// Anschaffungskosten
+    /// </summary>
     public decimal PurchaseCosts { get; set; }
+
+    /// <summary>
+    /// Anzeige und Berechnung Verbrauch pro kWh
+    /// </summary>
+    public bool PriceOfConsumedKilowattHourEnabled { get; set; } = true;
+    /// <summary>
+    /// Preis pro kWh
+    /// </summary>
     public decimal PriceOfConsumedKilowattHour { get; set; }
+    /// <summary>
+    /// Anzeige und Bereich Vergütung pro kWh
+    /// </summary>
+    public bool PriceOfFedIntoKilowattHourEnabled { get; set; } = true;
+    /// <summary>
+    /// Vergütung pro kWh
+    /// </summary>
     public decimal PriceOfFedIntoKilowattHour { get; set; }
 
     public Location? Location { get; set; }

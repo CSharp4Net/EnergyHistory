@@ -17,7 +17,7 @@
           <IconTabFilter text="{i18n>text_Common}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" />
+                <f:ResponsiveGridLayout  columnsM="2" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
@@ -39,6 +39,15 @@
                         </HBox>
                       </f:fields>
                     </f:FormElement>
+                    <f:FormElement label="{i18n>text_InstalledAt}">
+                      <f:fields>
+                        <DatePicker value="{/station/installedAt}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+                <f:FormContainer>
+                  <f:formElements>
                     <f:FormElement>
                       <f:label>
                         <Label text="{i18n>text_MaximumPerformance}" required="true"/>
@@ -48,11 +57,11 @@
                           <Input required="true"
                                  type="Number"
                                  textAlign="End"
-                                 value="{/station/maxWattPeak}"
-                                 valueState="{/maxWattPeakState}"
-                                 placeholder="{i18n>place_MaxWattPeak}"
+                                 value="{/station/powerPeak}"
+                                 valueState="{/powerPeakState}"
+                                 placeholder="{i18n>place_PowerPeak}"
                                  width="50%"/>
-                          <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true" width="50%">
+                          <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true" width="50%" class="sapUiTinyMarginBegin">
                             <core:ListItem key="W" text="{i18n>text_WattShortcut}" additionalText="{i18n>text_Watt}" />
                             <core:ListItem key="kW" text="{i18n>text_KilowattShortcut}" additionalText="{i18n>text_Kilowatt}" />
                             <core:ListItem key="MW" text="{i18n>text_MegawattShortcut}" additionalText="{i18n>text_Megawatt}" />
@@ -71,11 +80,6 @@
                         </Select>
                       </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_InstalledAt}">
-                      <f:fields>
-                        <DatePicker value="{/station/installedAt}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
-                      </f:fields>
-                    </f:FormElement>
                   </f:formElements>
                 </f:FormContainer>
               </f:formContainers>
@@ -84,7 +88,7 @@
           <IconTabFilter text="{i18n>text_Financial}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" />
+                <f:ResponsiveGridLayout  columnsM="2" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
@@ -93,18 +97,32 @@
                       <f:fields>
                         <HBox renderType="Bare" alignItems="Center">
                           <Input value="{/station/purchaseCosts}" textAlign="End" type="Number" placeholder="0" />
-                          <Input value="{/station/currencyUnit}" placeholder="{place_CurrencyUnit}" />
+                          <Input value="{/station/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" class="sapUiTinyMarginBegin" />
                         </HBox>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}">
                       <f:fields>
-                        <Input value="{/station/priceOfConsumedKilowattHour}" textAlign="End" type="Number" placeholder="0" description="{/station/currencyUnit}" />
+                          <Switch state="{/station/priceOfConsumedKilowattHourEnabled}" />
+                          <Input value="{/station/priceOfConsumedKilowattHour}"
+                                 textAlign="End"
+                                 type="Number"
+                                 placeholder="0"
+                                 description="{/station/currencyUnit}"
+                                 class="sapUiTinyMarginBegin"
+                                 visible="{/station/priceOfConsumedKilowattHourEnabled}"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}">
                       <f:fields>
-                        <Input value="{/station/priceOfFedIntoKilowattHour}" textAlign="End" type="Number" placeholder="0" description="{/station/currencyUnit}" />
+                          <Switch state="{/station/priceOfFedIntoKilowattHourEnabled}" />
+                          <Input value="{/station/priceOfFedIntoKilowattHour}"
+                                 textAlign="End"
+                                 type="Number"
+                                 placeholder="0"
+                                 description="{/station/currencyUnit}"
+                                 class="sapUiTinyMarginBegin"
+                                 visible="{/station/priceOfFedIntoKilowattHourEnabled}"/>
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
