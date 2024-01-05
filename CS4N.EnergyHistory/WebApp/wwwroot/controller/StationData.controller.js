@@ -76,17 +76,32 @@
             plugins: {
               legend: {
                 display: false
+              },
+              tooltip: {
+                enabled: false
+              }
+            },
+            elements: {
+              bar: {
+                borderColor: "rgba(0, 100, 217, 1)",
+                backgroundColor: "rgba(0, 100, 217, 0.5)"
               }
             },
             scales: {
               y: {
                 title: {
                   display: true,
-                  text: this.model.getProperty("/viewData/stationDefinition/capacityUnit")
+                  text: this.model.getProperty("/viewData/stationDefinition/capacityUnit"),
+                  color: "rgba(0, 100, 217, 1)"
                 },
                 ticks: {
                   display: false,
                   beginAtZero: true
+                }
+              },
+              x: {
+                ticks: {                  
+                  color: "rgba(0, 100, 217, 1)"
                 }
               }
             },
@@ -101,12 +116,12 @@
                   meta.data.forEach((bar, index) => {
                     const data = dataset.data[index];
                     if (data.y > 0) {
-                      //ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                      ctx.fillStyle = "rgba(0, 100, 217, 1)";
                       ctx.textAlign = 'center';
                       ctx.textBaseline = 'bottom';
                       ctx.fillText(data.y.toLocaleString(), bar.x, bar.y - 5);
                     }
-                      
+
                   });
                 });
               }
@@ -119,11 +134,8 @@
         const chartData = this.model.getProperty("/viewData/chartData");
 
         this.chartControl.data.datasets = [{
-          label: "",
           data: chartData,
-          borderWidth: 1,
-          //backgroundColor: this.chartControlElementColor,
-          //borderColor: this.chartControlElementBorderColor
+          borderWidth: 1
         }];
         this.chartControl.update();
       },

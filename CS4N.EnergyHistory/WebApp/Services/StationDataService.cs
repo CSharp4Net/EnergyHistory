@@ -5,6 +5,8 @@ using CS4N.EnergyHistory.WebApp.Repositories;
 using CS4N.EnergyHistory.WebApp.ViewModels;
 using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 
 namespace CS4N.EnergyHistory.WebApp.Services
@@ -44,7 +46,9 @@ namespace CS4N.EnergyHistory.WebApp.Services
       DateTime dateTo = string.IsNullOrEmpty(filter.DateTo) ? DateTime.MaxValue :
         DateTime.ParseExact(filter.DateTo, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-      var yearsInRange = data.Years.Where(year => year.Number >= dateFrom.Year && year.Number <= dateTo.Year);
+      var yearsInRange = data.Years
+        .Where(year => year.Number >= dateFrom.Year && year.Number <= dateTo.Year)
+        .OrderBy(year => year.Number);
 
       switch (filter.StepTypeEnum)
       {
@@ -56,7 +60,16 @@ namespace CS4N.EnergyHistory.WebApp.Services
         case ChartDataStepType.Month:
           foreach (var year in yearsInRange)
           {
-            if (year.Number == dateFrom.Year && year.Number == dateTo.Year)
+            if (!year.AutomaticSummation)
+            {
+              // Für das Jahr wurde der Gesamtwert manuell erfasst, teile auf temporär auf 12 Monate auf
+              viewData.ChartData.AddRange(year.Months.Select(month => new ChartDataEntry
+              {
+                X = $"{year.Number}-{month.Number:00}",
+                Y = year.CollectedTotal / 12
+              }).ToList());
+            }
+            else if (year.Number == dateFrom.Year && year.Number == dateTo.Year)
             {
               // Monate ab Anfangsmonat übernehmen
               viewData.ChartData.AddRange(year.Months.Where(month => month.Number >= dateFrom.Month && month.Number <= dateTo.Month).Select(month => new ChartDataEntry
