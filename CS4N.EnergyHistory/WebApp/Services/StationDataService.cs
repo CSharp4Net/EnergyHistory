@@ -2,8 +2,10 @@
 using CS4N.EnergyHistory.Contracts.Models.Data;
 using CS4N.EnergyHistory.Contracts.Models.Definition;
 using CS4N.EnergyHistory.WebApp.Repositories;
+using CS4N.EnergyHistory.WebApp.ViewModels;
 using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace CS4N.EnergyHistory.WebApp.Services
 {
@@ -37,71 +39,73 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       viewData.StationCollectedTotal = data.CollectedTotal;
 
-      //data.Years.Where(year => year.Number >= filter.DateFrom)
+      DateTime dateFrom = string.IsNullOrEmpty(filter.DateFrom) ? DateTime.MinValue :
+         DateTime.ParseExact(filter.DateFrom, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+      DateTime dateTo = string.IsNullOrEmpty(filter.DateTo) ? DateTime.MaxValue :
+        DateTime.ParseExact(filter.DateTo, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+      var yearsInRange = data.Years.Where(year => year.Number >= dateFrom.Year && year.Number <= dateTo.Year);
 
       switch (filter.StepTypeEnum)
       {
-        case ViewModels.ChartDataStepType.Day:
-          // TODO
+        case ChartDataStepType.Day:
+          // TODO : Falls später eine Monatsansicht implementiert wird, wo Erträge pro Tag gelistet werden,
+          // muss hier die Datenbeschaffung dafür erfolgen.
           break;
-        case ViewModels.ChartDataStepType.Month:
 
+        case ChartDataStepType.Month:
+          foreach (var year in yearsInRange)
+          {
+            if (year.Number == dateFrom.Year && year.Number == dateTo.Year)
+            {
+              // Monate ab Anfangsmonat übernehmen
+              viewData.ChartData.AddRange(year.Months.Where(month => month.Number >= dateFrom.Month && month.Number <= dateTo.Month).Select(month => new ChartDataEntry
+              {
+                X = $"{year.Number}-{month.Number:00}",
+                Y = month.CollectedTotal
+              }));
+            }
+            else if (year.Number == dateFrom.Year)
+            {
+              // Monate ab Anfangsmonat übernehmen
+              viewData.ChartData.AddRange(year.Months.Where(month => month.Number >= dateFrom.Month).Select(month => new ChartDataEntry
+              {
+                X = $"{year.Number}-{month.Number:00}",
+                Y = month.CollectedTotal
+              }));
+            }
+            else if (year.Number == dateTo.Year)
+            {
+              // Monate bis Zielmonat übernehmen
+              viewData.ChartData.AddRange(year.Months.Where(month => month.Number <= dateTo.Month).Select(month => new ChartDataEntry
+              {
+                X = $"{year.Number}-{month.Number:00}",
+                Y = month.CollectedTotal
+              }));
+            }
+            else
+            {
+              // Alle Monate übernehmen
+              viewData.ChartData.AddRange(year.Months.Select(month => new ChartDataEntry
+              {
+                X = $"{year.Number}-{month.Number:00}",
+                Y = month.CollectedTotal
+              }));
+            }
+          }
           break;
-        case ViewModels.ChartDataStepType.Year:
 
+        case ChartDataStepType.Year:
+          viewData.ChartData = yearsInRange.Select(year => new ChartDataEntry
+          {
+            X = year.Number.ToString(),
+            Y = year.CollectedTotal
+          }).ToList();
           break;
 
         default:
           throw new NotSupportedException($"ChartDataStepType {filter.StepType} not supported!");
       }
-
-      //if (year > 0 && month > 0)
-      //{
-      //  //// Daten aus dem Monat
-      //  //var monthData = data.Years.SingleOrDefault(entry => entry.Number == year)?.Months.SingleOrDefault(entry => entry.Number == month);
-      //  //if (monthData == null)
-      //  //{
-      //  //  // Jahr existiert noch nicht, leeres Jahr verwenden
-      //  //  monthData = new StationDataMonth(year, month);
-      //  //}
-
-      //  //viewData.ChartData = monthData.Days
-      //  //  .Select(month => new ChartDataEntry
-      //  //  {
-      //  //    X = month.Number.ToString(),
-      //  //    Y = month.CollectedTotal
-      //  //  })
-      //  //  .ToList();
-      //}
-      //else if (year > 0 && month == 0)
-      //{
-      //  // Daten aus dem Jahr
-      //  var yearData = data.Years.SingleOrDefault(entry => entry.Number == year);
-      //  if (yearData == null)
-      //  {
-      //    // Jahr existiert noch nicht, leeres Jahr verwenden
-      //    yearData = new StationDataYear(definition, year);
-      //  }
-
-      //  viewData.ChartData = yearData.Months
-      //    .Select(month => new ChartDataEntry
-      //    {
-      //      X = month.Number.ToString(),
-      //      Y = month.CollectedTotal
-      //    })
-      //    .ToList();
-      //}
-      //else
-      //{
-      //  // Daten aller Jahre
-      //  viewData.ChartData = data.Years
-      //    .Select(year => new ChartDataEntry
-      //    {
-      //      X = year.Number.ToString(),
-      //      Y = year.CollectedTotal
-      //    })
-      //    .ToList();
-      //}
 
       return new OkObjectResult(viewData);
     }

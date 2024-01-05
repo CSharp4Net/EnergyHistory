@@ -5,7 +5,7 @@
     public string StepType { get; set; } = ChartDataStepType.Month.ToString();
     public ChartDataStepType StepTypeEnum => Enum.Parse<ChartDataStepType>(StepType);
     
-    public string DateFrom { get; set; } = DateTime.Today.AddYears(-1).ToString("yyyy-MM-dd");
+    public string DateFrom { get; set; } = DateTime.Today.AddMonths(-11).ToString("yyyy-MM-dd");
     public string DateTo { get; set; } = DateTime.Today.ToString("yyyy-MM-dd");
   }
 }

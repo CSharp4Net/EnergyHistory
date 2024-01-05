@@ -71,17 +71,46 @@
 
         this.chartControl = new Chart(this.chartContainer, {
           type: chartType,
-          //data: {},
           options: {
-            //  animation: {
-            //    duration: 500,
-            //    //onComplete: this.drawElementValues.bind(this)
-            //  },
-            //  title: { display: true, text: "Hallo Welt" },
-            //  //elements: { line: { tension: 0 } },
-            //  //legend: { display: false },
             maintainAspectRatio: false,
-            //  responsiveAnimationDuration: 500
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                title: {
+                  display: true,
+                  text: this.model.getProperty("/viewData/stationDefinition/capacityUnit")
+                },
+                ticks: {
+                  display: false,
+                  beginAtZero: true
+                }
+              }
+            },
+            animation: {
+              duration: 1,
+              onComplete: function ({ chart }) {
+                const ctx = chart.ctx;
+
+                chart.config.data.datasets.forEach((dataset, i) => {
+                  const meta = chart.getDatasetMeta(i);
+
+                  meta.data.forEach((bar, index) => {
+                    const data = dataset.data[index];
+                    if (data.y > 0) {
+                      //ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                      ctx.textAlign = 'center';
+                      ctx.textBaseline = 'bottom';
+                      ctx.fillText(data.y.toLocaleString(), bar.x, bar.y - 5);
+                    }
+                      
+                  });
+                });
+              }
+            }
           }
         });
       },
@@ -89,18 +118,8 @@
       resetChart: function () {
         const chartData = this.model.getProperty("/viewData/chartData");
 
-        let textTemplate = this.i18n.getText("text_PowerValue");
-
-        textTemplate = textTemplate.replace("{value}", this.model.getProperty("/viewData/stationCollectedTotal"));
-        textTemplate = textTemplate.replace("{unit}", this.model.getProperty("/viewData/stationDefinition/capacityUnit"));
-
-        const title = this.format(this.i18n.getText("title_StationDataYearChart"), [
-          this.model.getProperty("/selectedYear"),
-          textTemplate]);
-
-        //this.chartControl.data.labels = chartData.map(entry => entry.x);
         this.chartControl.data.datasets = [{
-          label: title,
+          label: "",
           data: chartData,
           borderWidth: 1,
           //backgroundColor: this.chartControlElementColor,
@@ -162,7 +181,19 @@
       },
 
       onFilterDialogStepTypeChange: function () {
-        // TODO
+        const stepType = this.model.getProperty("/filter/stepType");
+
+        switch (stepType) {
+          case "Month":
+            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_DateMonthAndYear"));
+            break;
+          case "Year":
+            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_DateYearOnly"));
+            break;
+          default: // Days
+            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_Date"));
+            break;
+        }
       },
 
       onFilterDialogAbortPress: function () {
@@ -170,11 +201,15 @@
       },
 
       onFilterDialogAbortSubmitPress: function () {
-        this.filterDialog.setBusy(true);
+        const container = this.byId("myPage");
+        container.setBusy(true);
         Connector.post("StationData/" + this.model.getProperty("/stationGuid"), this.model.getProperty("/filter"),
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
-          () => this.filterDialog.setBusy(false));
+          () => {
+            container.setBusy(false);
+            this.filterDialog.close();
+          });
       },
       // #endregion
 

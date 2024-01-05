@@ -1,6 +1,4 @@
-﻿using CS4N.EnergyHistory.Contracts.Models.Definition;
-
-namespace CS4N.EnergyHistory.Contracts.Models.Data
+﻿namespace CS4N.EnergyHistory.Contracts.Models.Data
 {
   public sealed class StationData
   {
