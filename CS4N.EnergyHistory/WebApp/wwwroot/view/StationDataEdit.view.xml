@@ -9,63 +9,55 @@
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{i18n>text_Record}"/>
         </contentMiddle>
+        <contentRight>
+          <Button icon="sap-icon://add" class="sapUiTinyMarginBegin" press="onAddYearPress" text="{i18n>text_Year}" />
+        </contentRight>
       </Bar>
     </customHeader>
     <content>
       <f:Form editable="true">
         <f:layout>
-          <f:ResponsiveGridLayout columnsM="2" />
+          <f:ResponsiveGridLayout columnsM="2" labelSpanS="4" labelSpanM="4" />
         </f:layout>
         <f:formContainers>
           <f:FormContainer>
             <f:formElements>
               <f:FormElement label="{i18n>text_Collected}">
                 <f:fields>
-                  <HBox renderType="Bare">
-                    <Input id="collectedTotalInput"
-                           value="{/viewData/stationData/collectedTotal}"
-                           valueState="{/collectedTotalState}"
-                           type="Number"
-                           textAlign="End"
-                           placeholder="0"
-                           editable="{= !${/viewData/stationData/automaticSummation} }"/>
-                    <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" width="10%" />
-                  </HBox>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>text_Summation}">
-                <f:fields>
-                  <HBox renderType="Bare">
-                    <Switch state="{/viewData/stationData/automaticSummation}" type="AcceptReject" />
-                    <Text text="{i18n>place_AutomaticSummationOfTotal}" />
-                  </HBox>
+                  <Input id="collectedTotalInput"
+                         value="{/viewData/stationData/collectedTotal}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         editable="false"
+                         description="{/viewData/stationDefinition/capacityUnit}"/>
                 </f:fields>
               </f:FormElement>
             </f:formElements>
           </f:FormContainer>
         </f:formContainers>
       </f:Form>
-      <Table items="{/viewData/stationData/years}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCompact">
+      <Table items="{ path: '/viewData/stationData/years', sorter: { path: 'number', descending: true } }" alternateRowColors="true" fixedLayout="false">
         <columns>
           <Column>
             <HBox renderType="Bare" alignItems="Center">
               <Text text="{i18n>text_Year}" />
-              <Button icon="sap-icon://add" type="Accept" class="sapUiTinyMarginBegin" press="onAddYearPress" />
             </HBox>
           </Column>
           <Column hAlign="End">
             <Text text="{i18n>text_Collected}" />
           </Column>
-          <Column hAlign="End">
+          <!--<Column hAlign="End" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
             <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
-          </Column>
+          </Column>-->
         </columns>
         <items>
           <ColumnListItem vAlign="Middle" type="Navigation" press="onYearPress">
             <cells>
               <Text text="{number}" />
               <Text text="{ parts: ['collectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }" />
-              <Text text="{ parts: ['priceOfConsumedKilowattHour', '/viewData/stationDefinition/currencyUnit'], formatter: '.formatPowerValue' }" />
+              <!--<Text text="{ parts: ['priceOfConsumedKilowattHour', '/viewData/stationDefinition/currencyUnit'], formatter: '.formatPowerValue' }" />-->
             </cells>
           </ColumnListItem>
         </items>

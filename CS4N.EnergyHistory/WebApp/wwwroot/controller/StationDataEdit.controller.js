@@ -79,21 +79,20 @@ sap.ui.define([
           total += Number(yearData.collectedTotal);
         }
 
-        if (stationData.automaticSummation)
-          // Summe der Jahreswerte verwenden
-          stationData.collectedTotal = total;
-        else
-          // Manuelle Eingabe typsicher machen
-          stationData.collectedTotal = Number(stationData.collectedTotal) || 0;
+        // Summe der Jahreswerte verwenden
+        stationData.collectedTotal = total;
       },
       // #endregion
 
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-        this.model.setProperty("/viewData/stationDefinition/guid", evt.getParameters().arguments.guid);
 
-        const cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
+        const stationGuid = evt.getParameters().arguments.guid,
+          cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
+
+        this.model.setProperty("/viewData/stationDefinition/guid", stationGuid);
+
         if (!this.isNullOrEmpty(cachedViewData)) {
           localStorage.removeItem(localStorageEntry_ViewData);
 
@@ -110,8 +109,7 @@ sap.ui.define([
             this.model.setProperty(yearData.modelPath, yearData);
           }
 
-          if (viewData.stationData.automaticSummation)
-            this.calculateSums();
+          this.calculateSums();
 
           this.model.refresh();
           return;
@@ -119,7 +117,7 @@ sap.ui.define([
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/" + evt.getParameters().arguments.guid,
+        Connector.get("StationData/" + stationGuid + "/edit",
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -145,22 +143,22 @@ sap.ui.define([
         const stationData = this.model.getProperty("/viewData/stationData"),
           container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("StationData", stationData,
+        Connector.post("StationData/" + stationData.stationGuid + "/edit", stationData,
           this.onApiPostStationData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
 
       onAddYearPress: function () {
-        const yearCollection = this.model.getProperty("/viewData/stationData/years");
+        const stationData = this.model.getProperty("/viewData/stationData");
         let targetYear = new Date().getFullYear();
 
-        if (yearCollection.some(entry => entry.number === targetYear))
-          targetYear = yearCollection.reduce((lowest, obj) => Math.min(obj.number, lowest), Infinity) - 1;
+        if (stationData.years.some(entry => entry.number === targetYear))
+          targetYear = stationData.years.reduce((lowest, obj) => Math.min(obj.number, lowest), Infinity) - 1;
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("StationData/template/" + this.model.getProperty("/viewData/stationDefinition").guid + "/" + targetYear,
+        Connector.get("StationData/" + stationData.stationGuid + "/template/" + targetYear,
           this.onApiGetNewYearTemplate.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -177,7 +175,8 @@ sap.ui.define([
         this.model.setProperty("/viewData", response);
 
         if (response.stationData.years.length === 0) {
-          Connector.get("StationData/template/" + response.stationDefinition.guid + "/" + new Date().getFullYear(),
+          // Wurde noch kein Jahr angefügt, dann leeres Jahr abrufen
+          Connector.get("StationData/" + response.stationDefinition.guid + "/template/" + new Date().getFullYear(),
             (response) => {
               this.model.getProperty("/viewData/stationData/years").push(response);
               this.model.refresh();

@@ -9,9 +9,6 @@
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{i18n>title_StationDefinitionOverview}"/>
         </contentMiddle>
-        <contentRight>
-          <Button icon="sap-icon://add" press="onAddPress" type="Accept" />
-        </contentRight>
       </Bar>
     </customHeader>
     <content>
@@ -37,5 +34,12 @@
         </items>
       </Table>
     </content>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button icon="sap-icon://add" press="onAddPress" type="Accept" text="{i18n>text_Add}" width="150px" />
+        </contentRight>
+      </Bar>
+    </footer>
   </Page>
 </mvc:View>

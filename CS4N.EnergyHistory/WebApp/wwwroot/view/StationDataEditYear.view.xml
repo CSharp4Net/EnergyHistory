@@ -10,26 +10,37 @@
           <Title text="{/viewData/yearData/number}"/>
         </contentMiddle>
         <contentRight>
-          <Button type="Reject" press="onRemovePress" icon="sap-icon://delete"/>
+          <Button type="Reject" press="onRemovePress" icon="sap-icon://delete" text="{i18n>text_Delete}"/>
         </contentRight>
       </Bar>
     </customHeader>
     <content>
       <f:Form editable="true">
         <f:layout>
-          <f:ResponsiveGridLayout columnsL="1" />
+          <f:ResponsiveGridLayout columnsM="2" labelSpanL="6" labelSpanM="6" labelSpanS="6" />
         </f:layout>
         <f:formContainers>
           <f:FormContainer>
             <f:formElements>
-              <f:FormElement label="{i18n>text_Summation}">
+              <f:FormElement label="{i18n>text_AutomaticSummation}">
                 <f:fields>
-                  <HBox renderType="Bare">
-                    <Switch state="{/viewData/yearData/automaticSummation}" type="AcceptReject" />
-                    <Text text="{i18n>place_AutomaticSummationOfYear}" />
-                  </HBox>
+                  <Switch state="{/viewData/yearData/automaticSummation}" type="AcceptReject" />
                 </f:fields>
               </f:FormElement>
+              <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
+                <f:fields>
+                  <Switch state="{/viewData/yearData/priceOfConsumedKilowattHourEnabled}" type="AcceptReject" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_FedIntoPerKilowattHour}">
+                <f:fields>
+                  <Switch state="{/viewData/yearData/priceOfFedIntoKilowattHourEnabled}" type="AcceptReject" />
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+          <f:FormContainer>
+            <f:formElements>
               <f:FormElement label="{i18n>text_Collected}">
                 <f:fields>
                   <Input id="collectedTotalInput"
@@ -38,48 +49,74 @@
                          type="Number"
                          textAlign="End"
                          placeholder="0"
-                         editable="{= !${/viewData/yearData/automaticSummation} }"/>
-                  <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" />
+                         editable="{= !${/viewData/yearData/automaticSummation} }"
+                         description="{/viewData/stationDefinition/capacityUnit}" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" 
+                             visible="{= ${/viewData/yearData/priceOfConsumedKilowattHourEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+                <f:fields>
+                  <Input value="{/viewData/yearData/priceOfConsumedKilowattHour}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         description="{/viewData/stationDefinition/currencyUnit}" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}" 
+                             visible="{= ${/viewData/yearData/priceOfFedIntoKilowattHourEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+                <f:fields>
+                  <Input value="{/viewData/yearData/priceOfFedIntoKilowattHour}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         description="{/viewData/stationDefinition/currencyUnit}" />
                 </f:fields>
               </f:FormElement>
             </f:formElements>
           </f:FormContainer>
         </f:formContainers>
       </f:Form>
-      <Table items="{/viewData/yearData/months}" alternateRowColors="true" fixedLayout="false">
+      <Table items="{/viewData/yearData/months}" alternateRowColors="true" fixedLayout="false" visible="{/viewData/yearData/automaticSummation}">
         <columns>
           <Column>
             <Text text="{i18n>text_Month}" />
           </Column>
-          <Column hAlign="End">
+          <Column>
             <Text text="{i18n>text_Collected}" />
           </Column>
-          <Column hAlign="End">
+          <Column visible="{/viewData/yearData/priceOfConsumedKilowattHourEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
             <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
+          </Column>
+          <Column visible="{/viewData/yearData/priceOfFedIntoKilowattHourEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>text_PriceOfFedIntoKilowattHour}" />
           </Column>
         </columns>
         <items>
           <ColumnListItem vAlign="Middle">
             <cells>
               <Text text="{ path: 'number', formatter: '.formatMonth' }" />
-              <HBox renderType="Bare" alignItems="Center">
-                <Input value="{collectedTotal}"
-                       type="Number"
-                       textAlign="End"
-                       valueLiveUpdate="true"
-                       placeholder="0"
-                       change="onMonthCollectedTotalChange"/>
-                <Text text="{/viewData/stationDefinition/capacityUnit}" class="sapUiTinyMarginBegin" wrappingType="Hyphenated" />
-              </HBox>
-              <HBox renderType="Bare" alignItems="Center">
-                <Input value="{priceOfConsumedKilowattHour}"
-                       type="Number"
-                       textAlign="End"
-                       valueLiveUpdate="true"
-                       placeholder="0"
-                       change="onMonthCollectedTotalChange"/>
-                <Text text="{/viewData/stationDefinition/currencyUnit}" class="sapUiTinyMarginBegin" wrappingType="Hyphenated" />
-              </HBox>
+              <Input value="{collectedTotal}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     change="onMonthCollectedTotalChange"
+                     description="{/viewData/stationDefinition/capacityUnit}" />
+              <Input value="{priceOfConsumedKilowattHour}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     description="{/viewData/stationDefinition/currencyUnit}" />
+              <Input value="{priceOfFedIntoKilowattHour}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     description="{/viewData/stationDefinition/currencyUnit}" />
             </cells>
           </ColumnListItem>
         </items>

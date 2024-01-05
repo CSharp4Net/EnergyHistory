@@ -26,6 +26,7 @@
             capacityUnit: "kW",
             installedAt: ""
           },
+          commonPropertiesAreValid: "Default",
           nameState: "None",
           powerPeakState: "None",
           validValues: null
@@ -58,6 +59,11 @@
 
         if (station.purchaseCosts < 0)
           station.purchaseCosts = 0;
+
+        if (allValid)
+          this.model.setProperty("/commonPropertiesAreValid", "Default");
+        else
+          this.model.setProperty("/commonPropertiesAreValid", "Negative");
 
         this.model.refresh();
 

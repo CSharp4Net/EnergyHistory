@@ -1,0 +1,51 @@
+﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+  <Dialog icon="sap-icon://filter" title="{i18n>text_Filter}">
+    <content>
+      <f:Form editable="true">
+        <f:layout>
+          <f:ResponsiveGridLayout labelSpanL="4" labelSpanM="4" labelSpanS="4" />
+        </f:layout>
+        <f:formContainers>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_ChartDataStepType}">
+                <f:fields>
+                  <Select selectedKey="{/filter/stepType}" showSecondaryValues="true" change="onFilterDialogStepTypeChange">
+                    <core:ListItem key="Day" text="{i18n>text_Day}" additionalText="{i18n>place_ChartDataForDays}" enabled="false" />
+                    <core:ListItem key="Month" text="{i18n>text_Month}" additionalText="{i18n>place_ChartDataForMonths}" />
+                    <core:ListItem key="Year" text="{i18n>text_Year}" additionalText="{i18n>place_ChartDataForYears}" />
+                  </Select>
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_DateFrom}">
+                <f:fields>
+                  <DatePicker displayFormat="{/filter/dateFormat}" 
+                              value="{/filter/dateFrom}" 
+                              valueFormat="yyyy-MM-dd"/>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_DateTo}">
+                <f:fields>
+                  <DatePicker displayFormat="{/filter/dateFormat}" 
+                              value="{/filter/dateTo}" 
+                              valueFormat="yyyy-MM-dd"/>
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+        </f:formContainers>
+      </f:Form>
+    </content>
+    <footer>
+      <Toolbar>
+        <Button icon="sap-icon://decline" text="{i18n>text_Abort}" type="Reject" press="onFilterDialogAbortPress" />
+        <ToolbarSpacer/>
+        <Button icon="sap-icon://filter" text="{i18n>text_Submit}" type="Accept" press="onFilterDialogAbortSubmitPress" />
+      </Toolbar>
+    </footer>
+  </Dialog>
+</core:FragmentDefinition>

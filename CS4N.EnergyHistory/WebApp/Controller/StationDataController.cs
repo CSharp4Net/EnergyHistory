@@ -1,6 +1,7 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models.Data;
 using CS4N.EnergyHistory.WebApp.Services;
+using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Controller
@@ -15,19 +16,23 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private StationDataService service;
 
-    [HttpGet("{stationGuid}/{year}/{month}")]
-    public IActionResult GetStationViewData(string stationGuid, int year, int month)
-      => service.GetStationViewData(stationGuid, year, month);
+    [HttpGet("init")]
+    public IActionResult GetInitData()
+      => service.GetInitData();
 
-    [HttpGet("{stationGuid}")]
+    [HttpPost("{stationGuid}")]
+    public IActionResult GetStationViewData(string stationGuid, [FromBody] ChartDataFilter filter)
+      => service.GetStationViewData(stationGuid, filter);
+
+    [HttpGet("{stationGuid}/edit")]
     public IActionResult GetStationDataForEdit(string stationGuid)
       => service.GetStationDataForEdit(stationGuid);
 
-    [HttpGet("template/{stationGuid}/{year}")]
+    [HttpGet("{stationGuid}/template/{year}")]
     public IActionResult GetStationDataTemplate(string stationGuid, int year)
       => service.GetStationDataTemplate(stationGuid, year);
 
-    [HttpPost]
+    [HttpPost("{stationGuid}/edit")]
     public IActionResult PostStationDataForEdit([FromBody] StationData stationData)
       => service.PostStationDataForEdit(stationData);
   }

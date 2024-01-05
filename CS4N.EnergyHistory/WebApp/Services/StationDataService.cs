@@ -16,7 +16,15 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private StationDataRepository repository;
 
-    internal IActionResult GetStationViewData(string stationGuid, int year = 0, int month = 0)
+    internal IActionResult GetInitData()
+    {
+      return new OkObjectResult(new
+      {
+        filter = new ChartDataFilter()
+      });
+    }
+
+    internal IActionResult GetStationViewData(string stationGuid, ChartDataFilter filter)
     {
       StationDefinition definition = repository.GetStationDefinition(stationGuid)!;
 
@@ -29,53 +37,71 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       viewData.StationCollectedTotal = data.CollectedTotal;
 
-      if (year > 0 && month > 0)
-      {
-        //// Daten aus dem Monat
-        //var monthData = data.Years.SingleOrDefault(entry => entry.Number == year)?.Months.SingleOrDefault(entry => entry.Number == month);
-        //if (monthData == null)
-        //{
-        //  // Jahr existiert noch nicht, leeres Jahr verwenden
-        //  monthData = new StationDataMonth(year, month);
-        //}
+      //data.Years.Where(year => year.Number >= filter.DateFrom)
 
-        //viewData.ChartData = monthData.Days
-        //  .Select(month => new ChartDataEntry
-        //  {
-        //    X = month.Number.ToString(),
-        //    Y = month.CollectedTotal
-        //  })
-        //  .ToList();
-      }
-      else if (year > 0 && month == 0)
+      switch (filter.StepTypeEnum)
       {
-        // Daten aus dem Jahr
-        var yearData = data.Years.SingleOrDefault(entry => entry.Number == year);
-        if (yearData == null)
-        {
-          // Jahr existiert noch nicht, leeres Jahr verwenden
-          yearData = new StationDataYear(definition, year);
-        }
+        case ViewModels.ChartDataStepType.Day:
+          // TODO
+          break;
+        case ViewModels.ChartDataStepType.Month:
 
-        viewData.ChartData = yearData.Months
-          .Select(month => new ChartDataEntry
-          {
-            X = month.Number.ToString(),
-            Y = month.CollectedTotal
-          })
-          .ToList();
+          break;
+        case ViewModels.ChartDataStepType.Year:
+
+          break;
+
+        default:
+          throw new NotSupportedException($"ChartDataStepType {filter.StepType} not supported!");
       }
-      else
-      {
-        // Daten aller Jahre
-        viewData.ChartData = data.Years
-          .Select(year => new ChartDataEntry
-          {
-            X = year.Number.ToString(),
-            Y = year.CollectedTotal
-          })
-          .ToList();
-      }
+
+      //if (year > 0 && month > 0)
+      //{
+      //  //// Daten aus dem Monat
+      //  //var monthData = data.Years.SingleOrDefault(entry => entry.Number == year)?.Months.SingleOrDefault(entry => entry.Number == month);
+      //  //if (monthData == null)
+      //  //{
+      //  //  // Jahr existiert noch nicht, leeres Jahr verwenden
+      //  //  monthData = new StationDataMonth(year, month);
+      //  //}
+
+      //  //viewData.ChartData = monthData.Days
+      //  //  .Select(month => new ChartDataEntry
+      //  //  {
+      //  //    X = month.Number.ToString(),
+      //  //    Y = month.CollectedTotal
+      //  //  })
+      //  //  .ToList();
+      //}
+      //else if (year > 0 && month == 0)
+      //{
+      //  // Daten aus dem Jahr
+      //  var yearData = data.Years.SingleOrDefault(entry => entry.Number == year);
+      //  if (yearData == null)
+      //  {
+      //    // Jahr existiert noch nicht, leeres Jahr verwenden
+      //    yearData = new StationDataYear(definition, year);
+      //  }
+
+      //  viewData.ChartData = yearData.Months
+      //    .Select(month => new ChartDataEntry
+      //    {
+      //      X = month.Number.ToString(),
+      //      Y = month.CollectedTotal
+      //    })
+      //    .ToList();
+      //}
+      //else
+      //{
+      //  // Daten aller Jahre
+      //  viewData.ChartData = data.Years
+      //    .Select(year => new ChartDataEntry
+      //    {
+      //      X = year.Number.ToString(),
+      //      Y = year.CollectedTotal
+      //    })
+      //    .ToList();
+      //}
 
       return new OkObjectResult(viewData);
     }

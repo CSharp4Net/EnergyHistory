@@ -9,7 +9,10 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     {
       Number = month;
 
+      PriceOfConsumedKilowattHourEnabled = stationDefinition.PriceOfConsumedKilowattHourEnabled;
       PriceOfConsumedKilowattHour = stationDefinition.PriceOfConsumedKilowattHour;
+
+      PriceOfFedIntoKilowattHourEnabled = stationDefinition.PriceOfFedIntoKilowattHourEnabled;
       PriceOfFedIntoKilowattHour = stationDefinition.PriceOfFedIntoKilowattHour;
 
       //Date = new DateTime(year, month, 1);
@@ -63,6 +66,7 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     /// Monatszahl
     /// </summary>
     public int Number { get; set; }
+
     /// <summary>
     /// Gesamt erzeugte Leistung
     /// </summary>
@@ -73,22 +77,23 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     public bool AutomaticSummation { get; set; } = false;
 
     /// <summary>
+    /// Preis pro verbrauchter Kilowattstunde verfügbar
+    /// </summary>
+    public bool PriceOfConsumedKilowattHourEnabled { get; set; } = false;
+    /// <summary>
     /// Preis pro verbrauchter Kilowattstunde
     /// </summary>
     public decimal PriceOfConsumedKilowattHour { get; set; }
-    /// <summary>
-    /// Produkt aus <see cref="CollectedTotal"/> und <see cref="PriceOfConsumedKilowattHour"/>
-    /// </summary>
-    public decimal CollectedTotalByConsumedPrice { get; set; }
+
 
     /// <summary>
-    /// Preis pro eingespeißter Kilowattstunde
+    /// Preis pro eingespeister Kilowattstunde verfügbar
+    /// </summary>
+    public bool PriceOfFedIntoKilowattHourEnabled { get; set; } = false;
+    /// <summary>
+    /// Preis pro eingespeister Kilowattstunde
     /// </summary>
     public decimal PriceOfFedIntoKilowattHour { get; set; }
-    /// <summary>
-    /// Produkt aus <see cref="CollectedTotal"/> und <see cref="PriceOfFedIntoKilowattHour"/>
-    /// </summary>
-    public decimal CollectedTotalFedIntoPrice { get; set; }
 
     //public List<StationDataDay> Days { get; set; } = [];
   }

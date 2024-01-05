@@ -8,14 +8,12 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     /// Interne Id der Anlage
     /// </summary>
     public string StationGuid { get; set; } = "";
+
     /// <summary>
     /// Gesamt erzeugte Leistung
     /// </summary>
-    public double CollectedTotal { get; set; }
-    /// <summary>
-    /// Automatische Summierung der Monatswerte
-    /// </summary>
-    public bool AutomaticSummation { get; set; } = true;
+    public double CollectedTotal => Years.Sum(year => year.CollectedTotal);
+
     /// <summary>
     /// Standardansicht des Auswertungsdiagramm
     /// </summary>

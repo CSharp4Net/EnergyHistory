@@ -14,10 +14,10 @@
     <content>
       <IconTabBar expandable="false" stretchContentHeight="true" applyContentPadding="false" headerMode="Inline">
         <items>
-          <IconTabFilter text="{i18n>text_Common}">
+          <IconTabFilter text="{i18n>text_Common}" iconColor="{/commonPropertiesAreValid}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsM="2" />
+                <f:ResponsiveGridLayout labelSpanM="3" breakpointL="1000" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
@@ -48,26 +48,25 @@
                 </f:FormContainer>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement>
-                      <f:label>
-                        <Label text="{i18n>text_MaximumPerformance}" required="true"/>
-                      </f:label>
+                    <f:FormElement label="{i18n>text_PowerUnit}">
                       <f:fields>
-                        <HBox renderType="Bare" alignItems="Center">
-                          <Input required="true"
-                                 type="Number"
-                                 textAlign="End"
-                                 value="{/station/powerPeak}"
-                                 valueState="{/powerPeakState}"
-                                 placeholder="{i18n>place_PowerPeak}"
-                                 width="50%"/>
-                          <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true" width="50%" class="sapUiTinyMarginBegin">
-                            <core:ListItem key="W" text="{i18n>text_WattShortcut}" additionalText="{i18n>text_Watt}" />
-                            <core:ListItem key="kW" text="{i18n>text_KilowattShortcut}" additionalText="{i18n>text_Kilowatt}" />
-                            <core:ListItem key="MW" text="{i18n>text_MegawattShortcut}" additionalText="{i18n>text_Megawatt}" />
-                            <core:ListItem key="GW" text="{i18n>text_GigawattShortcut}" additionalText="{i18n>text_Gigawatt}" />
-                          </Select>
-                        </HBox>
+                        <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true">
+                          <core:ListItem key="W" text="{i18n>text_WattShortcut}" additionalText="{i18n>text_Watt}" />
+                          <core:ListItem key="kW" text="{i18n>text_KilowattShortcut}" additionalText="{i18n>text_Kilowatt}" />
+                          <core:ListItem key="MW" text="{i18n>text_MegawattShortcut}" additionalText="{i18n>text_Megawatt}" />
+                          <core:ListItem key="GW" text="{i18n>text_GigawattShortcut}" additionalText="{i18n>text_Gigawatt}" />
+                        </Select>
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_MaximumPerformance}">
+                      <f:fields>
+                        <Input required="true"
+                               type="Number"
+                               textAlign="End"
+                               value="{/station/powerPeak}"
+                               valueState="{/powerPeakState}"
+                               placeholder="{i18n>place_PowerPeak}"
+                               description="{/station/powerUnit}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_CapacityUnit}">
@@ -88,41 +87,45 @@
           <IconTabFilter text="{i18n>text_Financial}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsM="2" />
+                <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
                   <f:formElements>
+                    <f:FormElement label="{i18n>text_Currency}">
+                      <Input value="{/station/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
+                    </f:FormElement>
                     <f:FormElement label="{i18n>text_PurchaseCosts}">
                       <f:fields>
-                        <HBox renderType="Bare" alignItems="Center">
-                          <Input value="{/station/purchaseCosts}" textAlign="End" type="Number" placeholder="0" />
-                          <Input value="{/station/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" class="sapUiTinyMarginBegin" />
-                        </HBox>
+                        <Input value="{/station/purchaseCosts}"
+                               textAlign="End"
+                               type="Number"
+                               placeholder="0"
+                               description="{/station/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}">
+                    <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
+                      <Switch state="{/station/priceOfConsumedKilowattHourEnabled}" />
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/station/priceOfConsumedKilowattHourEnabled}">
                       <f:fields>
-                          <Switch state="{/station/priceOfConsumedKilowattHourEnabled}" />
-                          <Input value="{/station/priceOfConsumedKilowattHour}"
-                                 textAlign="End"
-                                 type="Number"
-                                 placeholder="0"
-                                 description="{/station/currencyUnit}"
-                                 class="sapUiTinyMarginBegin"
-                                 visible="{/station/priceOfConsumedKilowattHourEnabled}"/>
+                        <Input value="{/station/priceOfConsumedKilowattHour}"
+                               textAlign="End"
+                               type="Number"
+                               placeholder="0"
+                               description="{/station/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}">
+                    <f:FormElement label="{i18n>text_FedIntoPerKilowattHour}">
+                      <Switch state="{/station/priceOfFedIntoKilowattHourEnabled}" />
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}" visible="{/station/priceOfFedIntoKilowattHourEnabled}">
                       <f:fields>
-                          <Switch state="{/station/priceOfFedIntoKilowattHourEnabled}" />
-                          <Input value="{/station/priceOfFedIntoKilowattHour}"
-                                 textAlign="End"
-                                 type="Number"
-                                 placeholder="0"
-                                 description="{/station/currencyUnit}"
-                                 class="sapUiTinyMarginBegin"
-                                 visible="{/station/priceOfFedIntoKilowattHourEnabled}"/>
+                        <Input value="{/station/priceOfFedIntoKilowattHour}"
+                               textAlign="End"
+                               type="Number"
+                               placeholder="0"
+                               description="{/station/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
@@ -133,7 +136,7 @@
           <IconTabFilter text="{i18n>text_Internal}">
             <f:Form editable="false">
               <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" />
+                <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>

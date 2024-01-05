@@ -10,7 +10,8 @@
 					<Title text="{/viewData/stationDefinition/name}"/>
 				</contentMiddle>
         <contentRight>
-          <Button icon="sap-icon://electronic-medical-record" text="{i18n>text_Record}" press="onEditPress" />          
+          <Button icon="sap-icon://filter" press="onFilterPress" />          
+          <Button icon="sap-icon://edit" press="onEditPress" />          
         </contentRight>
 			</Bar>
 		</customHeader>
@@ -19,13 +20,13 @@
         <items>
           <IconTabFilter text="{i18n>text_Analysis}">
             <Panel id="chartContainer" busyIndicatorDelay="100" height="100%">
-              <html:canvas id="myChart" />
+              <html:canvas id="chartControl" />
             </Panel>
           </IconTabFilter>
           <IconTabFilter text="{i18n>text_Summary}">
             <f:Form editable="false">
               <f:layout>
-                <f:ResponsiveGridLayout columnsM="2" />
+                <f:ResponsiveGridLayout columnsM="2" labelSpanL="6" labelSpanM="6" labelSpanS="6" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>

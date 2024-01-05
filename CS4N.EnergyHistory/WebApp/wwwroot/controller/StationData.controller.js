@@ -8,8 +8,11 @@
 
     return Controller.extend("CS4N.EnergyHistory.controller.StationData", {
 
-      myChart: null,
+      chartControl: null,
       chartContainer: null,
+
+      filterDialogFragment: null,
+      filterDialog: null,
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
@@ -31,9 +34,8 @@
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          selectedTimePeriod: "Month",
-          selectedYear: new Date().getFullYear(),
-          selectedMonth: 0,
+          filter: null,
+          stationGuid: "",
           viewData: {
             stationDefinition: null,
             stationCollectedTotal: 0,
@@ -61,13 +63,13 @@
       },
 
       createChartControl: function (chartType) {
-        const chartContainerId = this.createId("myChart");
+        const chartContainerId = this.createId("chartControl");
         this.chartContainer = document.getElementById(chartContainerId).getContext('2d');
 
-        if (this.myChart)
-          this.myChart.destroy();
+        if (this.chartControl)
+          this.chartControl.destroy();
 
-        this.myChart = new Chart(this.chartContainer, {
+        this.chartControl = new Chart(this.chartContainer, {
           type: chartType,
           //data: {},
           options: {
@@ -96,46 +98,45 @@
           this.model.getProperty("/selectedYear"),
           textTemplate]);
 
-        //this.myChart.data.labels = chartData.map(entry => entry.x);
-        this.myChart.data.datasets = [{
+        //this.chartControl.data.labels = chartData.map(entry => entry.x);
+        this.chartControl.data.datasets = [{
           label: title,
           data: chartData,
           borderWidth: 1,
-          //backgroundColor: this.myChartElementColor,
-          //borderColor: this.myChartElementBorderColor
+          //backgroundColor: this.chartControlElementColor,
+          //borderColor: this.chartControlElementBorderColor
         }];
-        this.myChart.update();
+        this.chartControl.update();
       },
 
       drawElementValues: function () {
         const ctx = this.chartContainer.ctx;
         ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-        ctx.fillStyle = this.myChartFontColor;
+        ctx.fillStyle = this.chartControlFontColor;
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
 
-        this.myChart.data.datasets.forEach((dataset, i) => {
-          const meta = this.myChart.controller.getDatasetMeta(i);
+        this.chartControl.data.datasets.forEach((dataset, i) => {
+          const meta = this.chartControl.controller.getDatasetMeta(i);
           meta.data.forEach((bar, index) =>
             ctx.fillText(dataset.data[index].y.toLocaleString(), bar._model.x, bar._model.y - 5));
         });
       },
 
-      reloadData: function (stationGuid) {
-        const container = this.byId("myPage");
-        container.setBusy(true);
-        Connector.get("StationData/" + stationGuid + "/" + this.model.getProperty("/selectedYear") + "/" + this.model.getProperty("/selectedMonth"),
-          this.onApiGetViewData.bind(this),
-          this.handleApiError.bind(this),
-          () => container.setBusy(false));
+      detectDisplayFormat: function (chartDataStepType) {
+        return "MM.yyyy";
       },
       // #endregion
 
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
+        this.model.setProperty("/stationGuid", evt.getParameters().arguments.guid);
 
-        this.reloadData(evt.getParameters().arguments.guid);
+        this.byId("myPage").setBusy(true);
+        Connector.get("StationData/init",
+          this.onApiGetInitData.bind(this),
+          this.handleApiError.bind(this));
       },
 
       onBackPress: function () {
@@ -147,9 +148,49 @@
 
         this.navigateTo("StationDataEdit", { guid: stationGuid });
       },
+
+      onFilterPress: function () {
+        // create dialog lazily
+        this.filterDialogFragment ??= this.loadFragment({
+          name: "CS4N.EnergyHistory.view.fragment.StationDataChartFilterDialog"
+        });
+
+        this.filterDialogFragment.then((oDialog) => {
+          this.filterDialog = oDialog;
+          this.filterDialog.open()
+        });
+      },
+
+      onFilterDialogStepTypeChange: function () {
+        // TODO
+      },
+
+      onFilterDialogAbortPress: function () {
+        this.filterDialog.close();
+      },
+
+      onFilterDialogAbortSubmitPress: function () {
+        this.filterDialog.setBusy(true);
+        Connector.post("StationData/" + this.model.getProperty("/stationGuid"), this.model.getProperty("/filter"),
+          this.onApiGetViewData.bind(this),
+          this.handleApiError.bind(this),
+          () => this.filterDialog.setBusy(false));
+      },
       // #endregion
 
       // #region API-Events
+      onApiGetInitData: function (response) {
+
+        response.filter.dateFormat = "MM.yyyy";
+
+        this.model.setProperty("/filter", response.filter);
+
+        Connector.post("StationData/" + this.model.getProperty("/stationGuid"), response.filter,
+          this.onApiGetViewData.bind(this),
+          this.handleApiError.bind(this),
+          () => this.byId("myPage").setBusy(false));
+      },
+
       onApiGetViewData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
