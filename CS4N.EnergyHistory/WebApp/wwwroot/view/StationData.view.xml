@@ -33,21 +33,37 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_MaximumPerformance}">
                       <f:fields>
-                        <Text text="{ parts: ['/viewData/stationDefinition/powerPeak', '/viewData/stationDefinition/powerUnit'], formatter: '.formatPowerValue' }"/>
+                        <ObjectNumber number="{/viewData/stationDefinition/powerPeak}" unit="{/viewData/stationDefinition/powerUnit}"/>
                       </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_CollectedTotal}">
+                    <f:FormElement label="{i18n>text_InstalledAt}">
                       <f:fields>
-                        <Text text="{ parts: ['/viewData/stationCollectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }"/>
+                        <Text text="{ path: '/viewData/stationDefinition/installedAt', formatter: '.formatDate' }" />
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
                 </f:FormContainer>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement label="{i18n>text_InstalledAt}">
+                    <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
                       <f:fields>
-                        <Text text="{ path: '/viewData/stationDefinition/installedAt', formatter: '.formatDate' }" />
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmount', formatter: '.formatPowerValue' }" 
+                                      unit="{/viewData/stationDefinition/capacityUnit}"
+                                      state="Success"/>
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_GeneratedElectricityValue}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
+                      <f:fields>
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValue', formatter: '.formatPowerValue' }" 
+                                      unit="{/viewData/stationDefinition/currencyUnit}"
+                                      state="Success"/>
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_FedInElectricityValue}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
+                      <f:fields>
+                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValue', formatter: '.formatPowerValue' }"
+                                      unit="{/viewData/stationDefinition/currencyUnit}" 
+                                      state="Success" />
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>

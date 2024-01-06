@@ -10,7 +10,7 @@
 //    }
 
 //    public int Number { get; set; }
-//    public double CollectedTotal { get; set; }
+//    public double GeneratedElectricityAmount { get; set; }
 
 //    public DateTime Date { get; init; }
 //  }

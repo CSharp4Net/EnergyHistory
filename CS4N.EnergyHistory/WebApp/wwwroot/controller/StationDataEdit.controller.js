@@ -30,15 +30,10 @@ sap.ui.define([
         });
       },
 
-      formatPowerValue: function (value, unit) {
+      formatPowerValue: function (value) {
         value = Number(value) || 0;
 
-        let textTemplate = this.i18n.getText("text_PowerValue");
-
-        textTemplate = textTemplate.replace("{value}", value.toLocaleString());
-        textTemplate = textTemplate.replace("{unit}", unit);
-
-        return textTemplate;
+        return value.toLocaleString();
       },
 
       formatPriceValue: function (power, amount, currency) {
@@ -66,21 +61,21 @@ sap.ui.define([
             // Monatswert summieren
             const monthData = yearData.months[j];
 
-            yearTotal += Number(monthData.collectedTotal);
+            yearTotal += Number(monthData.generatedElectricityAmount);
           }
 
           if (yearData.automaticSummation)
             // Summe der Monatswerte verwenden
-            yearData.collectedTotal = Number(yearTotal.toFixed(3)) || 0;
+            yearData.generatedElectricityAmount = Number(yearTotal.toFixed(3)) || 0;
           else
             // Manuelle Eingabe typsicher machen
-            yearData.collectedTotal = Number(yearData.collectedTotal) || 0;
+            yearData.generatedElectricityAmount = Number(yearData.generatedElectricityAmount) || 0;
 
-          total += Number(yearData.collectedTotal);
+          total += Number(yearData.generatedElectricityAmount);
         }
 
         // Summe der Jahreswerte verwenden
-        stationData.collectedTotal = total;
+        stationData.generatedElectricityAmount = total;
       },
       // #endregion
 

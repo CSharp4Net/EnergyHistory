@@ -8,18 +8,21 @@
     public string StationGuid { get; set; } = "";
 
     /// <summary>
-    /// Gesamt erzeugte Leistung
-    /// </summary>
-    public double CollectedTotal => Years.Sum(year => year.CollectedTotal);
-
-    /// <summary>
-    /// Standardansicht des Auswertungsdiagramm
-    /// </summary>
-    public string DefaultChartAreaType { get; set; } = Constants.StationDataDefaultChartAreaType;
-
-    /// <summary>
     /// Auflistung der Jahre
     /// </summary>
     public List<StationDataYear> Years { get; set; } = [];
+
+    /// <summary>
+    /// Insgesamt erzeugter Strom
+    /// </summary>
+    public double GeneratedElectricityAmount => Years.Sum(year => year.GeneratedElectricityAmount);
+    /// <summary>
+    /// Erzeugter Stromwert über alle Jahre
+    /// </summary>
+    public decimal GeneratedElectricityValue => Years.Sum(year => year.GeneratedElectricityValue);
+    /// <summary>
+    /// Eingespeister Stromwert über alle Jahre
+    /// </summary>
+    public decimal FedInElectricityValue => Years.Sum(year => year.FedInElectricityValue);
   }
 }

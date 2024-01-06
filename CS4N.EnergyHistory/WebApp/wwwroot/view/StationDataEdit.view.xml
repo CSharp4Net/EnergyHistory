@@ -17,21 +17,16 @@
     <content>
       <f:Form editable="true">
         <f:layout>
-          <f:ResponsiveGridLayout columnsM="2" labelSpanS="4" labelSpanM="4" />
+          <f:ResponsiveGridLayout columnsM="2" labelSpanS="6" labelSpanM="6" />
         </f:layout>
         <f:formContainers>
           <f:FormContainer>
             <f:formElements>
-              <f:FormElement label="{i18n>text_Collected}">
+              <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
                 <f:fields>
-                  <Input id="collectedTotalInput"
-                         value="{/viewData/stationData/collectedTotal}"
-                         valueState="{/collectedTotalState}"
-                         type="Number"
-                         textAlign="End"
-                         placeholder="0"
-                         editable="false"
-                         description="{/viewData/stationDefinition/capacityUnit}"/>
+                  <ObjectNumber number="{ path: '/viewData/stationData/generatedElectricityAmount', formatter: '.formatPowerValue' }"
+                                unit="{/viewData/stationDefinition/capacityUnit}"
+                                state="Success"/>
                 </f:fields>
               </f:FormElement>
             </f:formElements>
@@ -41,23 +36,20 @@
       <Table items="{ path: '/viewData/stationData/years', sorter: { path: 'number', descending: true } }" alternateRowColors="true" fixedLayout="false">
         <columns>
           <Column>
-            <HBox renderType="Bare" alignItems="Center">
-              <Text text="{i18n>text_Year}" />
-            </HBox>
+            <Text text="{i18n>text_Year}" />
           </Column>
           <Column hAlign="End">
-            <Text text="{i18n>text_Collected}" />
+            <Text text="{i18n>text_GeneratedElectricityAmount}" />
           </Column>
-          <!--<Column hAlign="End" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
-            <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
-          </Column>-->
         </columns>
         <items>
           <ColumnListItem vAlign="Middle" type="Navigation" press="onYearPress">
             <cells>
               <Text text="{number}" />
-              <Text text="{ parts: ['collectedTotal', '/viewData/stationDefinition/capacityUnit'], formatter: '.formatPowerValue' }" />
-              <!--<Text text="{ parts: ['priceOfConsumedKilowattHour', '/viewData/stationDefinition/currencyUnit'], formatter: '.formatPowerValue' }" />-->
+              <ObjectNumber number="{ path: 'generatedElectricityAmount', formatter: '.formatPowerValue' }"
+                            emphasized="false"
+                            unit="{/viewData/stationDefinition/capacityUnit}"
+                            state="Success"/>
             </cells>
           </ColumnListItem>
         </items>

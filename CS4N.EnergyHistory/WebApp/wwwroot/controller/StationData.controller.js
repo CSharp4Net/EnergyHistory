@@ -38,21 +38,16 @@
           stationGuid: "",
           viewData: {
             stationDefinition: null,
-            stationCollectedTotal: 0,
+            generatedElectricityAmount: 0,
             chartData: []
           }
         });
       },
 
-      formatPowerValue: function (value, unit) {
+      formatPowerValue: function (value) {
         value = Number(value) || 0;
 
-        let textTemplate = this.i18n.getText("text_PowerValue");
-
-        textTemplate = textTemplate.replace("{value}", value.toLocaleString());
-        textTemplate = textTemplate.replace("{unit}", unit);
-
-        return textTemplate;
+        return value.toLocaleString();
       },
 
       formatDate: function (value) {
@@ -121,7 +116,6 @@
                       ctx.textBaseline = 'bottom';
                       ctx.fillText(data.y.toLocaleString(), bar.x, bar.y - 5);
                     }
-
                   });
                 });
               }

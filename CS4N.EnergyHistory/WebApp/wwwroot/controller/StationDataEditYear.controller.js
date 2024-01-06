@@ -91,9 +91,9 @@ sap.ui.define([
 
         // 0-Werte für bessere Eingabe umwandeln
         yearData.months.map(entry => {
-          if (entry.collectedTotal === 0) entry.collectedTotal = "";
-          if (entry.priceOfConsumedKilowattHour === 0) entry.priceOfConsumedKilowattHour = "";
-          if (entry.priceOfFedIntoKilowattHour === 0) entry.priceOfFedIntoKilowattHour = "";
+          if (entry.generatedElectricityAmount === 0) entry.generatedElectricityAmount = "";
+          if (entry.generatedElectricityKilowattHourPrice === 0) entry.generatedElectricityKilowattHourPrice = "";
+          if (entry.fedInElectricityKilowattHourPrice === 0) entry.fedInElectricityKilowattHourPrice = "";
         });
 
         this.model.setProperty("/viewData/stationDefinition", viewData.stationDefinition);
@@ -106,18 +106,18 @@ sap.ui.define([
         if (yearData) {
           // 0-Werte wiederherstellen
           yearData.months.map(entry => {
-            if (entry.collectedTotal === "")
-              entry.collectedTotal = 0;
+            if (entry.generatedElectricityAmount === "")
+              entry.generatedElectricityAmount = 0;
 
-            if (entry.priceOfConsumedKilowattHour === "")
-              entry.priceOfConsumedKilowattHour = 0;
+            if (entry.generatedElectricityKilowattHourPrice === "")
+              entry.generatedElectricityKilowattHourPrice = 0;
             else
-              entry.priceOfConsumedKilowattHour = Number(entry.priceOfConsumedKilowattHour) || 0;
+              entry.generatedElectricityKilowattHourPrice = Number(entry.generatedElectricityKilowattHourPrice) || 0;
 
-            if (entry.priceOfFedIntoKilowattHour === "")
-              entry.priceOfFedIntoKilowattHour = 0;
+            if (entry.fedInElectricityKilowattHourPrice === "")
+              entry.fedInElectricityKilowattHourPrice = 0;
             else
-              entry.priceOfFedIntoKilowattHour = Number(entry.priceOfFedIntoKilowattHour) || 0;
+              entry.fedInElectricityKilowattHourPrice = Number(entry.fedInElectricityKilowattHourPrice) || 0;
           });
 
           localStorage.setItem(localStorageEntry_StationDataYear, JSON.stringify(yearData));
@@ -138,17 +138,17 @@ sap.ui.define([
           const monthData = yearData.months[j];
 
           // Manuelle Eingabe typsicher machen
-          monthData.collectedTotal = Number(monthData.collectedTotal) || 0;
+          monthData.generatedElectricityAmount = Number(monthData.generatedElectricityAmount) || 0;
 
-          yearTotal += monthData.collectedTotal;
+          yearTotal += monthData.generatedElectricityAmount;
         }
 
         if (yearData.manualInput)
           // Manuelle Eingabe typsicher machen
-          yearData.collectedTotal = Number(yearData.collectedTotal) || 0;
+          yearData.generatedElectricityAmount = Number(yearData.generatedElectricityAmount) || 0;
         else
           // Summe der Monatswerte verwenden
-          yearData.collectedTotal = Number(yearTotal.toFixed(3)) || 0;
+          yearData.generatedElectricityAmount = Number(yearTotal.toFixed(3)) || 0;
 
         this.model.refresh();
       },

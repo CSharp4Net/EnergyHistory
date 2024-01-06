@@ -105,23 +105,23 @@
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
-                      <Switch state="{/station/priceOfConsumedKilowattHourEnabled}" />
+                      <Switch state="{/station/generatedElectricityEnabled}" />
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/station/priceOfConsumedKilowattHourEnabled}">
+                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/station/generatedElectricityEnabled}">
                       <f:fields>
-                        <Input value="{/station/priceOfConsumedKilowattHour}"
+                        <Input value="{/station/generatedElectricityKilowattHourPrice}"
                                textAlign="End"
                                type="Number"
                                placeholder="0"
                                description="{/station/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_FedIntoPerKilowattHour}">
-                      <Switch state="{/station/priceOfFedIntoKilowattHourEnabled}" />
+                    <f:FormElement label="{i18n>text_FedInPerKilowattHour}">
+                      <Switch state="{/station/fedInEnabled}" />
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}" visible="{/station/priceOfFedIntoKilowattHourEnabled}">
+                    <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" visible="{/station/fedInEnabled}">
                       <f:fields>
-                        <Input value="{/station/priceOfFedIntoKilowattHour}"
+                        <Input value="{/station/fedInElectricityKilowattHourPrice}"
                                textAlign="End"
                                type="Number"
                                placeholder="0"

@@ -29,12 +29,12 @@
               </f:FormElement>
               <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
                 <f:fields>
-                  <Switch state="{/viewData/yearData/priceOfConsumedKilowattHourEnabled}" type="AcceptReject" />
+                  <Switch state="{/viewData/yearData/generatedElectricityEnabled}" type="AcceptReject" />
                 </f:fields>
               </f:FormElement>
-              <f:FormElement label="{i18n>text_FedIntoPerKilowattHour}">
+              <f:FormElement label="{i18n>text_FedInPerKilowattHour}">
                 <f:fields>
-                  <Switch state="{/viewData/yearData/priceOfFedIntoKilowattHourEnabled}" type="AcceptReject" />
+                  <Switch state="{/viewData/yearData/fedInEnabled}" type="AcceptReject" />
                 </f:fields>
               </f:FormElement>
             </f:formElements>
@@ -44,7 +44,7 @@
               <f:FormElement label="{i18n>text_Collected}">
                 <f:fields>
                   <Input id="collectedTotalInput"
-                         value="{/viewData/yearData/collectedTotal}"
+                         value="{/viewData/yearData/generatedElectricityAmount}"
                          valueState="{/collectedTotalState}"
                          type="Number"
                          textAlign="End"
@@ -54,9 +54,9 @@
                 </f:fields>
               </f:FormElement>
               <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" 
-                             visible="{= ${/viewData/yearData/priceOfConsumedKilowattHourEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+                             visible="{= ${/viewData/yearData/generatedElectricityEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
                 <f:fields>
-                  <Input value="{/viewData/yearData/priceOfConsumedKilowattHour}"
+                  <Input value="{/viewData/yearData/generatedElectricityKilowattHourPrice}"
                          valueState="{/collectedTotalState}"
                          type="Number"
                          textAlign="End"
@@ -64,10 +64,10 @@
                          description="{/viewData/stationDefinition/currencyUnit}" />
                 </f:fields>
               </f:FormElement>
-              <f:FormElement label="{i18n>text_PriceOfFedIntoKilowattHour}" 
-                             visible="{= ${/viewData/yearData/priceOfFedIntoKilowattHourEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+              <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" 
+                             visible="{= ${/viewData/yearData/fedInEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
                 <f:fields>
-                  <Input value="{/viewData/yearData/priceOfFedIntoKilowattHour}"
+                  <Input value="{/viewData/yearData/fedInElectricityKilowattHourPrice}"
                          valueState="{/collectedTotalState}"
                          type="Number"
                          textAlign="End"
@@ -87,31 +87,31 @@
           <Column>
             <Text text="{i18n>text_Collected}" />
           </Column>
-          <Column visible="{/viewData/yearData/priceOfConsumedKilowattHourEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+          <Column visible="{/viewData/yearData/generatedElectricityEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
             <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
           </Column>
-          <Column visible="{/viewData/yearData/priceOfFedIntoKilowattHourEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
-            <Text text="{i18n>text_PriceOfFedIntoKilowattHour}" />
+          <Column visible="{/viewData/yearData/fedInEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>text_PriceOfFedInKilowattHour}" />
           </Column>
         </columns>
         <items>
           <ColumnListItem vAlign="Middle">
             <cells>
               <Text text="{ path: 'number', formatter: '.formatMonth' }" />
-              <Input value="{collectedTotal}"
+              <Input value="{generatedElectricityAmount}"
                      type="Number"
                      textAlign="End"
                      valueLiveUpdate="true"
                      placeholder="0"
                      change="onMonthCollectedTotalChange"
                      description="{/viewData/stationDefinition/capacityUnit}" />
-              <Input value="{priceOfConsumedKilowattHour}"
+              <Input value="{generatedElectricityKilowattHourPrice}"
                      type="Number"
                      textAlign="End"
                      valueLiveUpdate="true"
                      placeholder="0"
                      description="{/viewData/stationDefinition/currencyUnit}" />
-              <Input value="{priceOfFedIntoKilowattHour}"
+              <Input value="{fedInElectricityKilowattHourPrice}"
                      type="Number"
                      textAlign="End"
                      valueLiveUpdate="true"

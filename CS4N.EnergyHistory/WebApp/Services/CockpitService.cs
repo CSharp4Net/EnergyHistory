@@ -53,7 +53,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           IconUrl = station.IconUrl,
           Kpi = new KpiData
           {
-            Value = Math.Round(data.CollectedTotal).ToString(),
+            Value = Math.Round(data.GeneratedElectricityAmount).ToString(),
             ValueColor = "Good",
             Unit = station.CapacityUnit
           }

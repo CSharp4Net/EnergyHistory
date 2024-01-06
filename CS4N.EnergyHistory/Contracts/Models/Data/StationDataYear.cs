@@ -9,11 +9,11 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     {
       Number = year;
 
-      PriceOfConsumedKilowattHourEnabled = stationDefinition.PriceOfConsumedKilowattHourEnabled;
-      PriceOfConsumedKilowattHour = stationDefinition.PriceOfConsumedKilowattHour;
+      GeneratedElectricityEnabled = stationDefinition.GeneratedElectricityEnabled;
+      GeneratedElectricityKilowattHourPrice = stationDefinition.GeneratedElectricityKilowattHourPrice;
 
-      PriceOfFedIntoKilowattHourEnabled = stationDefinition.PriceOfFedIntoKilowattHourEnabled;
-      PriceOfFedIntoKilowattHour = stationDefinition.PriceOfFedIntoKilowattHour;
+      FedInEnabled = stationDefinition.FedInEnabled;
+      FedInElectricityKilowattHourPrice = stationDefinition.FedInElectricityKilowattHourPrice;
 
       Months = new List<StationDataMonth>
       {
@@ -36,34 +36,41 @@ namespace CS4N.EnergyHistory.Contracts.Models.Data
     /// Jahreszahl
     /// </summary>
     public int Number { get; set; }
-
-    /// <summary>
-    /// Gesamt erzeugte Leistung
-    /// </summary>
-    public double CollectedTotal { get; set; }
     /// <summary>
     /// Automatische Summierung der Monatswerte
     /// </summary>
     public bool AutomaticSummation { get; set; } = true;
 
     /// <summary>
+    /// Gesamt erzeugte Leistung
+    /// </summary>
+    public double GeneratedElectricityAmount { get; set; }
+
+    /// <summary>
     /// Preis pro verbrauchter Kilowattstunde verfügbar
     /// </summary>
-    public bool PriceOfConsumedKilowattHourEnabled { get; set; } = false;
+    public bool GeneratedElectricityEnabled { get; set; } = false;
     /// <summary>
     /// Preis pro verbrauchter Kilowattstunde
     /// </summary>
-    public decimal PriceOfConsumedKilowattHour { get; set; }
-
+    public decimal GeneratedElectricityKilowattHourPrice { get; set; }
+    /// <summary>
+    /// Produkt aus <see cref="GeneratedElectricityAmount"/> * <see cref="GeneratedElectricityKilowattHourPrice"/>
+    /// </summary>
+    public decimal GeneratedElectricityValue => Convert.ToDecimal(GeneratedElectricityAmount) * GeneratedElectricityKilowattHourPrice;
 
     /// <summary>
     /// Preis pro eingespeister Kilowattstunde verfügbar
     /// </summary>
-    public bool PriceOfFedIntoKilowattHourEnabled { get; set; } = false;
+    public bool FedInEnabled { get; set; } = false;
     /// <summary>
     /// Preis pro eingespeister Kilowattstunde
     /// </summary>
-    public decimal PriceOfFedIntoKilowattHour { get; set; }
+    public decimal FedInElectricityKilowattHourPrice { get; set; }
+    /// <summary>
+    /// Produkt aus <see cref="GeneratedElectricityAmount"/> * <see cref="FedInElectricityKilowattHourPrice"/>
+    /// </summary>
+    public decimal FedInElectricityValue => Convert.ToDecimal(GeneratedElectricityAmount) * FedInElectricityKilowattHourPrice;
 
     /// <summary>
     /// Auflistung der Monate

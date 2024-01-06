@@ -45,19 +45,19 @@
     /// <summary>
     /// Anzeige und Berechnung Verbrauch pro kWh
     /// </summary>
-    public bool PriceOfConsumedKilowattHourEnabled { get; set; } = true;
+    public bool GeneratedElectricityEnabled { get; set; } = true;
     /// <summary>
     /// Preis pro kWh
     /// </summary>
-    public decimal PriceOfConsumedKilowattHour { get; set; }
+    public decimal GeneratedElectricityKilowattHourPrice { get; set; }
     /// <summary>
     /// Anzeige und Bereich Vergütung pro kWh
     /// </summary>
-    public bool PriceOfFedIntoKilowattHourEnabled { get; set; } = true;
+    public bool FedInEnabled { get; set; } = true;
     /// <summary>
     /// Vergütung pro kWh
     /// </summary>
-    public decimal PriceOfFedIntoKilowattHour { get; set; }
+    public decimal FedInElectricityKilowattHourPrice { get; set; }
 
     public Location? Location { get; set; }
     public List<Inverter> Inverters { get; set; } = new List<Inverter>();

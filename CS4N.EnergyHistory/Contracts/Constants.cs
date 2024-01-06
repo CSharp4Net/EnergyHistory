@@ -14,7 +14,5 @@
     public const string CapacityUnit_GigawattHour = "GWh";
 
     public const string StationDefinitionDefaultIconUrl = "sap-icon://photo-voltaic";
-
-    public const string StationDataDefaultChartAreaType = "Month";
   }
 }

@@ -39,7 +39,9 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       StationData data = repository.GetStationData(stationGuid);
 
-      viewData.StationCollectedTotal = data.CollectedTotal;
+      viewData.GeneratedElectricityAmount = data.GeneratedElectricityAmount;
+      viewData.GeneratedElectricityValue = data.GeneratedElectricityValue;
+      viewData.FedInElectricityValue = data.FedInElectricityValue;
 
       DateTime dateFrom = string.IsNullOrEmpty(filter.DateFrom) ? DateTime.MinValue :
          DateTime.ParseExact(filter.DateFrom, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -66,7 +68,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
               viewData.ChartData.AddRange(year.Months.Select(month => new ChartDataEntry
               {
                 X = $"{year.Number}-{month.Number:00}",
-                Y = year.CollectedTotal / 12
+                Y = year.GeneratedElectricityAmount / 12
               }).ToList());
             }
             else if (year.Number == dateFrom.Year && year.Number == dateTo.Year)
@@ -75,7 +77,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
               viewData.ChartData.AddRange(year.Months.Where(month => month.Number >= dateFrom.Month && month.Number <= dateTo.Month).Select(month => new ChartDataEntry
               {
                 X = $"{year.Number}-{month.Number:00}",
-                Y = month.CollectedTotal
+                Y = month.GeneratedElectricityAmount
               }));
             }
             else if (year.Number == dateFrom.Year)
@@ -84,7 +86,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
               viewData.ChartData.AddRange(year.Months.Where(month => month.Number >= dateFrom.Month).Select(month => new ChartDataEntry
               {
                 X = $"{year.Number}-{month.Number:00}",
-                Y = month.CollectedTotal
+                Y = month.GeneratedElectricityAmount
               }));
             }
             else if (year.Number == dateTo.Year)
@@ -93,7 +95,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
               viewData.ChartData.AddRange(year.Months.Where(month => month.Number <= dateTo.Month).Select(month => new ChartDataEntry
               {
                 X = $"{year.Number}-{month.Number:00}",
-                Y = month.CollectedTotal
+                Y = month.GeneratedElectricityAmount
               }));
             }
             else
@@ -102,7 +104,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
               viewData.ChartData.AddRange(year.Months.Select(month => new ChartDataEntry
               {
                 X = $"{year.Number}-{month.Number:00}",
-                Y = month.CollectedTotal
+                Y = month.GeneratedElectricityAmount
               }));
             }
           }
@@ -112,7 +114,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           viewData.ChartData = yearsInRange.Select(year => new ChartDataEntry
           {
             X = year.Number.ToString(),
-            Y = year.CollectedTotal
+            Y = year.GeneratedElectricityAmount
           }).ToList();
           break;
 
