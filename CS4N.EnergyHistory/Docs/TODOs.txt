@@ -1,0 +1,15 @@
+TODO-Liste:
+-----------
+1. Tile-Content pro Station konfigurierbar
+-> Gesamtleistung
+-> Durschnittliche Leistung pro Monat
+-> Erzeugter Stromwert
+
+2. Gewinn der Station ermitteln
+-> Ermittlung noch unklar... Bspw.: 
+	Anschaffungskosten - Erzeugter Stromwert = Einfache Rechnung
+	Anschaffungskosten - (Erzeugter Stromwert - selbstverbrauchter Stromwert) = Korrekte Rechnung
+
+3. Stromzähler als Element hinzufügen
+-> Zählwert für verbrauchten Strom aus dem Netz
+-> Zählwert für eingespeißten Strom ins Netz

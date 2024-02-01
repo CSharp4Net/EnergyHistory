@@ -3,8 +3,9 @@
     <customHeader>
       <Bar>
         <contentMiddle>
+          <Title text="Energy"/>
           <Image src="image/flash-energy-64.png" height="2rem"/>
-          <Title text="{i18n>title_Cockpit}"/>
+          <Title text="History"/>
         </contentMiddle>
       </Bar>
     </customHeader>

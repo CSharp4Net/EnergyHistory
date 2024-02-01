@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{5EAFC9CA-3011-417B-8795-BAFE860CA4D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStore.File", "Components\DataStore.LiteDB\DataStore.File.csproj", "{F9A744CD-6B7E-4FBE-BFC9-F1BC19A69EC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStore.File", "Components\DataStore.LiteDB\DataStore.File.csproj", "{F9A744CD-6B7E-4FBE-BFC9-F1BC19A69EC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8016A62C-F30F-4177-9D54-110C59FCB7AD}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\TODOs.txt = Docs\TODOs.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
