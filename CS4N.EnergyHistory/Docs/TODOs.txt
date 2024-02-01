@@ -13,3 +13,7 @@ TODO-Liste:
 3. Stromzähler als Element hinzufügen
 -> Zählwert für verbrauchten Strom aus dem Netz
 -> Zählwert für eingespeißten Strom ins Netz
+
+4. Import von CSV-Datei aus Fritzbox zur Datenerfassung
+
+5. Anbindung von TSUN als Datenlieferant
