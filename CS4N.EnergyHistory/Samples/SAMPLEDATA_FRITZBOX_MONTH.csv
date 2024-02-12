@@ -1,0 +1,33 @@
+sep=;
+Datum/Zeit;Energie;Einheit;Energie in Euro;Einheit;CO2-Ausstoss;Einheit;;Ansicht:;1 Monat;;Datum;12.02.2024 17-09 Uhr
+13.1.;0,069;kWh;0,02;Euro;0,038;kg CO2
+14.1.;0,080;kWh;0,03;Euro;0,044;kg CO2
+15.1.;0,241;kWh;0,08;Euro;0,133;kg CO2
+16.1.;0,377;kWh;0,13;Euro;0,207;kg CO2
+17.1.;0,308;kWh;0,10;Euro;0,169;kg CO2
+18.1.;0,022;kWh;0,01;Euro;0,012;kg CO2
+19.1.;0,207;kWh;0,07;Euro;0,114;kg CO2
+20.1.;1,694;kWh;0,58;Euro;0,932;kg CO2
+21.1.;0,810;kWh;0,28;Euro;0,446;kg CO2
+22.1.;0,299;kWh;0,10;Euro;0,164;kg CO2
+23.1.;0,269;kWh;0,09;Euro;0,148;kg CO2
+24.1.;0,467;kWh;0,16;Euro;0,257;kg CO2
+25.1.;1,177;kWh;0,40;Euro;0,647;kg CO2
+26.1.;0,495;kWh;0,17;Euro;0,272;kg CO2
+27.1.;2,325;kWh;0,79;Euro;1,279;kg CO2
+28.1.;2,487;kWh;0,85;Euro;1,368;kg CO2
+29.1.;2,316;kWh;0,79;Euro;1,274;kg CO2
+30.1.;1,337;kWh;0,45;Euro;0,735;kg CO2
+31.1.;0,320;kWh;0,11;Euro;0,176;kg CO2
+1.2.;1,273;kWh;0,43;Euro;0,700;kg CO2
+2.2.;0,514;kWh;0,17;Euro;0,283;kg CO2
+3.2.;0,229;kWh;0,08;Euro;0,126;kg CO2
+4.2.;0,247;kWh;0,08;Euro;0,136;kg CO2
+5.2.;1,602;kWh;0,54;Euro;0,881;kg CO2
+6.2.;0,178;kWh;0,06;Euro;0,098;kg CO2
+7.2.;0,185;kWh;0,06;Euro;0,102;kg CO2
+8.2.;0,350;kWh;0,12;Euro;0,192;kg CO2
+9.2.;0,886;kWh;0,30;Euro;0,487;kg CO2
+10.2.;1,477;kWh;0,50;Euro;0,812;kg CO2
+11.2.;0,180;kWh;0,06;Euro;0,099;kg CO2
+12.2.;0,915;kWh;0,31;Euro;0,503;kg CO2

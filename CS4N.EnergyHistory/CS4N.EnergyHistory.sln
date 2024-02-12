@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8016A62C-F
 		Docs\TODOs.txt = Docs\TODOs.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5E2B14B3-15E6-4661-B9A4-151C240C67E5}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\SAMPLEDATA_FRITZBOX_2YEARS.csv = Samples\SAMPLEDATA_FRITZBOX_2YEARS.csv
+		Samples\SAMPLEDATA_FRITZBOX_MONTH.csv = Samples\SAMPLEDATA_FRITZBOX_MONTH.csv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
