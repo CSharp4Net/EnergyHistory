@@ -4,13 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <AssemblyName>CS4N.EnergyHistory.DataStore.File</AssemblyName>
-	  <RootNamespace>CS4N.EnergyHistory.DataStore.File</RootNamespace>
+	  <AssemblyName>CS4N.EnergyHistory.DataImport.FritzBox</AssemblyName>
+	  <RootNamespace>CS4N.EnergyHistory.DataImport.FritzBox</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>
