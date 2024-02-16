@@ -4,6 +4,6 @@ namespace CS4N.EnergyHistory.Contracts
 {
   public interface IDataImport
   {
-    List<StationDataYear> ImportCsvData(string filePath);
+    List<StationDataYear> ReadCsvFile(string filePath);
   }
 }
