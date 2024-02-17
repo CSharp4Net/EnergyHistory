@@ -21,4 +21,11 @@
 	  <Folder Include="wwwroot\image\" />
 	  <Folder Include="wwwroot\lib\ChartJS\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\view\fragment\StationDataImportDialog.fragment.xml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 </Project>

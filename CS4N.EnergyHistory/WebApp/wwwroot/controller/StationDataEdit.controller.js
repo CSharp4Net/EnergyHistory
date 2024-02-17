@@ -13,6 +13,9 @@ sap.ui.define([
 
       chartControl: null,
 
+      importDialogFragment: null,
+      importDialog: null,
+
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
@@ -157,6 +160,18 @@ sap.ui.define([
           this.onApiGetNewYearTemplate.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
+      },
+
+      onImportPress: function () {
+        // create dialog lazily
+        this.importDialogFragment ??= this.loadFragment({
+          name: "CS4N.EnergyHistory.view.fragment.StationDataImportDialog"
+        });
+
+        this.importDialogFragment.then((oDialog) => {
+          this.importDialog = oDialog;
+          this.importDialog.open()
+        });
       },
       // #endregion
 

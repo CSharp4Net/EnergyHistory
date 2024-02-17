@@ -57,6 +57,9 @@
     </content>
     <footer>
       <Bar>
+        <contentLeft>
+          <Button text="{i18n>text_Import}" icon="sap-icon://upload" width="150px" press="onImportPress" />
+        </contentLeft>
         <contentRight>
           <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" press="onSavePress" />
         </contentRight>

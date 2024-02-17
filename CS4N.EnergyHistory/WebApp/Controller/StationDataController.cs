@@ -35,5 +35,9 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     [HttpPost("{stationGuid}/edit")]
     public IActionResult PostStationDataForEdit([FromBody] StationData stationData)
       => service.PostStationDataForEdit(stationData);
+
+    [HttpPost("{stationGuid}/import/fritzbox/csv/years")]
+    public IActionResult PostImportDataFromFritzBoxAsCsvOfYears(string stationGuid, string filePath)
+      => service.PostImportDataFromFritzBoxAsCsvOfYears(stationGuid, filePath);
   }
 }
