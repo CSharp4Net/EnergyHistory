@@ -8,31 +8,24 @@
         <f:formContainers>
           <f:FormContainer>
             <f:formElements>
-              <f:FormElement label="{i18n>text_File}">
+              <f:FormElement label="{i18n>text_ImportFileType}">
                 <f:fields>
-                  <unified:FileUploader />
+                  <Select>
+                    <core:Item key="FritzBoxCsvOf2Years" text="FritzBox - CSV-Export über 2 Jahre" />
+                  </Select>
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_ImportFilePath}">
+                <f:fields>
+                  <unified:FileUploader uploadUrl="api/StationData/{/viewData/stationDefinition/guid}/import/fritzbox/csv/years"                                        
+                                        uploadComplete="handleUploadComplete"
+                                        mimeType="text/csv"
+                                        uploadOnChange="true"
+                                        value="{/importData/filePath}"/>
                 </f:fields>
               </f:FormElement>
             </f:formElements>
           </f:FormContainer>
-          <!--<f:FormContainer>
-            <f:formElements>
-              <f:FormElement label="{i18n>text_DateFrom}">
-                <f:fields>
-                  <DatePicker displayFormat="{/filter/dateFormat}" 
-                              value="{/filter/dateFrom}" 
-                              valueFormat="yyyy-MM-dd"/>
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="{i18n>text_DateTo}">
-                <f:fields>
-                  <DatePicker displayFormat="{/filter/dateFormat}" 
-                              value="{/filter/dateTo}" 
-                              valueFormat="yyyy-MM-dd"/>
-                </f:fields>
-              </f:FormElement>
-            </f:formElements>
-          </f:FormContainer>-->
         </f:formContainers>
       </f:Form>
     </content>

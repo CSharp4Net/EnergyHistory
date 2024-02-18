@@ -148,13 +148,13 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(new StationDataYear(definition, year));
     }
 
-    internal IActionResult PostImportDataFromFritzBoxAsCsvOfYears(string stationGuid, string filePath)
+    internal IActionResult PostImportDataFromFritzBoxAsCsvOfYears(string stationGuid, object filePath)
     {
       var definition = repository.GetStationDefinition(stationGuid);
 
       IDataImport dataImport = new DataImport.FritzBox.DataImport(definition);
 
-      var yearsData = dataImport.ReadCsvFile(filePath);
+      var yearsData = dataImport.ReadCsvFile(filePath.ToString());
 
 
       throw new NotImplementedException();

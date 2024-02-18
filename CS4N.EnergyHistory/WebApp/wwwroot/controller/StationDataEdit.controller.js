@@ -29,7 +29,10 @@ sap.ui.define([
             stationDefinition: null,
             stationData: null
           },
-          collectedTotalState: "None"
+          collectedTotalState: "None",
+          importData: {
+            filePath: ""
+          }
         });
       },
 
@@ -172,6 +175,18 @@ sap.ui.define([
           this.importDialog = oDialog;
           this.importDialog.open()
         });
+      },
+
+      handleUploadComplete: function (oEvent) {
+        var sResponse = oEvent.getParameter("response"),
+          aRegexResult = /\d{4}/.exec(sResponse),
+          iHttpStatusCode = aRegexResult && parseInt(aRegexResult[0]),
+          sMessage;
+
+        if (sResponse) {
+          sMessage = iHttpStatusCode === 200 ? sResponse + " (Upload Success)" : sResponse + " (Upload Error)";
+          MessageToast.show(sMessage);
+        }
       },
       // #endregion
 
