@@ -1,6 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.Data;
-using CS4N.EnergyHistory.Contracts.Models.Definition;
+using CS4N.EnergyHistory.Contracts.Models.Station.Data;
+using CS4N.EnergyHistory.Contracts.Models.Station.Definition;
 using System.Globalization;
 using System.Text;
 

@@ -1,4 +1,4 @@
-﻿using CS4N.EnergyHistory.Contracts.Models.Data;
+﻿using CS4N.EnergyHistory.Contracts.Models.Station.Data;
 
 namespace CS4N.EnergyHistory.DataStore.File
 {

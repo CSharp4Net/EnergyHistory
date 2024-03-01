@@ -17,7 +17,7 @@
               </f:FormElement>
               <f:FormElement label="{i18n>text_ImportFilePath}">
                 <f:fields>
-                  <unified:FileUploader uploadUrl="api/StationData/{/viewData/stationDefinition/guid}/import/fritzbox/csv/years"                                        
+                  <unified:FileUploader uploadUrl="upload/"                                        
                                         uploadComplete="handleUploadComplete"
                                         mimeType="text/csv"
                                         uploadOnChange="true"

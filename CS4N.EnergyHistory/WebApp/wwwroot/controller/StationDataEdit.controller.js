@@ -178,6 +178,8 @@ sap.ui.define([
       },
 
       handleUploadComplete: function (oEvent) {
+        var oFileToRead = oEvent.getParameters().files["0"];
+
         var sResponse = oEvent.getParameter("response"),
           aRegexResult = /\d{4}/.exec(sResponse),
           iHttpStatusCode = aRegexResult && parseInt(aRegexResult[0]),

@@ -1,4 +1,4 @@
-﻿namespace CS4N.EnergyHistory.Contracts.Models.Definition
+﻿namespace CS4N.EnergyHistory.Contracts.Models.Station.Definition
 {
   public sealed class StationDefinition
   {
@@ -59,9 +59,9 @@
     /// </summary>
     public decimal FedInElectricityKilowattHourPrice { get; set; }
 
-    public Location? Location { get; set; }
-    public List<Inverter> Inverters { get; set; } = new List<Inverter>();
-    public List<Module> Modules { get; set; } = new List<Module>();
+    //public Location? Location { get; set; }
+    //public List<Inverter> Inverters { get; set; } = new List<Inverter>();
+    //public List<Module> Modules { get; set; } = new List<Module>();
 
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

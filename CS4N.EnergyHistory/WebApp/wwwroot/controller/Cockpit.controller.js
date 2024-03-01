@@ -22,6 +22,10 @@
           stationAdded: false
         });
       },
+
+      formatTileFooter: function (text) {
+        return this.i18n.getText(text);
+      },
       // #endregion
 
       // #region Events

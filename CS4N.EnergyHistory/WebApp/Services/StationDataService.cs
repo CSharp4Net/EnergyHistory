@@ -1,12 +1,10 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.Data;
-using CS4N.EnergyHistory.Contracts.Models.Definition;
+using CS4N.EnergyHistory.Contracts.Models.Station.Data;
+using CS4N.EnergyHistory.Contracts.Models.Station.Definition;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using CS4N.EnergyHistory.WebApp.ViewModels;
 using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 
 namespace CS4N.EnergyHistory.WebApp.Services

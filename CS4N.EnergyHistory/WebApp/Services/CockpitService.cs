@@ -1,9 +1,8 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
 using CS4N.EnergyHistory.WebApp.Repositories;
+using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using CS4N.EnergyHistory.Contracts.Models.Data;
 
 namespace CS4N.EnergyHistory.WebApp.Services
 {
@@ -33,7 +32,8 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return [
         new GenericTileData("settings", "Stationen verwalten", "StationDefinitionOverview")
         {
-          IconUrl = "sap-icon://action-settings"
+          IconUrl = "sap-icon://action-settings",
+          TileFooter = "text_Settings"
         }];
     }
 
@@ -56,7 +56,8 @@ namespace CS4N.EnergyHistory.WebApp.Services
             Value = Math.Round(data.GeneratedElectricityAmount).ToString(),
             ValueColor = "Good",
             Unit = station.CapacityUnit
-          }
+          },
+          TileFooter = "text_Station"
         }); ;
       }
 

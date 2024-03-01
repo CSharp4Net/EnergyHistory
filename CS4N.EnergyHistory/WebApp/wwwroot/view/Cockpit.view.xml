@@ -18,8 +18,8 @@
         <content>
           <HBox id="myTiles" items="{/items}">
             <GenericTile header="{name}" press="onTilePress" class="sapUiTinyMargin" headerImage="{iconUrl}">
-              <TileContent>
-                <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" icon="{kpi/iconUrl}" visible="{kpiSet}" scale="{kpi/unit}" />
+              <TileContent footer="{ path: 'tileFooter', formatter: '.formatTileFooter' }">
+                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" scale="{kpi/unit}" />
               </TileContent>
             </GenericTile>
           </HBox>

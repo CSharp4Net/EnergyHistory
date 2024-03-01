@@ -1,5 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.Data;
+using CS4N.EnergyHistory.Contracts.Models.Station.Data;
 using CS4N.EnergyHistory.WebApp.Services;
 using CS4N.EnergyHistory.WebApp.ViewModels.Station;
 using Microsoft.AspNetCore.Mvc;

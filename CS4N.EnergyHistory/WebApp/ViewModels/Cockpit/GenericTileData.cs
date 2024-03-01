@@ -8,6 +8,7 @@
     public string NavigationParameterAsJsonText { get; set; } = "";
 
     public string IconUrl { get; set; } = "";
+    public string TileFooter { get; set; } = "";
 
     public KpiData? Kpi { get; set; }
     public bool KpiSet => Kpi != null;
