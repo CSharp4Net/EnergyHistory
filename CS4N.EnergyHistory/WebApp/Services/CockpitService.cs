@@ -1,7 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace CS4N.EnergyHistory.WebApp.Services
@@ -10,52 +9,62 @@ namespace CS4N.EnergyHistory.WebApp.Services
   {
     internal CockpitService(ILogger logger, IDataStore dataStore) : base(logger)
     {
-      definitionRepository = new StationDefinitionRepository(dataStore);
-      dataRepository = new StationDataRepository(dataStore);
+      solarStationRepository = new SolarStationRepository(dataStore);
+      electricMeterRepository = new ElectricMeterRepository(dataStore);
     }
 
-    private StationDefinitionRepository definitionRepository;
-    private StationDataRepository dataRepository;
+    private SolarStationRepository solarStationRepository;
+    private ElectricMeterRepository electricMeterRepository;
 
-    internal IActionResult GetItemsData()
+    internal List<GenericTileData> GetItemsData()
     {
-      List<GenericTileData> items = [];
+      var solarSolarStationDefinitions = solarStationRepository.GetDefinitions();
+      var electricMeterDefinitions = electricMeterRepository.GetDefinitions();
 
-      items.AddRange(GetDefaultItems());
-      items.AddRange(GetStationItems());
-
-      return new OkObjectResult(items);
-    }
-
-    private List<GenericTileData> GetDefaultItems()
-    {
-      return [
-        new GenericTileData("settings", "Stationen verwalten", "StationDefinitionOverview")
+      List<GenericTileData> result = [
+        new GenericTileData("settings", "Stationen verwalten", "SolarStationDefinitionOverview")
         {
           IconUrl = "sap-icon://action-settings",
-          TileFooter = "text_Settings"
-        }];
+          TileFooter = "text_Settings",
+          Kpi = new KpiData
+          {
+            Value = solarSolarStationDefinitions.Count.ToString()
+          }
+        },
+        new GenericTileData("settings", "Stromzähler verwalten", "EletricMeterDefinitionOverview")
+        {
+          IconUrl = "sap-icon://action-settings",
+          TileFooter = "text_Settings",
+          Kpi = new KpiData
+          {
+            Value = electricMeterDefinitions.Count.ToString()
+          }
+        }
+      ];
+
+      result.AddRange(GetStationItems(solarSolarStationDefinitions));
+      //result.AddRange(GetStationItems(electricMeterDefinitions));
+
+      return result;
     }
 
-    private List<GenericTileData> GetStationItems()
+    private List<GenericTileData> GetStationItems(List<Contracts.Models.SolarStation.Definition> definitions)
     {
-      var stations = definitionRepository.GetStations();
-
       List<GenericTileData> result = [];
 
-      foreach (var station in stations)
+      foreach (var definition in definitions)
       {
-        var data = dataRepository.GetStationData(station.Guid);
+        var data = solarStationRepository.GetData(definition.Guid);
 
-        result.Add(new GenericTileData("stations", station.Name, "StationData")
+        result.Add(new GenericTileData("stations", definition.Name, "SolarStationData")
         {
-          NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = station.Guid }),
-          IconUrl = station.IconUrl,
+          NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = definition.Guid }),
+          IconUrl = definition.IconUrl,
           Kpi = new KpiData
           {
             Value = Math.Round(data.GeneratedElectricityAmount).ToString(),
             ValueColor = "Good",
-            Unit = station.CapacityUnit
+            Unit = definition.CapacityUnit
           },
           TileFooter = "text_Station"
         }); ;

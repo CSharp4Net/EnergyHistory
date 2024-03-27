@@ -8,9 +8,4 @@
     <RootNamespace>CS4N.EnergyHistory.Contracts</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\ElectricMeter\Definition\" />
-    <Folder Include="Models\ElectricMeter\Data\" />
-  </ItemGroup>
-
 </Project>

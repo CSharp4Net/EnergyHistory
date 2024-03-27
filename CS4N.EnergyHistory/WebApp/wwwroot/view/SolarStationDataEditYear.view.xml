@@ -1,0 +1,126 @@
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.SolarStationDataEditYear">
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+    <customHeader>
+      <Bar>
+        <contentLeft>
+          <Button type="Back" text="{i18n>text_Record}" press="onBackPress"/>
+        </contentLeft>
+        <contentMiddle>
+          <Image src="image/flash-energy-64.png" height="2rem"/>
+          <Title text="{/viewData/yearData/number}"/>
+        </contentMiddle>
+        <contentRight>
+          <Button type="Reject" press="onRemovePress" icon="sap-icon://delete" text="{i18n>text_Delete}"/>
+        </contentRight>
+      </Bar>
+    </customHeader>
+    <content>
+      <f:Form editable="true">
+        <f:layout>
+          <f:ResponsiveGridLayout columnsM="2" labelSpanL="6" labelSpanM="6" labelSpanS="6" />
+        </f:layout>
+        <f:formContainers>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_AutomaticSummation}">
+                <f:fields>
+                  <Switch state="{/viewData/yearData/automaticSummation}" type="AcceptReject" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
+                <f:fields>
+                  <Switch state="{/viewData/yearData/generatedElectricityEnabled}" type="AcceptReject" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_FedInPerKilowattHour}">
+                <f:fields>
+                  <Switch state="{/viewData/yearData/fedInEnabled}" type="AcceptReject" />
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_Collected}">
+                <f:fields>
+                  <Input id="collectedTotalInput"
+                         value="{/viewData/yearData/generatedElectricityAmount}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         editable="{= !${/viewData/yearData/automaticSummation} }"
+                         description="{/viewData/definition/capacityUnit}" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" 
+                             visible="{= ${/viewData/yearData/generatedElectricityEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+                <f:fields>
+                  <Input value="{/viewData/yearData/generatedElectricityKilowattHourPrice}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         description="{/viewData/definition/currencyUnit}" />
+                </f:fields>
+              </f:FormElement>
+              <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" 
+                             visible="{= ${/viewData/yearData/fedInEnabled} &amp;&amp; !${/viewData/yearData/automaticSummation} }">
+                <f:fields>
+                  <Input value="{/viewData/yearData/fedInElectricityKilowattHourPrice}"
+                         valueState="{/collectedTotalState}"
+                         type="Number"
+                         textAlign="End"
+                         placeholder="0"
+                         description="{/viewData/definition/currencyUnit}" />
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+        </f:formContainers>
+      </f:Form>
+      <Table items="{/viewData/yearData/months}" alternateRowColors="true" fixedLayout="false" visible="{/viewData/yearData/automaticSummation}">
+        <columns>
+          <Column>
+            <Text text="{i18n>text_Month}" />
+          </Column>
+          <Column>
+            <Text text="{i18n>text_Collected}" />
+          </Column>
+          <Column visible="{/viewData/yearData/generatedElectricityEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
+          </Column>
+          <Column visible="{/viewData/yearData/fedInEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>text_PriceOfFedInKilowattHour}" />
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem vAlign="Middle">
+            <cells>
+              <Text text="{ path: 'number', formatter: '.formatMonth' }" />
+              <Input value="{generatedElectricityAmount}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     change="onMonthCollectedTotalChange"
+                     description="{/viewData/definition/capacityUnit}" />
+              <Input value="{generatedElectricityKilowattHourPrice}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     description="{/viewData/definition/currencyUnit}" />
+              <Input value="{fedInElectricityKilowattHourPrice}"
+                     type="Number"
+                     textAlign="End"
+                     valueLiveUpdate="true"
+                     placeholder="0"
+                     description="{/viewData/definition/currencyUnit}" />
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+  </Page>
+</mvc:View>

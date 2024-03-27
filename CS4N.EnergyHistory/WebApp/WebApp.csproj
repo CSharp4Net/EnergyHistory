@@ -23,7 +23,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="wwwroot\view\fragment\StationDataImportDialog.fragment.xml">
+	  <Content Update="wwwroot\view\fragment\SolarStationDataImportDialog.fragment.xml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\view\EletricMeterDefinitionOverview.view.xml">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

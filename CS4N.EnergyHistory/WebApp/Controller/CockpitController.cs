@@ -16,6 +16,6 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     [HttpGet]
     public IActionResult GetItemsData()
-      => service.GetItemsData();
+      => new OkObjectResult(service.GetItemsData());
   }
 }

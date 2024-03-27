@@ -1,6 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.Station.Data;
-using CS4N.EnergyHistory.Contracts.Models.Station.Definition;
+using CS4N.EnergyHistory.Contracts.Models;
 using CS4N.EnergyHistory.Core;
 using System.Text;
 using System.Text.Json;
@@ -9,21 +8,23 @@ namespace CS4N.EnergyHistory.DataStore.File
 {
   public sealed partial class FileStore : IDataStore
   {
-    public string StoreFolderPath => Path.Combine(PathHelper.GetWorkPath(), "FileStore");
+    private const string folderName = "FileStore";
 
-    private void WriteStationDefinitionsFile(List<StationDefinition> definitions)
+    public string StoreFolderPath => Path.Combine(PathHelper.GetWorkPath(), folderName);
+
+    private void WriteDefinitionsFile<T>(List<T> definitions, string fileName)
     {
       if (!Directory.Exists(StoreFolderPath))
         Directory.CreateDirectory(StoreFolderPath);
 
       string fileContent = JsonSerializer.Serialize(definitions);
-      string filePath = Path.Combine(StoreFolderPath, "Stations.json");
+      string filePath = Path.Combine(StoreFolderPath, fileName);
 
       System.IO.File.WriteAllText(filePath, fileContent, Encoding.UTF8);
     }
-    private List<StationDefinition>? LoadStationDefinitionsFile()
+    private List<T>? LoadDefinitionsFile<T>(string fileName)
     {
-      string filePath = Path.Combine(StoreFolderPath, "Stations.json");
+      string filePath = Path.Combine(StoreFolderPath, fileName);
 
       if (!System.IO.File.Exists(filePath))
         return null;
@@ -31,12 +32,12 @@ namespace CS4N.EnergyHistory.DataStore.File
       string fileContent = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
 
       if (string.IsNullOrWhiteSpace(fileContent))
-        return new List<StationDefinition>();
+        return new List<T>();
 
-      return JsonSerializer.Deserialize<List<StationDefinition>>(fileContent);
+      return JsonSerializer.Deserialize<List<T>>(fileContent);
     }
 
-    private void WriteStationDataFile(StationData data)
+    private void WriteDataFile<T>(T data) where T : DataObjectBase
     {
       if (!Directory.Exists(StoreFolderPath))
         Directory.CreateDirectory(StoreFolderPath);
@@ -46,18 +47,18 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       System.IO.File.WriteAllText(filePath, fileContent, Encoding.UTF8);
     }
-    private StationData? LoadStationDataFile(string stationId)
+    private T? LoadDataFile<T>(string stationId) where T : DataObjectBase
     {
       string filePath = Path.Combine(StoreFolderPath, $"{stationId}.json");
 
       if (!System.IO.File.Exists(filePath))
-        return null;
+        return default;
 
       string fileContent = System.IO.File.ReadAllText(filePath, Encoding.UTF8);
 
-      return JsonSerializer.Deserialize<StationData>(fileContent);
+      return JsonSerializer.Deserialize<T>(fileContent);
     }
-    private void DeleteStationDataFile(string stationId)
+    private void DeleteDataFile<T>(string stationId) where T : DataObjectBase
     {
       string filePath = Path.Combine(StoreFolderPath, $"{stationId}.json");
 

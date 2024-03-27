@@ -1,6 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.Station.Data;
-using CS4N.EnergyHistory.Contracts.Models.Station.Definition;
+using CS4N.EnergyHistory.Contracts.Models.SolarStation;
+using CS4N.EnergyHistory.Contracts.Models.SolarStation.Data;
 using System.Globalization;
 using System.Text;
 
@@ -8,14 +8,14 @@ namespace CS4N.EnergyHistory.DataImport.FritzBox
 {
   public sealed class DataImport : IDataImport
   {
-    public DataImport(StationDefinition stationDefinition)
+    public DataImport(Definition stationDefinition)
     {
       this.stationDefinition = stationDefinition;
     }
 
-    private readonly StationDefinition stationDefinition;
+    private readonly Definition stationDefinition;
 
-    public List<StationDataYear> ReadCsvFile(string filePath)
+    public List<DataOfYear> ReadCsvFile(string filePath)
     {
       /* Beispielinhalt eines CSV-Export über 2 Jahre (Stand 2024-02-12)
           sep=;
@@ -27,7 +27,7 @@ namespace CS4N.EnergyHistory.DataImport.FritzBox
           Februar 2024;8,036;kWh;2,73;Euro;4,420;kg CO2
        */
 
-      List<StationDataYear> result = [];
+      List<DataOfYear> result = [];
 
       string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
       string[] lines = fileContent.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
@@ -46,9 +46,9 @@ namespace CS4N.EnergyHistory.DataImport.FritzBox
         var yearData = result.SingleOrDefault(entry => entry.Number == dateValue.Year);
 
         if (yearData == null)
-          yearData = new StationDataYear(stationDefinition, dateValue.Year);
+          yearData = new DataOfYear(stationDefinition, dateValue.Year);
 
-        yearData.Months.Add(new StationDataMonth(stationDefinition, dateValue.Year, dateValue.Month)
+        yearData.Months.Add(new DataOfMonth(stationDefinition, dateValue.Year, dateValue.Month)
         {
           AutomaticSummation = true,
           GeneratedElectricityAmount = electricityAmountValue
