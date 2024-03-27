@@ -82,17 +82,17 @@ namespace CS4N.EnergyHistory.DataStore.File
       return cachedSolarStationDatas;
     }
 
-    public DataSummary GetSolarStationData(string stationGuid)
+    public DataSummary GetSolarStationData(string guid)
     {
-      var data = cachedSolarStationDatas.SingleOrDefault(entry => entry.StationGuid == stationGuid);
+      var data = cachedSolarStationDatas.SingleOrDefault(entry => entry.StationGuid == guid);
       if (data != null)
         return data;
 
-      data = LoadDataFile<DataSummary>(stationGuid);
+      data = LoadDataFile<DataSummary>(guid);
 
       data ??= new DataSummary
       {
-        StationGuid = stationGuid
+        StationGuid = guid
       };
 
       cachedSolarStationDatas.Add(data);
@@ -107,9 +107,9 @@ namespace CS4N.EnergyHistory.DataStore.File
       cachedSolarStationDatas.Clear();
     }
 
-    public void DeleteSolarStationData(string stationGuid)
+    public void DeleteSolarStationData(string guid)
     {
-      DeleteDataFile<DataSummary>(stationGuid);
+      DeleteDataFile<DataSummary>(guid);
 
       cachedSolarStationDatas.Clear();
     }

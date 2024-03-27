@@ -4,12 +4,12 @@
   function (Controller, Connector) {
     "use strict";
 
-    return Controller.extend("CS4N.EnergyHistory.controller.EletricMeterDefinitionOverview", {
+    return Controller.extend("CS4N.EnergyHistory.controller.ElectricMeterDefinitionOverview", {
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
-        this.getOwnerComponent().getRouter().getRoute("EletricMeterDefinitionOverview").attachPatternMatched(this.onRouteMatched, this);
+        this.getOwnerComponent().getRouter().getRoute("ElectricMeterDefinitionOverview").attachPatternMatched(this.onRouteMatched, this);
       },
 
       // #region Methods
@@ -37,14 +37,14 @@
       },
 
       onAddPress: function () {
-        this.navigateTo("EletricMeterDefinition");
+        this.navigateTo("ElectricMeterDefinition");
       },
 
       onStationPress: function (evt) {
         const modelPath = evt.getSource().getBindingContext().getPath(),
           definition = this.model.getProperty(modelPath);
 
-        this.navigateTo("EletricMeterDefinition", { guid: definition.guid });
+        this.navigateTo("ElectricMeterDefinition", { guid: definition.guid });
       },
       // #endregion
 

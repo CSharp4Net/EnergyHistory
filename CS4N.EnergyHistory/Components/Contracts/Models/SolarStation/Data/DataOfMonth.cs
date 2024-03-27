@@ -101,6 +101,8 @@
     /// </summary>
     public decimal FedInElectricityValue => Convert.ToDecimal(GeneratedElectricityAmount) * FedInElectricityKilowattHourPrice;
 
+    public string Comments { get; set; } = "";
+
     //public List<StationDataDay> Days { get; set; } = [];
   }
 }

@@ -1,26 +1,26 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.SolarStation;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter;
 using CS4N.EnergyHistory.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Controller
 {
   [Route("api/[controller]")]
-  public sealed class SolarStationDefinitionController : ControllerBase
+  public sealed class ElectricMeterDefinitionController : ControllerBase
   {
-    public SolarStationDefinitionController(ILogger logger, IDataStore dataStore)
+    public ElectricMeterDefinitionController(ILogger logger, IDataStore dataStore)
     {
-      service = new SolarStationDefinitionService(logger, dataStore);
+      service = new ElectricMeterDefinitionService(logger, dataStore);
     }
 
-    private SolarStationDefinitionService service;
+    private ElectricMeterDefinitionService service;
 
     [HttpGet("overview")]
-    public IActionResult GetDefinitions()
+    public IActionResult GetOverview()
       => service.GetDefinitions();
 
     [HttpGet("{guid}")]
-    public IActionResult GetDefinition(string guid)
+    public IActionResult Get(string guid)
       => service.GetDefinition(guid);
 
     [HttpPost]

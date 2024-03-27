@@ -39,32 +39,37 @@
         {
           "name": "SolarStationDefinitionOverview",
           "pattern": "SolarStationDefinition/Overview",
-          "target": "stationDefinitionOverview"
+          "target": "solarStationDefinitionOverview"
         },
         {
           "name": "SolarStationDefinition",
           "pattern": "SolarStationDefinition/:guid:",
-          "target": "definition"
+          "target": "solarStationDefinition"
         },
         {
           "name": "SolarStationData",
           "pattern": "SolarStationData/{guid}",
-          "target": "data"
+          "target": "solarStationData"
         },
         {
           "name": "SolarStationDataEdit",
           "pattern": "SolarStationData/{guid}/Edit",
-          "target": "stationDataEdit"
+          "target": "solarStationDataEdit"
         },
         {
           "name": "SolarStationDataEditYear",
           "pattern": "SolarStationData/{guid}/Edit/Year",
-          "target": "stationDataEditYear"
+          "target": "solarStationDataEditYear"
         },
         {
-          "name": "EletricMeterDefinitionOverview",
-          "pattern": "EletricMeter/Overview",
-          "target": "eletricMeterDefinitionOverview"
+          "name": "ElectricMeterDefinitionOverview",
+          "pattern": "ElectricMeterDefinition/Overview",
+          "target": "electricMeterDefinitionOverview"
+        },
+        {
+          "name": "ElectricMeterDefinition",
+          "pattern": "ElectricMeterDefinition/:guid:",
+          "target": "electricMeterDefinition"
         }
       ],
       "targets": {
@@ -72,29 +77,33 @@
           "viewName": "Cockpit",
           "viewLevel": 0
         },
-        "stationDefinitionOverview": {
+        "solarStationDefinitionOverview": {
           "viewName": "SolarStationDefinitionOverview",
           "viewLevel": 1
         },
-        "definition": {
+        "solarStationDefinition": {
           "viewName": "SolarStationDefinition",
           "viewLevel": 2
         },
-        "data": {
+        "solarStationData": {
           "viewName": "SolarStationData",
           "viewLevel": 2
         },
-        "stationDataEdit": {
+        "solarStationDataEdit": {
           "viewName": "SolarStationDataEdit",
           "viewLevel": 3
         },
-        "stationDataEditYear": {
+        "solarStationDataEditYear": {
           "viewName": "SolarStationDataEditYear",
           "viewLevel": 4
         },
-        "eletricMeterDefinitionOverview": {
-          "viewName": "EletricMeterDefinitionOverview",
+        "electricMeterDefinitionOverview": {
+          "viewName": "ElectricMeterDefinitionOverview",
           "viewLevel": 1
+        },
+        "electricMeterDefinition": {
+          "viewName": "ElectricMeterDefinition",
+          "viewLevel": 2
         }
       }
     }

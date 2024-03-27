@@ -74,5 +74,7 @@
     /// Auflistung der Monate
     /// </summary>
     public List<DataOfMonth> Months { get; set; } = [];
+
+    public string Comments { get; set; } = "";
   }
 }

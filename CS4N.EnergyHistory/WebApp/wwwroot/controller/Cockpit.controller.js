@@ -17,10 +17,17 @@
       resetModel: function () {
         this.model.setData({
           items: [],
-          selectedTabKey: "settings",
+          selectedTabKey: "all",
           stationCount: 0,
           stationAdded: false
         });
+      },
+
+      formatTileHeader: function (text) {
+        if (text.startsWith("text_"))
+          return this.i18n.getText(text);
+        else
+          return text;
       },
 
       formatTileFooter: function (text) {
@@ -53,7 +60,10 @@
       onTabSelect: function (evt) {
         const key = evt.getParameter("key");
 
-        this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", key));
+        if (key == "all")
+          this.byId("myTiles").getBinding("items").filter();
+        else
+          this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", key));
       },
       // #endregion
 
@@ -65,12 +75,12 @@
         this.model.setProperty("/stationCount", stations.length);
         this.model.setProperty("/stationAdded", stations.length > 0);
 
-        if (stations.length === 0)
-          this.model.setProperty("/selectedTabKey", "settings");
-        else
-          this.model.setProperty("/selectedTabKey", "stations");
+        const meters = response.filter(item => item.category === "meters");
+        this.model.setProperty("/meterCount", meters.length);
+        this.model.setProperty("/meterAdded", meters.length > 0);
 
-        this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", this.model.getProperty("/selectedTabKey")));
+        this.byId("myTiles").getBinding("items").filter();
+        //this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", this.model.getProperty("/selectedTabKey")));
       }
       // #endregion
     });

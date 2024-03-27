@@ -1,6 +1,7 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
 using CS4N.EnergyHistory.Contracts.Models.ElectricMeter;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 
 namespace CS4N.EnergyHistory.WebApp.Repositories
 {
@@ -49,7 +50,16 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     #endregion
 
     #region Data
+    internal DataSummary GetData(string stationGuid)
+      => DataStore.GetElectricMeterData(stationGuid);
 
+    // TODO
+    //internal DataSummary SetData(DataSummary data)
+    //{
+    //  DataStore.UpsertSolarStationData(data);
+
+    //  return data;
+    //}
     #endregion
   }
 }

@@ -27,7 +27,7 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
-	  <Content Update="wwwroot\view\EletricMeterDefinitionOverview.view.xml">
+	  <Content Update="wwwroot\view\ElectricMeterDefinitionOverview.view.xml">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

@@ -87,11 +87,14 @@
           <Column>
             <Text text="{i18n>text_Collected}" />
           </Column>
-          <Column visible="{/viewData/yearData/generatedElectricityEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline" visible="{/viewData/yearData/generatedElectricityEnabled}">
             <Text text="{i18n>text_PriceOfConsumedKilowattHour}" />
           </Column>
-          <Column visible="{/viewData/yearData/fedInEnabled}" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline" visible="{/viewData/yearData/fedInEnabled}">
             <Text text="{i18n>text_PriceOfFedInKilowattHour}" />
+          </Column>
+          <Column demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+            <Text text="{i18n>text_Comments}" />
           </Column>
         </columns>
         <items>
@@ -117,6 +120,8 @@
                      valueLiveUpdate="true"
                      placeholder="0"
                      description="{/viewData/definition/currencyUnit}" />
+              <Input value="{comments}"
+                     valueLiveUpdate="true" />
             </cells>
           </ColumnListItem>
         </items>

@@ -6,6 +6,7 @@
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
+          <Title text="{i18n>title_Definition}"/>
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{i18n>title_SolarStationDefinitionOverview}"/>
         </contentMiddle>

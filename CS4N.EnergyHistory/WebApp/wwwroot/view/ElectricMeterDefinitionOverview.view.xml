@@ -1,4 +1,4 @@
-﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.EletricMeterDefinitionOverview">
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.ElectricMeterDefinitionOverview">
   <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
     <customHeader>
       <Bar>
@@ -6,8 +6,9 @@
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
+          <Title text="{i18n>title_Definition}"/>
           <Image src="image/flash-energy-64.png" height="2rem"/>
-          <Title text="{i18n>title_EletricMeterDefinitionOverview}"/>
+          <Title text="{i18n>title_ElectricMeterDefinitionOverview}"/>
         </contentMiddle>
       </Bar>
     </customHeader>

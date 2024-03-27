@@ -1,5 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 using CS4N.EnergyHistory.Core;
 using System.Text;
 using System.Text.Json;

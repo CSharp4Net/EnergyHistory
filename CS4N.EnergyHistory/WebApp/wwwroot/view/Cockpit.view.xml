@@ -12,12 +12,14 @@
     <content>
       <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
         <items>
+          <IconTabFilter key="all" text="{i18n>text_All}" />
           <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" visible="{/stationAdded}" />
+          <IconTabFilter key="meters" text="{i18n>text_Meters}" count="{/meterCount}" visible="{/meterAdded}" />
           <IconTabFilter key="settings" text="{i18n>text_Settings}" />
         </items>
         <content>
           <HBox id="myTiles" items="{/items}">
-            <GenericTile header="{name}" press="onTilePress" class="sapUiTinyMargin" headerImage="{iconUrl}">
+            <GenericTile header="{ path: 'name', formatter: '.formatTileHeader' }" press="onTilePress" class="sapUiTinyMargin" headerImage="{iconUrl}">
               <TileContent footer="{ path: 'tileFooter', formatter: '.formatTileFooter' }">
                   <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" scale="{kpi/unit}" />
               </TileContent>

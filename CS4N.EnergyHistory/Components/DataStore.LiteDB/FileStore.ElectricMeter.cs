@@ -1,5 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts.Models.ElectricMeter;
-using CS4N.EnergyHistory.Contracts.Models.SolarStation.Data;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 
 namespace CS4N.EnergyHistory.DataStore.File
 {
@@ -67,7 +67,49 @@ namespace CS4N.EnergyHistory.DataStore.File
     #endregion
 
     #region Data
+    public List<DataSummary> GetElectricMeterDatas()
+    {
+      if (cachedElectricMeterDatas.Count > 0)
+        return cachedElectricMeterDatas;
 
+      var definitions = GetSolarStationDefinitions();
+
+      cachedElectricMeterDatas = [];
+
+      foreach (var definition in definitions)
+        cachedElectricMeterDatas.Add(GetElectricMeterData(definition.Guid));
+
+      return cachedElectricMeterDatas;
+
+    }
+
+    public DataSummary GetElectricMeterData(string guid)
+    {
+      var data = cachedElectricMeterDatas.SingleOrDefault(entry => entry.StationGuid == guid);
+      if (data != null)
+        return data;
+
+      data = LoadDataFile<DataSummary>(guid);
+
+      data ??= new DataSummary
+      {
+        StationGuid = guid
+      };
+
+      cachedElectricMeterDatas.Add(data);
+
+      return data;
+    }
+
+    public void UpsertElectricMeterData(DataSummary data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteElectricMeterData(string guid)
+    {
+      throw new NotImplementedException();
+    }
     #endregion
   }
 }

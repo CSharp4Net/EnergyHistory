@@ -33,14 +33,19 @@
     /// Währungseinheit
     /// </summary>
     public string CurrencyUnit { get; set; } = "€";
+
     /// <summary>
-    /// Anschaffungskosten
+    /// Anzeige und Berechnung Verbrauch pro kWh
     /// </summary>
-    public decimal PurchaseCosts { get; set; }
+    public bool GeneratedElectricityEnabled { get; set; } = true;
     /// <summary>
     /// Preis pro kWh
     /// </summary>
     public decimal GeneratedElectricityKilowattHourPrice { get; set; }
+    /// <summary>
+    /// Anzeige und Bereich Vergütung pro kWh
+    /// </summary>
+    public bool FedInEnabled { get; set; } = true;
     /// <summary>
     /// Vergütung pro kWh
     /// </summary>

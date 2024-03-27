@@ -6,19 +6,19 @@
   function (Controller, Connector, MessageBox, MessageToast) {
     "use strict";
 
-    return Controller.extend("CS4N.EnergyHistory.controller.SolarStationDefinition", {
+    return Controller.extend("CS4N.EnergyHistory.controller.ElectricMeterDefinition", {
 
       initController: function () {
         this.model = new sap.ui.model.json.JSONModel();
         this.getView().setModel(this.model);
-        this.getOwnerComponent().getRouter().getRoute("SolarStationDefinition").attachPatternMatched(this.onRouteMatched, this);
+        this.getOwnerComponent().getRouter().getRoute("ElectricMeterDefinition").attachPatternMatched(this.onRouteMatched, this);
       },
 
       // #region Methods
       resetModel: function () {
         this.model.setData({
           newRecord: true,
-          station: {
+          definition: {
             guid: "",
             name: "",
             powerPeak: "",
@@ -26,7 +26,6 @@
             capacityUnit: "kW",
             installedAt: "",
             currencyUnit: "",
-            purchaseCosts: 0,
             generatedElectricityEnabled: false,
             generatedElectricityKilowattHourPrice: 0,
             fedInEnabled: false,
@@ -39,32 +38,25 @@
         });
       },
 
-      validateInput: function (station) {
+      validateInput: function (definition) {
         let allValid = true;
 
-        if (this.isNullOrEmpty(station.name)) {
+        if (this.isNullOrEmpty(definition.name)) {
           this.model.setProperty("/nameState", "Error");
           allValid = false;
         }
         else
           this.model.setProperty("/nameState", "None");
 
-        station.powerPeak = Number(station.powerPeak) || 0;
-
-        if (station.powerPeak <= 0) {
-          this.model.setProperty("/powerPeakState", "Error");
+        if (this.isNullOrEmpty(definition.number)) {
+          this.model.setProperty("/numberState", "Error");
           allValid = false;
         }
         else
-          this.model.setProperty("/powerPeakState", "None");
+          this.model.setProperty("/numberState", "None");
 
-        if (this.isNullOrEmpty(station.installedAt))
-          station.installedAt = null;
-
-        station.purchaseCosts = Number(station.purchaseCosts) || 0;
-
-        if (station.purchaseCosts < 0)
-          station.purchaseCosts = 0;
+        if (this.isNullOrEmpty(definition.installedAt))
+          definition.installedAt = null;
 
         if (allValid)
           this.model.setProperty("/commonPropertiesAreValid", "Default");
@@ -96,50 +88,50 @@
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("SolarStationDefinition/" + guid,
-          this.onApiGetStation.bind(this),
+        Connector.get("ElectricMeterDefinition/" + guid,
+          this.onApiGetElectricMeter.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
       },
 
       onBackPress: function () {
-        this.navigateTo("SolarStationDefinitionOverview");
+        this.navigateTo("ElectricMeterDefinitionOverview");
       },
 
       onSavePress: function () {
-        const station = this.model.getProperty("/station");
+        const definition = this.model.getProperty("/definition");
 
-        if (!this.validateInput(station))
+        if (!this.validateInput(definition))
           return;
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        if (this.isNullOrEmpty(station.guid))
-          Connector.post("SolarStationDefinition", station,
-            this.onApiAddStation.bind(this),
+        if (this.isNullOrEmpty(definition.guid))
+          Connector.post("ElectricMeterDefinition", definition,
+            this.onApiAddElectricMeter.bind(this),
             this.handleApiError.bind(this),
             () => container.setBusy(false));
         else
-          Connector.patch("SolarStationDefinition", station,
-            this.onApiUpdateStation.bind(this),
+          Connector.patch("ElectricMeterDefinition", definition,
+            this.onApiUpdateElectricMeter.bind(this),
             this.handleApiError.bind(this),
             () => container.setBusy(false));
       },
 
       onDeletePress: function () {
-        MessageBox.confirm(this.i18n.getText("message_ConfirmDeleteStation"), {
+        MessageBox.confirm(this.i18n.getText("message_ConfirmDeleteElectricMeter"), {
           actions: [MessageBox.Action.YES, MessageBox.Action.NO],
           emphasizedAction: MessageBox.Action.YES,
           onClose: (evt) => {
             if (evt != "YES")
               return;
 
-            const station = this.model.getProperty("/station");
+            const definition = this.model.getProperty("/definition");
 
             const container = this.byId("myPage");
             container.setBusy(true);
-            Connector.delete("SolarStationDefinition", station,
-              this.onApiDeleteStation.bind(this),
+            Connector.delete("ElectricMeterDefinition", definition,
+              this.onApiDeleteElectricMeter.bind(this),
               this.handleApiError.bind(this),
               () => container.setBusy(false));
           }
@@ -152,43 +144,43 @@
       // #endregion
 
       // #region API-Events
-      onApiAddStation: function (response) {
+      onApiAddElectricMeter: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
         this.onBackPress();
-        MessageToast.show(this.i18n.getText("toast_StationAdded"));
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterAdded"));
       },
 
-      onApiUpdateStation: function (response) {
+      onApiUpdateElectricMeter: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
-        MessageToast.show(this.i18n.getText("toast_StationUpdated"));
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterUpdated"));
       },
 
-      onApiGetStation: function (response) {
+      onApiGetElectricMeter: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
         this.model.setProperty("/newRecord", false);
-        this.model.setProperty("/station", response);
+        this.model.setProperty("/definition", response);
       },
 
-      onApiDeleteStation: function (response) {
+      onApiDeleteElectricMeter: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
           return;
         }
 
         this.onBackPress();
-        MessageToast.show(this.i18n.getText("toast_StationDeleted"));
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterDeleted"));
       }
       // #endregion
     });
