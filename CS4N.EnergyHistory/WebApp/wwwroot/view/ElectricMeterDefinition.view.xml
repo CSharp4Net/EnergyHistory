@@ -67,22 +67,48 @@
                         </Select>
                       </f:fields>
                     </f:FormElement>
+                    <f:FormElement label="{i18n>text_Currency}">
+                      <Input value="{/definition/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
+                    </f:FormElement>
                   </f:formElements>
                 </f:FormContainer>
               </f:formContainers>
             </f:Form>
           </IconTabFilter>
-          <IconTabFilter text="{i18n>text_Financial}">
-            <f:Form editable="true">
+          <IconTabFilter text="{i18n>text_MeterUnits}">
+            <Table items="{/definition/units}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCompact" noDataText="{i18n>text_NoRecords}">
+              <columns>
+                <Column>
+                  <Text text="{i18n>text_Code}" />
+                </Column>
+                <Column>
+                  <Text text="{i18n>text_IsConsumptionMeter}" />
+                </Column>
+                <Column>
+                  <Text text="{i18n>text_PriceOfKilowattHour}" />
+                </Column>
+                <Column hAlign="End">
+                  <Button icon="sap-icon://add" type="Transparent" press="AddMeterUnitPress" />
+                </Column>
+              </columns>
+              <items>
+                <ColumnListItem vAlign="Middle" press="onStationPress">
+                  <cells>
+                    <Input value="{code}"/>
+                    <Switch value="{number}"/>
+                    <Input value="{number}"/>
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+            <!--<f:Form editable="true">
               <f:layout>
                 <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement label="{i18n>text_Currency}">
-                      <Input value="{/definition/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
-                    </f:FormElement>
+   
                     <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
                       <Switch state="{/definition/generatedElectricityEnabled}" />
                     </f:FormElement>
@@ -110,7 +136,7 @@
                   </f:formElements>
                 </f:FormContainer>
               </f:formContainers>
-            </f:Form>
+            </f:Form>-->
           </IconTabFilter>
           <IconTabFilter text="{i18n>text_Internal}">
             <f:Form editable="false">

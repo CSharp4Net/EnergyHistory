@@ -141,6 +141,15 @@
       onIconExplorerPress: function () {
         window.open("https://ui5.sap.com/test-resources/sap/m/demokit/iconExplorer/webapp/index.html#/overview/SAP-icons", '_blank').focus();
       },
+
+      AddMeterUnitPress: function () {
+        this.model.getProperty("/definition/units").push({
+          code: "",
+          isConsumptionMeter: true,
+          kilowattHourPrice: 0
+        });
+        this.model.refresh();
+      },
       // #endregion
 
       // #region API-Events
