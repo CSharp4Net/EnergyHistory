@@ -145,6 +145,7 @@
       AddMeterUnitPress: function () {
         this.model.getProperty("/definition/units").push({
           code: "",
+          codeState: "None",
           isConsumptionMeter: true,
           kilowattHourPrice: 0
         });

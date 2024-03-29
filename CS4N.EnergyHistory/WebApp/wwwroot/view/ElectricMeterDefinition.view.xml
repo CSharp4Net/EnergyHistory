@@ -94,9 +94,13 @@
               <items>
                 <ColumnListItem vAlign="Middle" press="onStationPress">
                   <cells>
-                    <Input value="{code}"/>
+                    <Input required="true" value="{code}" valueState="{codeState}" placeholder="{i18n>place_MeterUnitCode}"/>
                     <Switch value="{number}"/>
-                    <Input value="{number}"/>
+                    <Input value="{/definition/kilowattHourPrice}"
+                           textAlign="End"
+                           type="Number"
+                           placeholder="0"
+                           description="{/definition/currencyUnit}" />
                   </cells>
                 </ColumnListItem>
               </items>
