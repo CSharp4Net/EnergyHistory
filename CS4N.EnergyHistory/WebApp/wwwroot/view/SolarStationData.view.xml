@@ -26,7 +26,7 @@
           <IconTabFilter text="{i18n>text_Summary}">
             <f:Form editable="false">
               <f:layout>
-                <f:ResponsiveGridLayout columnsM="2" labelSpanL="6" labelSpanM="6" labelSpanS="6" />
+                <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>

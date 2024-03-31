@@ -43,7 +43,7 @@
         if (this.isNullOrEmpty(value))
           return value;
 
-        return new Date(value).toLocaleDateString();
+        return new Date(value).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       },
 
       createChartControl: function (chartType) {
@@ -84,7 +84,7 @@
                 }
               },
               x: {
-                ticks: {                  
+                ticks: {
                   color: "rgba(0, 100, 217, 1)"
                 }
               }

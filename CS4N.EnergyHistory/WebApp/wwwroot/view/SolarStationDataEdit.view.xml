@@ -9,9 +9,6 @@
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{i18n>text_Record}"/>
         </contentMiddle>
-        <contentRight>
-          <Button icon="sap-icon://add" class="sapUiTinyMarginBegin" press="onAddYearPress" text="{i18n>text_Year}" />
-        </contentRight>
       </Bar>
     </customHeader>
     <content>
@@ -41,15 +38,19 @@
           <Column hAlign="End">
             <Text text="{i18n>text_GeneratedElectricityAmount}" />
           </Column>
+          <Column hAlign="End" styleClass="sapUiSizeCompact">
+            <Button icon="sap-icon://add" type="Transparent" press="onAddYearPress" />
+          </Column>
         </columns>
         <items>
-          <ColumnListItem vAlign="Middle" type="Navigation" press="onYearPress">
+          <ColumnListItem vAlign="Middle" type="Active" press="onYearPress">
             <cells>
               <Text text="{number}" />
               <ObjectNumber number="{ path: 'generatedElectricityAmount', formatter: '.formatPowerValue' }"
                             emphasized="false"
                             unit="{/viewData/definition/capacityUnit}"
                             state="Success"/>
+              <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
             </cells>
           </ColumnListItem>
         </items>
