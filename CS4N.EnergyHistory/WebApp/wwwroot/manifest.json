@@ -114,6 +114,14 @@
         "electricMeterDefinition": {
           "viewName": "ElectricMeterDefinition",
           "viewLevel": 2
+        },
+        "electricMeterData": {
+          "viewName": "ElectricMeterData",
+          "viewLevel": 2
+        },
+        "electricMeterDataEdit": {
+          "viewName": "ElectricMeterDataEdit",
+          "viewLevel": 3
         }
       }
     }
