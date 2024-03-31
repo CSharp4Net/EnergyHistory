@@ -70,6 +70,16 @@
           "name": "ElectricMeterDefinition",
           "pattern": "ElectricMeterDefinition/:guid:",
           "target": "electricMeterDefinition"
+        },
+        {
+          "name": "ElectricMeterData",
+          "pattern": "ElectricMeterData/{guid}",
+          "target": "electricMeterData"
+        },
+        {
+          "name": "ElectricMeterDataEdit",
+          "pattern": "ElectricMeterData/{guid}/Edit",
+          "target": "ElectricMeterDataEdit"
         }
       ],
       "targets": {

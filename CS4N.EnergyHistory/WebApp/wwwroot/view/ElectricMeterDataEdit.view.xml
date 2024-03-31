@@ -1,0 +1,70 @@
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="CS4N.EnergyHistory.controller.ElectricMeterDataEdit">
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center">
+    <customHeader>
+      <Bar>
+        <contentLeft>
+          <Button type="Back" text="{/viewData/definition/name}" press="onBackPress"/>
+        </contentLeft>
+        <contentMiddle>
+          <Image src="image/flash-energy-64.png" height="2rem"/>
+          <Title text="{i18n>text_Record}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <f:Form editable="true">
+        <f:layout>
+          <f:ResponsiveGridLayout columnsM="2" labelSpanS="6" labelSpanM="6" />
+        </f:layout>
+        <f:formContainers>
+          <f:FormContainer>
+            <f:formElements>
+              <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
+                <f:fields>
+                  <ObjectNumber number="{ path: '/viewData/data/generatedElectricityAmount', formatter: '.formatPowerValue' }"
+                                unit="{/viewData/definition/capacityUnit}"
+                                state="Success"/>
+                </f:fields>
+              </f:FormElement>
+            </f:formElements>
+          </f:FormContainer>
+        </f:formContainers>
+      </f:Form>
+      <Table items="{ path: '/viewData/data/years', sorter: { path: 'number', descending: true } }" alternateRowColors="true" fixedLayout="false">
+        <columns>
+          <Column>
+            <Text text="{i18n>text_Year}" />
+          </Column>
+          <Column hAlign="End">
+            <Text text="{i18n>text_GeneratedElectricityAmount}" />
+          </Column>
+          <Column hAlign="End" styleClass="sapUiSizeCompact">
+            <Button icon="sap-icon://add" type="Transparent" press="onAddYearPress" />
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem vAlign="Middle" type="Active" press="onYearPress">
+            <cells>
+              <Text text="{number}" />
+              <ObjectNumber number="{ path: 'generatedElectricityAmount', formatter: '.formatPowerValue' }"
+                            emphasized="false"
+                            unit="{/viewData/definition/capacityUnit}"
+                            state="Success"/>
+              <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+    <footer>
+      <Bar>
+        <contentLeft>
+          <Button text="{i18n>text_Import}" icon="sap-icon://upload" width="150px" press="onImportPress" />
+        </contentLeft>
+        <contentRight>
+          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" press="onSavePress" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
+</mvc:View>
