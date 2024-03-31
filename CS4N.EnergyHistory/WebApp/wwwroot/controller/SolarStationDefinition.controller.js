@@ -18,7 +18,7 @@
       resetModel: function () {
         this.model.setData({
           newRecord: true,
-          station: {
+          definition: {
             guid: "",
             name: "",
             powerPeak: "",
@@ -39,32 +39,32 @@
         });
       },
 
-      validateInput: function (station) {
+      validateInput: function (definition) {
         let allValid = true;
 
-        if (this.isNullOrEmpty(station.name)) {
+        if (this.isNullOrEmpty(definition.name)) {
           this.model.setProperty("/nameState", "Error");
           allValid = false;
         }
         else
           this.model.setProperty("/nameState", "None");
 
-        station.powerPeak = Number(station.powerPeak) || 0;
+        definition.powerPeak = Number(definition.powerPeak) || 0;
 
-        if (station.powerPeak <= 0) {
+        if (definition.powerPeak <= 0) {
           this.model.setProperty("/powerPeakState", "Error");
           allValid = false;
         }
         else
           this.model.setProperty("/powerPeakState", "None");
 
-        if (this.isNullOrEmpty(station.installedAt))
-          station.installedAt = null;
+        if (this.isNullOrEmpty(definition.installedAt))
+          definition.installedAt = null;
 
-        station.purchaseCosts = Number(station.purchaseCosts) || 0;
+        definition.purchaseCosts = Number(definition.purchaseCosts) || 0;
 
-        if (station.purchaseCosts < 0)
-          station.purchaseCosts = 0;
+        if (definition.purchaseCosts < 0)
+          definition.purchaseCosts = 0;
 
         if (allValid)
           this.model.setProperty("/commonPropertiesAreValid", "Default");
@@ -107,20 +107,20 @@
       },
 
       onSavePress: function () {
-        const station = this.model.getProperty("/station");
+        const definition = this.model.getProperty("/definition");
 
-        if (!this.validateInput(station))
+        if (!this.validateInput(definition))
           return;
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        if (this.isNullOrEmpty(station.guid))
-          Connector.post("SolarStationDefinition", station,
+        if (this.isNullOrEmpty(definition.guid))
+          Connector.post("SolarStationDefinition", definition,
             this.onApiAddStation.bind(this),
             this.handleApiError.bind(this),
             () => container.setBusy(false));
         else
-          Connector.patch("SolarStationDefinition", station,
+          Connector.patch("SolarStationDefinition", definition,
             this.onApiUpdateStation.bind(this),
             this.handleApiError.bind(this),
             () => container.setBusy(false));
@@ -134,11 +134,10 @@
             if (evt != "YES")
               return;
 
-            const station = this.model.getProperty("/station");
-
-            const container = this.byId("myPage");
+            const definition = this.model.getProperty("/definition"),
+              container = this.byId("myPage");
             container.setBusy(true);
-            Connector.delete("SolarStationDefinition", station,
+            Connector.delete("SolarStationDefinition", definition,
               this.onApiDeleteStation.bind(this),
               this.handleApiError.bind(this),
               () => container.setBusy(false));
@@ -178,7 +177,7 @@
         }
 
         this.model.setProperty("/newRecord", false);
-        this.model.setProperty("/station", response);
+        this.model.setProperty("/definition", response);
       },
 
       onApiDeleteStation: function (response) {

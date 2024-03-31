@@ -31,12 +31,11 @@
                     <f:FormElement label="{i18n>text_Image}">
                       <f:fields>
                         <HBox renderType="Bare" alignItems="Center">
-                          <Input value="{/definition/iconUrl}" placeholder="sap-icon://photo-voltaic" />
                           <core:Icon src="{/definition/iconUrl}"
-                                     class="sapUiTinyMarginBegin"
+                                     class="sapUiTinyMarginEnd"
                                      size="2rem"
                                      color="Tile"/>
-                          <Button icon="sap-icon://image-viewer" press="onIconExplorerPress" class="sapUiTinyMarginBegin" type="Emphasized" />
+                          <Input value="{/definition/iconUrl}" placeholder="sap-icon://photo-voltaic" showValueHelp="true" valueHelpRequest="onIconExplorerPress" />
                         </HBox>
                       </f:fields>
                     </f:FormElement>
@@ -76,18 +75,18 @@
             </f:Form>
           </IconTabFilter>
           <IconTabFilter text="{i18n>text_MeterUnits}">
-            <Table items="{/definition/units}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCompact" noDataText="{i18n>text_NoRecords}">
+            <Table items="{/definition/units}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
               <columns>
-                <Column>
+                <Column >
                   <Text text="{i18n>text_Code}" />
                 </Column>
-                <Column>
+                <Column hAlign="Center">
                   <Text text="{i18n>text_IsConsumptionMeter}" />
                 </Column>
                 <Column>
                   <Text text="{i18n>text_PriceOfKilowattHour}" />
                 </Column>
-                <Column hAlign="End">
+                <Column hAlign="End" styleClass="sapUiSizeCompact">
                   <Button icon="sap-icon://add" type="Transparent" press="AddMeterUnitPress" />
                 </Column>
               </columns>
@@ -95,52 +94,17 @@
                 <ColumnListItem vAlign="Middle" press="onStationPress">
                   <cells>
                     <Input required="true" value="{code}" valueState="{codeState}" placeholder="{i18n>place_MeterUnitCode}"/>
-                    <Switch value="{number}"/>
-                    <Input value="{/definition/kilowattHourPrice}"
+                    <CheckBox selected="{isConsumptionMeter}"/>
+                    <Input value="{kilowattHourPrice}"
                            textAlign="End"
                            type="Number"
                            placeholder="0"
                            description="{/definition/currencyUnit}" />
+                    <Button icon="sap-icon://delete" press="DeleteMeterUnitPress" type="Transparent" />
                   </cells>
                 </ColumnListItem>
               </items>
             </Table>
-            <!--<f:Form editable="true">
-              <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
-              </f:layout>
-              <f:formContainers>
-                <f:FormContainer>
-                  <f:formElements>
-   
-                    <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
-                      <Switch state="{/definition/generatedElectricityEnabled}" />
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/definition/generatedElectricityEnabled}">
-                      <f:fields>
-                        <Input value="{/definition/generatedElectricityKilowattHourPrice}"
-                               textAlign="End"
-                               type="Number"
-                               placeholder="0"
-                               description="{/definition/currencyUnit}" />
-                      </f:fields>
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_FedInPerKilowattHour}">
-                      <Switch state="{/definition/fedInEnabled}" />
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" visible="{/definition/fedInEnabled}">
-                      <f:fields>
-                        <Input value="{/definition/fedInElectricityKilowattHourPrice}"
-                               textAlign="End"
-                               type="Number"
-                               placeholder="0"
-                               description="{/definition/currencyUnit}" />
-                      </f:fields>
-                    </f:FormElement>
-                  </f:formElements>
-                </f:FormContainer>
-              </f:formContainers>
-            </f:Form>-->
           </IconTabFilter>
           <IconTabFilter text="{i18n>text_Internal}">
             <f:Form editable="false">

@@ -49,7 +49,7 @@
         this.navigateTo("SolarStationDefinition");
       },
 
-      onStationPress: function (evt) {
+      onRowPress: function (evt) {
         const modelPath = evt.getSource().getBindingContext().getPath(),
           definition = this.model.getProperty(modelPath);
 

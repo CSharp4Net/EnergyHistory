@@ -63,6 +63,17 @@
         else
           this.model.setProperty("/commonPropertiesAreValid", "Negative");
 
+        for (var i = 0; i < definition.units.length; i++) {
+          const unit = definition.units[i];
+
+          if (this.isNullOrEmpty(unit.code)) {
+            unit.codeState = "Error";
+            allValid = false;
+          }
+          else
+            unit.codeState = "None";
+        }
+
         this.model.refresh();
 
         return allValid;
@@ -149,6 +160,15 @@
           isConsumptionMeter: true,
           kilowattHourPrice: 0
         });
+        this.model.refresh();
+      },
+
+      DeleteMeterUnitPress: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          pathElements = modelPath.split("/"),
+          arrayIndex = pathElements[pathElements.length - 1];
+
+        this.model.getProperty("/definition/units").splice(arrayIndex, 1);
         this.model.refresh();
       },
       // #endregion

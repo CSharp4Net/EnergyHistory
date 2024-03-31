@@ -13,7 +13,7 @@
     /// <summary>
     /// ICON-Url
     /// </summary>
-    public string IconUrl { get; set; } = Constants.StationDefinitionDefaultIconUrl;
+    public string IconUrl { get; set; } = Constants.SolarStationDefinitionDefaultIconUrl;
 
     /// <summary>
     /// Leistungsspitze
@@ -32,6 +32,10 @@
     /// Installiert am (Format yyyy-MM-dd)
     /// </summary>
     public string InstalledAt { get; set; } = "";
+    /// <summary>
+    /// Allgemeine Bemerkungen
+    /// </summary>
+    public string CommonComments { get; set; } = "";
 
     /// <summary>
     /// Währungseinheit
@@ -58,6 +62,10 @@
     /// Vergütung pro kWh
     /// </summary>
     public decimal FedInElectricityKilowattHourPrice { get; set; }
+    /// <summary>
+    /// Finanzielle Bemerkungen
+    /// </summary>
+    public string FinanceComments { get; set; } = "";
 
     //public Location? Location { get; set; }
     //public List<Inverter> Inverters { get; set; } = new List<Inverter>();

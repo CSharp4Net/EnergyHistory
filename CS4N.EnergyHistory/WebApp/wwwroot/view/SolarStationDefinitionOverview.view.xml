@@ -13,7 +13,7 @@
       </Bar>
     </customHeader>
     <content>
-      <Table items="{/definitions}" alternateRowColors="true" fixedLayout="false" class="sapUiSizeCozy" noDataText="{i18n>text_NoRecords}">
+      <Table items="{/definitions}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
         <columns>
           <Column>
             <Text text="{i18n>text_Station}" />
@@ -21,26 +21,23 @@
           <Column hAlign="End">
             <Text text="{i18n>text_MaximumPerformance}" />
           </Column>
+          <Column hAlign="End" styleClass="sapUiSizeCompact">
+            <Button icon="sap-icon://add" type="Transparent" press="onAddPress" />
+          </Column>
         </columns>
         <items>
-          <ColumnListItem vAlign="Middle" type="Navigation" press="onStationPress">
+          <ColumnListItem vAlign="Middle" type="Active" press="onRowPress">
             <cells>
               <HBox renderType="Bare" alignItems="Center">
                 <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
-                <Text text="{name}" class="sapUiTinyMarginBegin"/>
+                <Text text="{name}" class="sapUiSmallMarginBegin"/>
               </HBox>
-              <Text text="{ parts: ['powerPeak', 'powerUnit'], formatter: '.formatPowerValue' }"/>
+              <ObjectNumber number="{powerPeak}" unit=" {powerUnit}"/>
+              <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
             </cells>
           </ColumnListItem>
         </items>
       </Table>
     </content>
-    <footer>
-      <Bar>
-        <contentRight>
-          <Button icon="sap-icon://add" press="onAddPress" type="Accept" text="{i18n>text_Add}" width="150px" />
-        </contentRight>
-      </Bar>
-    </footer>
   </Page>
 </mvc:View>

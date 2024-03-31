@@ -25,24 +25,23 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_Name}">
                       <f:fields>
-                        <Input id="nameInput" required="true" value="{/station/name}" valueState="{/nameState}" placeholder="{i18n>place_UniqueName}"/>
+                        <Input id="nameInput" required="true" value="{/definition/name}" valueState="{/nameState}" placeholder="{i18n>place_UniqueName}"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_Image}">
                       <f:fields>
                         <HBox renderType="Bare" alignItems="Center">
-                          <Input value="{/station/iconUrl}" placeholder="sap-icon://photo-voltaic" />
-                          <core:Icon src="{/station/iconUrl}"
-                                     class="sapUiTinyMarginBegin"
+                          <core:Icon src="{/definition/iconUrl}"
+                                     class="sapUiTinyMarginEnd"
                                      size="2rem"
                                      color="Tile"/>
-                          <Button icon="sap-icon://image-viewer" press="onIconExplorerPress" class="sapUiTinyMarginBegin" type="Emphasized" />
+                          <Input value="{/definition/iconUrl}" placeholder="sap-icon://photo-voltaic" showValueHelp="true" valueHelpRequest="onIconExplorerPress" />
                         </HBox>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_InstalledAt}">
                       <f:fields>
-                        <DatePicker value="{/station/installedAt}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
+                        <DatePicker value="{/definition/installedAt}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
@@ -51,7 +50,7 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_PowerUnit}">
                       <f:fields>
-                        <Select selectedKey="{/station/powerUnit}" showSecondaryValues="true">
+                        <Select selectedKey="{/definition/powerUnit}" showSecondaryValues="true">
                           <core:ListItem key="W" text="{i18n>text_WattShortcut}" additionalText="{i18n>text_Watt}" />
                           <core:ListItem key="kW" text="{i18n>text_KilowattShortcut}" additionalText="{i18n>text_Kilowatt}" />
                           <core:ListItem key="MW" text="{i18n>text_MegawattShortcut}" additionalText="{i18n>text_Megawatt}" />
@@ -64,20 +63,36 @@
                         <Input required="true"
                                type="Number"
                                textAlign="End"
-                               value="{/station/powerPeak}"
+                               value="{/definition/powerPeak}"
                                valueState="{/powerPeakState}"
                                placeholder="{i18n>place_PowerPeak}"
-                               description="{/station/powerUnit}" />
+                               description="{/definition/powerUnit}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_CapacityUnit}">
                       <f:fields>
-                        <Select selectedKey="{/station/capacityUnit}" showSecondaryValues="true">
+                        <Select selectedKey="{/definition/capacityUnit}" showSecondaryValues="true">
                           <core:ListItem key="Wh" text="{i18n>text_WattHourShortcut}" additionalText="{i18n>text_WattHour}" />
                           <core:ListItem key="kWh" text="{i18n>text_KilowattHourShortcut}" additionalText="{i18n>text_KilowattHour}" />
                           <core:ListItem key="MWh" text="{i18n>text_MegawattHourShortcut}" additionalText="{i18n>text_MegawattHour}" />
                           <core:ListItem key="GWh" text="{i18n>text_GigawattHourShortcut}" additionalText="{i18n>text_GigawattHour}" />
                         </Select>
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_Comments}">
+                      <f:fields>
+                        <TextArea rows="5" value="{/definition/commonComments}" placeholder="{i18n>place_PlaceForComments}"/>
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
@@ -94,39 +109,55 @@
                 <f:FormContainer>
                   <f:formElements>
                     <f:FormElement label="{i18n>text_Currency}">
-                      <Input value="{/station/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
+                      <Input value="{/definition/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_PurchaseCosts}">
                       <f:fields>
-                        <Input value="{/station/purchaseCosts}"
+                        <Input value="{/definition/purchaseCosts}"
                                textAlign="End"
                                type="Number"
                                placeholder="0"
-                               description="{/station/currencyUnit}" />
+                               description="{/definition/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_ConsumptionPerKilowattHour}">
-                      <Switch state="{/station/generatedElectricityEnabled}" />
+                      <Switch state="{/definition/generatedElectricityEnabled}" />
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/station/generatedElectricityEnabled}">
+                    <f:FormElement label="{i18n>text_PriceOfConsumedKilowattHour}" visible="{/definition/generatedElectricityEnabled}">
                       <f:fields>
-                        <Input value="{/station/generatedElectricityKilowattHourPrice}"
+                        <Input value="{/definition/generatedElectricityKilowattHourPrice}"
                                textAlign="End"
                                type="Number"
                                placeholder="0"
-                               description="{/station/currencyUnit}" />
+                               description="{/definition/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_FedInPerKilowattHour}">
-                      <Switch state="{/station/fedInEnabled}" />
+                      <Switch state="{/definition/fedInEnabled}" />
                     </f:FormElement>
-                    <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" visible="{/station/fedInEnabled}">
+                    <f:FormElement label="{i18n>text_PriceOfFedInKilowattHour}" visible="{/definition/fedInEnabled}">
                       <f:fields>
-                        <Input value="{/station/fedInElectricityKilowattHourPrice}"
+                        <Input value="{/definition/fedInElectricityKilowattHourPrice}"
                                textAlign="End"
                                type="Number"
                                placeholder="0"
-                               description="{/station/currencyUnit}" />
+                               description="{/definition/currencyUnit}" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_Comments}">
+                      <f:fields>
+                        <TextArea rows="5" value="{/definition/financeComments}" placeholder="{i18n>place_PlaceForComments}"/>
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>
@@ -144,17 +175,17 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_Guid}">
                       <f:fields>
-                        <Text text="{/station/guid}"/>
+                        <Text text="{/definition/guid}"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_CreatedAt}">
                       <f:fields>
-                        <Text text="{ path: '/station/createdAt', formatter: '.formatDateTime' }"/>
+                        <Text text="{ path: '/definition/createdAt', formatter: '.formatDateTime' }"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_UpdatedAt}">
                       <f:fields>
-                        <Text text="{ path: '/station/updatedAt', formatter: '.formatDateTime' }"/>
+                        <Text text="{ path: '/definition/updatedAt', formatter: '.formatDateTime' }"/>
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>

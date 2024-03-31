@@ -13,7 +13,7 @@
     /// <summary>
     /// ICON-Url
     /// </summary>
-    public string IconUrl { get; set; } = Constants.StationDefinitionDefaultIconUrl;
+    public string IconUrl { get; set; } = Constants.ElectricMeterDefinitionDefaultIconUrl;
 
     /// <summary>
     /// Zählernummer
