@@ -73,12 +73,12 @@
         },
         {
           "name": "ElectricMeterData",
-          "pattern": "ElectricMeterData/{guid}",
+          "pattern": "ElectricMeterData",
           "target": "electricMeterData"
         },
         {
           "name": "ElectricMeterDataEdit",
-          "pattern": "ElectricMeterData/{guid}/Edit",
+          "pattern": "ElectricMeterData/Edit",
           "target": "ElectricMeterDataEdit"
         }
       ],

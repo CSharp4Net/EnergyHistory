@@ -1,6 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts.Models.SolarStation;
 
-namespace CS4N.EnergyHistory.WebApp.ViewModels.Station
+namespace CS4N.EnergyHistory.WebApp.ViewModels.SolarStation
 {
   public sealed class DataView
   {

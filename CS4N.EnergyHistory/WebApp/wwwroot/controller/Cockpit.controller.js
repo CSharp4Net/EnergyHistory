@@ -18,8 +18,8 @@
         this.model.setData({
           items: [],
           selectedTabKey: "all",
-          stationCount: 0,
-          stationAdded: false
+          solarStationCount: 0,
+          solarStationAdded: false
         });
       },
 
@@ -71,13 +71,9 @@
       onApiGetCockpitItems: function (response) {
         this.model.setProperty("/items", response);
 
-        const stations = response.filter(item => item.category === "stations");
-        this.model.setProperty("/stationCount", stations.length);
-        this.model.setProperty("/stationAdded", stations.length > 0);
-
-        const meters = response.filter(item => item.category === "meters");
-        this.model.setProperty("/meterCount", meters.length);
-        this.model.setProperty("/meterAdded", meters.length > 0);
+        const solarStations = response.filter(item => item.category === "solarStation");
+        this.model.setProperty("/solarStationCount", solarStations.length);
+        this.model.setProperty("/solarStationAdded", solarStations.length > 0);
 
         this.byId("myTiles").getBinding("items").filter();
         //this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", this.model.getProperty("/selectedTabKey")));

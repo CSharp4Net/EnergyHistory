@@ -24,7 +24,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5E2B
 		Samples\SAMPLEDATA_FRITZBOX_MONTH.csv = Samples\SAMPLEDATA_FRITZBOX_MONTH.csv
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataImport.FritzBox", "Components\DataImport.FritzBox\DataImport.FritzBox.csproj", "{86045AFE-1149-4CD1-BB0D-2B277B41C3DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataImport.FritzBox", "Components\DataImport.FritzBox\DataImport.FritzBox.csproj", "{86045AFE-1149-4CD1-BB0D-2B277B41C3DE}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "wwwroot", "WebApp\wwwroot\", "{D57FC743-A42F-4A10-AFDA-411301F66C5B}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_49942"
+		Debug.AspNetCompiler.PhysicalPath = "WebApp\wwwroot\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49942\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_49942"
+		Release.AspNetCompiler.PhysicalPath = "WebApp\wwwroot\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49942\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49942"
+		SlnRelativePath = "WebApp\wwwroot\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +73,10 @@ Global
 		{86045AFE-1149-4CD1-BB0D-2B277B41C3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86045AFE-1149-4CD1-BB0D-2B277B41C3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86045AFE-1149-4CD1-BB0D-2B277B41C3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D57FC743-A42F-4A10-AFDA-411301F66C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57FC743-A42F-4A10-AFDA-411301F66C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D57FC743-A42F-4A10-AFDA-411301F66C5B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57FC743-A42F-4A10-AFDA-411301F66C5B}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

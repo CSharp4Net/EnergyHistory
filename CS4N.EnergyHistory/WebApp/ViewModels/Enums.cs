@@ -1,9 +1,15 @@
 ﻿namespace CS4N.EnergyHistory.WebApp.ViewModels
 {
-  public enum ChartDataStepType
+  public enum SolarStationChartDataStepType
   {
-    Day = 0,
-    Month = 3,
-    Year = 2
+    Month = 0,
+    Year = 1,
+    Day = 2
+  }
+
+  public enum ElectricMeterChartDataStepType
+  {
+    Year = 0,
+    Month= 1
   }
 }

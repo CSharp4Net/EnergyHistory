@@ -89,10 +89,10 @@ sap.ui.define([
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        const stationGuid = evt.getParameters().arguments.guid,
+        const solarStationGuid = evt.getParameters().arguments.guid,
           cachedViewData = localStorage.getItem(localStorageEntry_ViewData);
 
-        this.model.setProperty("/viewData/definition/guid", stationGuid);
+        this.model.setProperty("/viewData/definition/guid", solarStationGuid);
 
         if (!this.isNullOrEmpty(cachedViewData)) {
           localStorage.removeItem(localStorageEntry_ViewData);
@@ -118,7 +118,7 @@ sap.ui.define([
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("ElectricMeterData/" + stationGuid + "/edit",
+        Connector.get("ElectricMeterData/" + solarStationGuid + "/edit",
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -144,7 +144,7 @@ sap.ui.define([
         const data = this.model.getProperty("/viewData/data"),
           container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("ElectricMeterData/" + data.stationGuid + "/edit", data,
+        Connector.post("ElectricMeterData/" + data.solarStationGuid + "/edit", data,
           this.onApiPostElectricMeterData.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));
@@ -159,7 +159,7 @@ sap.ui.define([
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("ElectricMeterData/" + data.stationGuid + "/template/" + targetYear,
+        Connector.get("ElectricMeterData/" + data.solarStationGuid + "/template/" + targetYear,
           this.onApiGetNewYearTemplate.bind(this),
           this.handleApiError.bind(this),
           () => container.setBusy(false));

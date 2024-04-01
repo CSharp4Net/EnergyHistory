@@ -24,7 +24,7 @@
       resetModel: function () {
         this.model.setData({
           filter: null,
-          stationGuid: "",
+          guid: "",
           viewData: {
             definition: null,
             generatedElectricityAmount: 0,
@@ -145,7 +145,7 @@
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-        this.model.setProperty("/stationGuid", evt.getParameters().arguments.guid);
+        this.model.setProperty("/guid", evt.getParameters().arguments.guid);
 
         this.byId("myPage").setBusy(true);
         Connector.get("ElectricMeterData/init",
@@ -158,9 +158,9 @@
       },
 
       onEditPress: function () {
-        const stationGuid = this.model.getProperty("/viewData/definition/guid");
+        const guid = this.model.getProperty("/viewData/definition/guid");
 
-        this.navigateTo("ElectricMeterDataEdit", { guid: stationGuid });
+        this.navigateTo("ElectricMeterDataEdit", { guid: guid });
       },
 
       onFilterPress: function () {
@@ -198,7 +198,7 @@
       onFilterDialogAbortSubmitPress: function () {
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("ElectricMeterData/" + this.model.getProperty("/stationGuid"), this.model.getProperty("/filter"),
+        Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), this.model.getProperty("/filter"),
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => {
@@ -215,7 +215,7 @@
 
         this.model.setProperty("/filter", response.filter);
 
-        Connector.post("ElectricMeterData/" + this.model.getProperty("/stationGuid"), response.filter,
+        Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => this.byId("myPage").setBusy(false));

@@ -8,28 +8,17 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="wwwroot\**" />
+	  <Content Remove="wwwroot\**" />
+	  <EmbeddedResource Remove="wwwroot\**" />
+	  <None Remove="wwwroot\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Components\Contracts\Contracts.csproj" />
 		<ProjectReference Include="..\Components\Core\Core.csproj" />
 		<ProjectReference Include="..\Components\DataImport.FritzBox\DataImport.FritzBox.csproj" />
 		<ProjectReference Include="..\Components\DataStore.LiteDB\DataStore.File.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\css\" />
-	  <Folder Include="wwwroot\image\" />
-	  <Folder Include="wwwroot\lib\ChartJS\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Update="wwwroot\view\fragment\SolarStationDataImportDialog.fragment.xml">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <Content Update="wwwroot\view\ElectricMeterDefinitionOverview.view.xml">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
 	</ItemGroup>
 </Project>

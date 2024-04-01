@@ -24,9 +24,20 @@ namespace CS4N.EnergyHistory.WebApp.Services
       List<GenericTileData> result = [];
 
       result.AddRange(GetStationItems(solarSolarStationDefinitions));
-      result.AddRange(GetMeterItems(electricMeterDefinitions));
+      //result.AddRange(GetMeterItems(electricMeterDefinitions));
 
-      result.Add(new GenericTileData("settings", "text_ManageSolarStation", "SolarStationDefinitionOverview")
+      result.Add(new GenericTileData("basic", "text_MeterReadings", "ElectricMeterData")
+      {
+        IconUrl = "sap-icon://business-objects-experience",
+        TileFooter = "text_ElectricMeter",
+        Kpi = new KpiData
+        {
+          Value = "0",
+          ValueColor = "Error",
+          Unit = "kWh"
+        }
+      });
+      result.Add(new GenericTileData("basic", "text_ManageSolarStation", "SolarStationDefinitionOverview")
       {
         IconUrl = "sap-icon://action-settings",
         TileFooter = "text_Settings",
@@ -35,8 +46,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           Value = solarSolarStationDefinitions.Count.ToString()
         }
       });
-
-      result.Add(new GenericTileData("settings", "text_ManageElectricMeters", "ElectricMeterDefinitionOverview")
+      result.Add(new GenericTileData("basic", "text_ManageElectricMeters", "ElectricMeterDefinitionOverview")
       {
         IconUrl = "sap-icon://action-settings",
         TileFooter = "text_Settings",
@@ -57,7 +67,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       {
         var data = solarStationRepository.GetData(definition.Guid);
 
-        result.Add(new GenericTileData("stations", definition.Name, "SolarStationData")
+        result.Add(new GenericTileData("solarStation", definition.Name, "SolarStationData")
         {
           NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = definition.Guid }),
           IconUrl = definition.IconUrl,
@@ -74,29 +84,29 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return result;
     }
 
-    private List<GenericTileData> GetMeterItems(List<Contracts.Models.ElectricMeter.Definition> definitions)
-    {
-      List<GenericTileData> result = [];
+    //private List<GenericTileData> GetMeterItems(List<Contracts.Models.ElectricMeter.Definition> definitions)
+    //{
+    //  List<GenericTileData> result = [];
 
-      foreach (var definition in definitions)
-      {
-        var data = electricMeterRepository.GetData(definition.Guid);
+    //  foreach (var definition in definitions)
+    //  {
+    //    var data = electricMeterRepository.GetData(definition.Guid);
 
-        result.Add(new GenericTileData("meters", definition.Name, "ElectricMeterData")
-        {
-          NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = definition.Guid }),
-          IconUrl = definition.IconUrl,
-          Kpi = new KpiData
-          {
-            Value = Math.Round(data.LastRecordValue).ToString(),
-            ValueColor = "Error",
-            Unit = definition.CapacityUnit
-          },
-          TileFooter = "text_Meter"
-        }); ;
-      }
+    //    result.Add(new GenericTileData("meters", definition.Name, "ElectricMeterData")
+    //    {
+    //      NavigationParameterAsJsonText = JsonSerializer.Serialize(new { guid = definition.Guid }),
+    //      IconUrl = definition.IconUrl,
+    //      Kpi = new KpiData
+    //      {
+    //        Value = Math.Round(data.LastRecordValue).ToString(),
+    //        ValueColor = "Error",
+    //        Unit = definition.CapacityUnit
+    //      },
+    //      TileFooter = "text_Meter"
+    //    }); ;
+    //  }
 
-      return result;
-    }
+    //  return result;
+    //}
   }
 }

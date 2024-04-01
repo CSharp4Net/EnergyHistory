@@ -10,12 +10,17 @@
       </Bar>
     </customHeader>
     <content>
-      <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
+      <IconTabBar id="myTabBar" 
+                  selectedKey="{/selectedTabKey}" 
+                  expandable="false" 
+                  stretchContentHeight="true" 
+                  select="onTabSelect" 
+                  applyContentPadding="false" 
+                  headerMode="Inline">
         <items>
           <IconTabFilter key="all" text="{i18n>text_All}" />
-          <IconTabFilter key="stations" text="{i18n>text_Stations}" count="{/stationCount}" visible="{/stationAdded}" />
-          <IconTabFilter key="meters" text="{i18n>text_Meters}" count="{/meterCount}" visible="{/meterAdded}" />
-          <IconTabFilter key="settings" text="{i18n>text_Settings}" />
+          <IconTabFilter key="solarStation" text="{i18n>text_SolarStations}" count="{/solarStationCount}" visible="{/solarStationAdded}" />
+          <IconTabFilter key="basic" text="{i18n>text_Basic}" />
         </items>
         <content>
           <HBox id="myTiles" items="{/items}">

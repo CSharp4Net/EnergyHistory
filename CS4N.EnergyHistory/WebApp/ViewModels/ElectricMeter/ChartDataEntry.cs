@@ -1,4 +1,4 @@
-﻿namespace CS4N.EnergyHistory.WebApp.ViewModels.SolarStation
+﻿namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
 {
   public sealed class ChartDataEntry
   {

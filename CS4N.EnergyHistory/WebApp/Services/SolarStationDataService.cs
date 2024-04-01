@@ -3,7 +3,7 @@ using CS4N.EnergyHistory.Contracts.Models.SolarStation;
 using CS4N.EnergyHistory.Contracts.Models.SolarStation.Data;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using CS4N.EnergyHistory.WebApp.ViewModels;
-using CS4N.EnergyHistory.WebApp.ViewModels.Station;
+using CS4N.EnergyHistory.WebApp.ViewModels.SolarStation;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -26,7 +26,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       });
     }
 
-    internal IActionResult GetStationViewData(string guid, ChartDataFilter filter)
+    internal IActionResult GetData(string guid, ChartDataFilter filter)
     {
       Definition definition = repository.GetDefinition(guid)!;
 
@@ -52,12 +52,12 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       switch (filter.StepTypeEnum)
       {
-        case ChartDataStepType.Day:
+        case SolarStationChartDataStepType.Day:
           // TODO : Falls später eine Monatsansicht implementiert wird, wo Erträge pro Tag gelistet werden,
           // muss hier die Datenbeschaffung dafür erfolgen.
           break;
 
-        case ChartDataStepType.Month:
+        case SolarStationChartDataStepType.Month:
           foreach (var year in yearsInRange)
           {
             if (!year.AutomaticSummation)
@@ -108,7 +108,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
           }
           break;
 
-        case ChartDataStepType.Year:
+        case SolarStationChartDataStepType.Year:
           viewData.ChartData = yearsInRange.Select(year => new ChartDataEntry
           {
             X = year.Number.ToString(),
@@ -123,7 +123,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(viewData);
     }
 
-    internal IActionResult GetSolarStationDataForEdit(string stationGuid)
+    internal IActionResult GetDataForEdit(string stationGuid)
     {
       var viewData = new DataEditView
       {
@@ -134,12 +134,12 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(viewData);
     }
 
-    internal IActionResult PostSolarStationDataForEdit(DataSummary data)
+    internal IActionResult PostDataForEdit(DataSummary data)
     {
       return new OkObjectResult(repository.SetData(data));
     }
 
-    internal IActionResult GetSolarStationDataTemplate(string guid, int year)
+    internal IActionResult GetDataTemplate(string guid, int year)
     {
       var definition = repository.GetDefinition(guid);
 

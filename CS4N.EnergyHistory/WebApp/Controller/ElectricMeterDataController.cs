@@ -1,20 +1,20 @@
 ﻿using CS4N.EnergyHistory.Contracts;
-using CS4N.EnergyHistory.Contracts.Models.SolarStation.Data;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 using CS4N.EnergyHistory.WebApp.Services;
-using CS4N.EnergyHistory.WebApp.ViewModels.SolarStation;
+using CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Controller
 {
   [Route("api/[controller]")]
-  public sealed class SolarStationDataController : ControllerBase
+  public sealed class ElectricMeterDataController : ControllerBase
   {
-    public SolarStationDataController(ILogger logger, IDataStore dataStore)
+    public ElectricMeterDataController(ILogger logger, IDataStore dataStore)
     {
-      service = new SolarStationDataService(logger, dataStore);
+      service = new ElectricMeterDataService(logger, dataStore);
     }
 
-    private SolarStationDataService service;
+    private ElectricMeterDataService service;
 
     [HttpGet("init")]
     public IActionResult GetInitData()
@@ -25,7 +25,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetData(guid, filter);
 
     [HttpGet("{guid}/edit")]
-    public IActionResult GetDataForEdit(string guid)
+    public IActionResult GetSolarStationDataForEdit(string guid)
       => service.GetDataForEdit(guid);
 
     [HttpGet("{guid}/template/{year}")]
@@ -35,9 +35,5 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     [HttpPost("{guid}/edit")]
     public IActionResult PostDataForEdit([FromBody] DataSummary data)
       => service.PostDataForEdit(data);
-
-    [HttpPost("{guid}/import/fritzbox/csv/years")]
-    public IActionResult PostImportDataFromFritzBoxAsCsvOfYears(string guid, [FromForm] object file)
-      => service.PostImportDataFromFritzBoxAsCsvOfYears(guid, file);
   }
 }
