@@ -1,21 +1,22 @@
 ﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="CS4N.EnergyHistory.controller.ElectricMeterData">
-	<Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center" enableScrolling="false">
-		<customHeader>
-			<Bar>
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center" enableScrolling="false">
+    <customHeader>
+      <Bar>
         <contentLeft>
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
-				<contentMiddle>
-					<Image src="image/flash-energy-pastel-32.png" height="2rem"/>
-					<Title text="{/viewData/definition/name}"/>
-				</contentMiddle>
-        <contentRight>
+        <contentMiddle>
+          <Title text="{i18n>text_MeterReadings}"/>
+          <Image src="image/flash-energy-pastel-32.png" height="2rem"/>
+          <Title text="{i18n>text_Reading}"/>
+        </contentMiddle>
+        <!--<contentRight>
           <Button icon="sap-icon://filter" press="onFilterPress" />          
           <Button icon="sap-icon://edit" press="onEditPress" />          
-        </contentRight>
-			</Bar>
-		</customHeader>
-		<content>
+        </contentRight>-->
+      </Bar>
+    </customHeader>
+    <content>
       <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
         <items>
           <IconTabFilter text="{i18n>text_Analysis}">
@@ -23,56 +24,35 @@
               <html:canvas id="chartControl" />
             </Panel>
           </IconTabFilter>
-          <IconTabFilter text="{i18n>text_Summary}">
-            <f:Form editable="false">
-              <f:layout>
-                <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
-              </f:layout>
-              <f:formContainers>
-                <f:FormContainer>
-                  <f:formElements>
-                    <f:FormElement label="{i18n>text_MaximumPerformance}">
-                      <f:fields>
-                        <ObjectNumber number="{/viewData/definition/powerPeak}" unit="{/viewData/definition/powerUnit}"/>
-                      </f:fields>
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_InstalledAt}">
-                      <f:fields>
-                        <Text text="{ path: '/viewData/definition/installedAt', formatter: '.formatDate' }" />
-                      </f:fields>
-                    </f:FormElement>
-                  </f:formElements>
-                </f:FormContainer>
-                <f:FormContainer>
-                  <f:formElements>
-                    <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
-                      <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmount', formatter: '.formatPowerValue' }" 
-                                      unit="{/viewData/definition/capacityUnit}"
-                                      state="Success"/>
-                      </f:fields>
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_GeneratedElectricityValue}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
-                      <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValue', formatter: '.formatPowerValue' }" 
-                                      unit="{/viewData/definition/currencyUnit}"
-                                      state="Success"/>
-                      </f:fields>
-                    </f:FormElement>
-                    <f:FormElement label="{i18n>text_FedInElectricityValue}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
-                      <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValue', formatter: '.formatPowerValue' }"
-                                      unit="{/viewData/definition/currencyUnit}" 
-                                      state="Success" />
-                      </f:fields>
-                    </f:FormElement>
-                  </f:formElements>
-                </f:FormContainer>
-              </f:formContainers>
-            </f:Form>
+          <IconTabFilter text="{i18n>text_Recording}">
+            <Table items="{/definitions}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+              <columns>
+                <Column>
+                  <Text text="{i18n>text_Meter}" />
+                </Column>
+                <Column>
+                  <Text text="{i18n>text_MeterNumber}" />
+                </Column>
+                <Column hAlign="End" styleClass="sapUiSizeCompact">
+                  <Button icon="sap-icon://add" type="Transparent" press="onAddPress" />
+                </Column>
+              </columns>
+              <items>
+                <ColumnListItem vAlign="Middle" type="Active" press="onRowPress">
+                  <cells>
+                    <HBox renderType="Bare" alignItems="Center">
+                      <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
+                      <Text text="{name}" class="sapUiSmallMarginBegin"/>
+                    </HBox>
+                    <Text text="{number}"/>
+                    <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
           </IconTabFilter>
         </items>
-      </IconTabBar>      
+      </IconTabBar>
     </content>
-	</Page>
+  </Page>
 </mvc:View>

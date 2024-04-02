@@ -8,7 +8,7 @@ namespace CS4N.EnergyHistory.DataStore.File
     private const string electricMeterDefinitionsFileName = "ElectricMeters.json";
 
     private static List<Definition> cachedElectricMeterDefinitions = [];
-    private static List<DataSummary> cachedElectricMeterDatas = [];
+    private static List<DataObject> cachedElectricMeterDatas = [];
 
     #region Definition
     public List<Definition> GetElectricMeterDefinitions()
@@ -67,7 +67,7 @@ namespace CS4N.EnergyHistory.DataStore.File
     #endregion
 
     #region Data
-    public List<DataSummary> GetElectricMeterDatas()
+    public List<DataObject> GetElectricMeterDatas()
     {
       if (cachedElectricMeterDatas.Count > 0)
         return cachedElectricMeterDatas;
@@ -83,17 +83,17 @@ namespace CS4N.EnergyHistory.DataStore.File
 
     }
 
-    public DataSummary GetElectricMeterData(string guid)
+    public DataObject GetElectricMeterData(string guid)
     {
-      var data = cachedElectricMeterDatas.SingleOrDefault(entry => entry.StationGuid == guid);
+      var data = cachedElectricMeterDatas.SingleOrDefault(entry => entry.Guid == guid);
       if (data != null)
         return data;
 
-      data = LoadDataFile<DataSummary>(guid);
+      data = LoadDataFile<DataObject>(guid);
 
-      data ??= new DataSummary
+      data ??= new DataObject
       {
-        StationGuid = guid
+        Guid = guid
       };
 
       cachedElectricMeterDatas.Add(data);
@@ -101,7 +101,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       return data;
     }
 
-    public void UpsertElectricMeterData(DataSummary data)
+    public void UpsertElectricMeterData(DataObject data)
     {
       throw new NotImplementedException();
     }

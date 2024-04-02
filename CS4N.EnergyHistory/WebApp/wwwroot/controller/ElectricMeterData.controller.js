@@ -23,12 +23,9 @@
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          filter: null,
-          guid: "",
           viewData: {
-            definition: null,
-            generatedElectricityAmount: 0,
-            chartData: []
+            chartData: [],
+            datas: []
           }
         });
       },
@@ -145,7 +142,6 @@
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-        this.model.setProperty("/guid", evt.getParameters().arguments.guid);
 
         this.byId("myPage").setBusy(true);
         Connector.get("ElectricMeterData/init",
@@ -156,65 +152,10 @@
       onBackPress: function () {
         this.navigateTo("Cockpit");
       },
-
-      onEditPress: function () {
-        const guid = this.model.getProperty("/viewData/definition/guid");
-
-        this.navigateTo("ElectricMeterDataEdit", { guid: guid });
-      },
-
-      onFilterPress: function () {
-        // create dialog lazily
-        this.filterDialogFragment ??= this.loadFragment({
-          name: "CS4N.EnergyHistory.view.fragment.ElectricMeterDataChartFilterDialog"
-        });
-
-        this.filterDialogFragment.then((oDialog) => {
-          this.filterDialog = oDialog;
-          this.filterDialog.open()
-        });
-      },
-
-      onFilterDialogStepTypeChange: function () {
-        const stepType = this.model.getProperty("/filter/stepType");
-
-        switch (stepType) {
-          case "Month":
-            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_DateMonthAndYear"));
-            break;
-          case "Year":
-            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_DateYearOnly"));
-            break;
-          default: // Days
-            this.model.setProperty("/filter/dateFormat", this.i18n.getText("format_Date"));
-            break;
-        }
-      },
-
-      onFilterDialogAbortPress: function () {
-        this.filterDialog.close();
-      },
-
-      onFilterDialogAbortSubmitPress: function () {
-        const container = this.byId("myPage");
-        container.setBusy(true);
-        Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), this.model.getProperty("/filter"),
-          this.onApiGetViewData.bind(this),
-          this.handleApiError.bind(this),
-          () => {
-            container.setBusy(false);
-            this.filterDialog.close();
-          });
-      },
       // #endregion
 
       // #region API-Events
       onApiGetInitData: function (response) {
-
-        response.filter.dateFormat = "MM.yyyy";
-
-        this.model.setProperty("/filter", response.filter);
-
         Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),

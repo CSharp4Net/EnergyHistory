@@ -16,24 +16,16 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private ElectricMeterDataService service;
 
-    [HttpGet("init")]
-    public IActionResult GetInitData()
-      => service.GetInitData();
+    [HttpGet]
+    public IActionResult GetData()
+    { 
+      var dataView = service.GetData();
 
-    [HttpPost("{guid}")]
-    public IActionResult GetData(string guid, [FromBody] ChartDataFilter filter)
-      => service.GetData(guid, filter);
+      return new OkObjectResult(dataView);
+    }
 
-    [HttpGet("{guid}/edit")]
-    public IActionResult GetSolarStationDataForEdit(string guid)
-      => service.GetDataForEdit(guid);
-
-    [HttpGet("{guid}/template/{year}")]
-    public IActionResult GetDataTemplate(string guid, int year)
-      => service.GetDataTemplate(guid, year);
-
-    [HttpPost("{guid}/edit")]
-    public IActionResult PostDataForEdit([FromBody] DataSummary data)
-      => service.PostDataForEdit(data);
+    [HttpPost]
+    public IActionResult PostData([FromBody] DataObject data)
+      => new OkObjectResult(service.PostData(data));
   }
 }

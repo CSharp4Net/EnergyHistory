@@ -20,9 +20,9 @@
     void UpsertElectricMeterDefinition(Models.ElectricMeter.Definition definition);
     void DeleteElectricMeterDefinition(string guid);
 
-    List<Models.ElectricMeter.Data.DataSummary> GetElectricMeterDatas();
-    Models.ElectricMeter.Data.DataSummary GetElectricMeterData(string guid);
-    void UpsertElectricMeterData(Models.ElectricMeter.Data.DataSummary data);
+    List<Models.ElectricMeter.Data.DataObject> GetElectricMeterDatas();
+    Models.ElectricMeter.Data.DataObject GetElectricMeterData(string guid);
+    void UpsertElectricMeterData(Models.ElectricMeter.Data.DataObject data);
     void DeleteElectricMeterData(string guid);
     #endregion
   }

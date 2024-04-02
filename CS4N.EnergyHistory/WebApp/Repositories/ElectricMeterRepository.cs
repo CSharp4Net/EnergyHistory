@@ -50,16 +50,15 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     #endregion
 
     #region Data
-    internal DataSummary GetData(string stationGuid)
-      => DataStore.GetElectricMeterData(stationGuid);
+    internal DataObject GetData(string guid)
+      => DataStore.GetElectricMeterData(guid);
 
-    // TODO
-    //internal DataSummary SetData(DataSummary data)
-    //{
-    //  DataStore.UpsertSolarStationData(data);
+    internal DataObject SetData(DataObject data)
+    {
+      DataStore.UpsertElectricMeterData(data);
 
-    //  return data;
-    //}
+      return data;
+    }
     #endregion
   }
 }

@@ -1,4 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts.Models.ElectricMeter;
+using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 
 namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
 {
@@ -10,6 +11,6 @@ namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
 
     public List<ChartDataEntry> ChartData { get; set; } = [];
 
-    public Definition? Definition { get; internal set; }
+    public List<DataObject> Datas { get; internal set; } = [];
   }
 }

@@ -75,11 +75,6 @@
           "name": "ElectricMeterData",
           "pattern": "ElectricMeterData",
           "target": "electricMeterData"
-        },
-        {
-          "name": "ElectricMeterDataEdit",
-          "pattern": "ElectricMeterData/Edit",
-          "target": "ElectricMeterDataEdit"
         }
       ],
       "targets": {
@@ -118,10 +113,6 @@
         "electricMeterData": {
           "viewName": "ElectricMeterData",
           "viewLevel": 2
-        },
-        "electricMeterDataEdit": {
-          "viewName": "ElectricMeterDataEdit",
-          "viewLevel": 3
         }
       }
     }

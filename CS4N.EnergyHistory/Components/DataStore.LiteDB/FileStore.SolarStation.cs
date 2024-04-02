@@ -84,7 +84,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
     public DataSummary GetSolarStationData(string guid)
     {
-      var data = cachedSolarStationDatas.SingleOrDefault(entry => entry.StationGuid == guid);
+      var data = cachedSolarStationDatas.SingleOrDefault(entry => entry.Guid == guid);
       if (data != null)
         return data;
 
@@ -92,7 +92,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       data ??= new DataSummary
       {
-        StationGuid = guid
+        Guid = guid
       };
 
       cachedSolarStationDatas.Add(data);

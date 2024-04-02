@@ -7,6 +7,6 @@ namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
   {
     public Definition? Definition { get; set; }
 
-    public DataSummary? Data { get; set; } 
+    public DataObject? Data { get; set; } 
   }
 }

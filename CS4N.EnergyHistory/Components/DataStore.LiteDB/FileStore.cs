@@ -3,6 +3,7 @@ using CS4N.EnergyHistory.Contracts.Models;
 using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 using CS4N.EnergyHistory.Core;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace CS4N.EnergyHistory.DataStore.File
@@ -44,7 +45,7 @@ namespace CS4N.EnergyHistory.DataStore.File
         Directory.CreateDirectory(StoreFolderPath);
 
       string fileContent = JsonSerializer.Serialize(data);
-      string filePath = Path.Combine(StoreFolderPath, $"{data.StationGuid}.json");
+      string filePath = Path.Combine(StoreFolderPath, $"{data.Guid}.json");
 
       System.IO.File.WriteAllText(filePath, fileContent, Encoding.UTF8);
     }

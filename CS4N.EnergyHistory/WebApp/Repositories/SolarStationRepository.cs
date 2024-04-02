@@ -50,8 +50,8 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     #endregion
 
     #region Data
-    internal DataSummary GetData(string stationGuid)
-      => DataStore.GetSolarStationData(stationGuid);
+    internal DataSummary GetData(string guid)
+      => DataStore.GetSolarStationData(guid);
 
     internal DataSummary SetData(DataSummary data)
     {

@@ -5,6 +5,6 @@
     /// <summary>
     /// Interne Id der Anlage
     /// </summary>
-    public string StationGuid { get; set; } = "";
+    public string Guid { get; set; } = "";
   }
 }

@@ -123,12 +123,12 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(viewData);
     }
 
-    internal IActionResult GetDataForEdit(string stationGuid)
+    internal IActionResult GetDataForEdit(string guid)
     {
       var viewData = new DataEditView
       {
-        Definition = repository.GetDefinition(stationGuid),
-        Data = repository.GetData(stationGuid)
+        Definition = repository.GetDefinition(guid),
+        Data = repository.GetData(guid)
       };
 
       return new OkObjectResult(viewData);
@@ -154,6 +154,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       var yearsData = dataImport.ReadCsvFile(filePath.ToString());
 
+      // TODO
 
       throw new NotImplementedException();
     }
