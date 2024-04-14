@@ -129,7 +129,7 @@
       onDeletePress: function () {
         MessageBox.confirm(this.i18n.getText("message_ConfirmDeleteStation"), {
           actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-          emphasizedAction: MessageBox.Action.YES,
+          emphasizedAction: MessageBox.Action.NO,
           onClose: (evt) => {
             if (evt != "YES")
               return;

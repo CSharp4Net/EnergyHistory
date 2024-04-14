@@ -5,12 +5,13 @@ namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
 {
   public sealed class DataView
   {
-    //public double GeneratedElectricityAmount { get; set; }
-    //public decimal GeneratedElectricityValue { get; set; }
-    //public decimal FedInElectricityValue { get; set; }
+    public List<DataViewElectricMeter> Datas { get; set; } = [];
 
-    public List<ChartDataEntry> ChartData { get; set; } = [];
+    public sealed class DataViewElectricMeter
+    { 
+      public Definition Definition { get; set; }
 
-    public List<DataObject> Datas { get; internal set; } = [];
+      public DataObject Data { get; set; }
+    }
   }
 }

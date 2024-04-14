@@ -1,0 +1,53 @@
+﻿<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="CS4N.EnergyHistory.controller.ElectricMeterDataEdit">
+  <Page id="myPage" busyIndicatorDelay="100" titleAlignment="Center" enableScrolling="false">
+    <customHeader>
+      <Bar>
+        <contentLeft>
+          <Button type="Back" text="{i18n>text_MeterReadings}" press="onBackPress"/>
+        </contentLeft>
+        <contentMiddle>
+          <Title text="{i18n>text_Recording}"/>
+          <Image src="image/flash-energy-pastel-32.png" height="2rem"/>
+          <Title text="{/definition/name}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <Table items="{/data/records}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+        <columns>
+          <Column>
+            <Text text="{i18n>text_MeterUnit}" />
+          </Column>
+          <Column>
+            <Text text="{i18n>text_ReadingAt}" />
+          </Column>
+          <Column>
+            <Text text="{i18n>text_ReadingValue}" />
+          </Column>
+          <Column hAlign="End" styleClass="sapUiSizeCompact">
+            <Button icon="sap-icon://add" type="Transparent" press="onAddRowPress" />
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem vAlign="Middle">
+            <cells>
+              <Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}">
+                <core:ListItem key="{code}" text="{code}" />
+              </Select>
+              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{isNew}" />
+              <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{isNew}" textAlign="End" description="{/definition/capacityUnit}" />
+              <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+    <footer>
+      <Bar>
+        <contentRight>
+          <Button text="{i18n>text_Save}" type="Accept" icon="sap-icon://save" width="150px" press="onSavePress" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Page>
+</mvc:View>

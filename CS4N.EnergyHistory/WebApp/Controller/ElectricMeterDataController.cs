@@ -1,7 +1,6 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 using CS4N.EnergyHistory.WebApp.Services;
-using CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS4N.EnergyHistory.WebApp.Controller
@@ -16,10 +15,18 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private ElectricMeterDataService service;
 
-    [HttpGet]
-    public IActionResult GetData()
+    [HttpGet("init")]
+    public IActionResult GetInitData()
     { 
-      var dataView = service.GetData();
+      var dataView = service.GetDatas();
+
+      return new OkObjectResult(dataView);
+    }
+
+    [HttpGet("data/{guid}")]
+    public IActionResult GetData(string guid)
+    {
+      var dataView = service.GetData(guid);
 
       return new OkObjectResult(dataView);
     }

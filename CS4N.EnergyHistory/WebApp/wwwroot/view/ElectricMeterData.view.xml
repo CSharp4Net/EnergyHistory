@@ -17,15 +17,15 @@
       </Bar>
     </customHeader>
     <content>
-      <IconTabBar id="myTabBar" selectedKey="{/selectedTabKey}" expandable="false" stretchContentHeight="true" select="onTabSelect" applyContentPadding="false" headerMode="Inline">
+      <IconTabBar id="myTabBar" 
+                  expandable="false" 
+                  stretchContentHeight="true" 
+                  select="onTabSelect" 
+                  applyContentPadding="false" 
+                  headerMode="Inline">
         <items>
-          <IconTabFilter text="{i18n>text_Analysis}">
-            <Panel id="chartContainer" busyIndicatorDelay="100" height="100%">
-              <html:canvas id="chartControl" />
-            </Panel>
-          </IconTabFilter>
           <IconTabFilter text="{i18n>text_Recording}">
-            <Table items="{/definitions}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+            <Table items="{/viewData/datas}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
               <columns>
                 <Column>
                   <Text text="{i18n>text_Meter}" />
@@ -33,23 +33,32 @@
                 <Column>
                   <Text text="{i18n>text_MeterNumber}" />
                 </Column>
-                <Column hAlign="End" styleClass="sapUiSizeCompact">
-                  <Button icon="sap-icon://add" type="Transparent" press="onAddPress" />
+                <Column>
+                  <Text text="{i18n>text_LastReadingDate}" />
+                </Column>
+                <Column>
+                  <Text text="{i18n>text_LastReadingValue}" />
                 </Column>
               </columns>
               <items>
-                <ColumnListItem vAlign="Middle" type="Active" press="onRowPress">
+                <ColumnListItem vAlign="Middle" type="Navigation" press="onRowPress">
                   <cells>
                     <HBox renderType="Bare" alignItems="Center">
-                      <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
-                      <Text text="{name}" class="sapUiSmallMarginBegin"/>
+                      <core:Icon src="{definition/iconUrl}" size="2rem" color="Tile"/>
+                      <Text text="{definition/name}" class="sapUiSmallMarginBegin"/>
                     </HBox>
-                    <Text text="{number}"/>
-                    <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
+                    <Text text="{definition/number}"/>
+                    <Text text="{data/lastReadingDate}"/>
+                    <Text text="{data/lastReadingValue}"/>
                   </cells>
                 </ColumnListItem>
               </items>
             </Table>
+          </IconTabFilter>
+          <IconTabFilter text="{i18n>text_Analysis}" enabled="false">
+            <Panel id="chartContainer" busyIndicatorDelay="100" height="100%">
+              <html:canvas id="chartControl" />
+            </Panel>
           </IconTabFilter>
         </items>
       </IconTabBar>

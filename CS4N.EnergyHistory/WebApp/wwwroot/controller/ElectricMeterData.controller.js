@@ -143,23 +143,34 @@
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        this.byId("myPage").setBusy(true);
+        const container = this.byId("myPage");
+        container.setBusy(true);
         Connector.get("ElectricMeterData/init",
           this.onApiGetInitData.bind(this),
-          this.handleApiError.bind(this));
+          this.handleApiError.bind(this),
+          () => this.byId("myPage").setBusy(false));
       },
 
       onBackPress: function () {
         this.navigateTo("Cockpit");
       },
+
+      onRowPress: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          modelData = this.model.getProperty(modelPath);
+
+        this.navigateTo("ElectricMeterDataEdit", { guid: modelData.definition.guid });
+      },
       // #endregion
 
       // #region API-Events
       onApiGetInitData: function (response) {
-        Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
-          this.onApiGetViewData.bind(this),
-          this.handleApiError.bind(this),
-          () => this.byId("myPage").setBusy(false));
+        this.model.setProperty("/viewData", response);
+
+        //Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
+        //  this.onApiGetViewData.bind(this),
+        //  this.handleApiError.bind(this),
+        //  () => this.byId("myPage").setBusy(false));
       },
 
       onApiGetViewData: function (response) {

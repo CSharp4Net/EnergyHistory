@@ -20,17 +20,33 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     private ElectricMeterRepository repository;
 
-    internal DataView GetData()
+    internal DataView GetDatas()
     {
       var result = new DataView();
 
       var definitions = repository.GetDefinitions();
       foreach (var definition in definitions)
       {
-        result.Datas.Add(repository.GetData(definition.Guid));
+        result.Datas.Add(new DataView.DataViewElectricMeter
+        {
+          Definition = definition,
+          Data = repository.GetData(definition.Guid)
+        });
       }
 
       return result;
+    }
+
+    internal DataView.DataViewElectricMeter GetData(string guid)
+    {
+      var definition = repository.GetDefinition(guid);
+      var dataObject = repository.GetData(guid);
+
+      return new DataView.DataViewElectricMeter
+      {
+        Definition = definition,
+        Data = dataObject
+      };
     }
 
     internal ActionReply PostData(DataObject data)

@@ -24,7 +24,7 @@
       resetModel: function () {
         this.model.setData({
           filter: null,
-          solarStationGuid: "",
+          guid: "",
           viewData: {
             definition: null,
             generatedElectricityAmount: 0,
@@ -145,7 +145,7 @@
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
-        this.model.setProperty("/solarStationGuid", evt.getParameters().arguments.guid);
+        this.model.setProperty("/guid", evt.getParameters().arguments.guid);
 
         this.byId("myPage").setBusy(true);
         Connector.get("SolarStationData/init",
@@ -158,9 +158,9 @@
       },
 
       onEditPress: function () {
-        const solarStationGuid = this.model.getProperty("/viewData/definition/guid");
+        const guid = this.model.getProperty("/viewData/definition/guid");
 
-        this.navigateTo("SolarStationDataEdit", { guid: solarStationGuid });
+        this.navigateTo("SolarStationDataEdit", { guid: guid });
       },
 
       onFilterPress: function () {
@@ -198,7 +198,7 @@
       onFilterDialogAbortSubmitPress: function () {
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.post("SolarStationData/" + this.model.getProperty("/solarStationGuid"), this.model.getProperty("/filter"),
+        Connector.post("SolarStationData/" + this.model.getProperty("/guid"), this.model.getProperty("/filter"),
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => {
@@ -215,7 +215,7 @@
 
         this.model.setProperty("/filter", response.filter);
 
-        Connector.post("SolarStationData/" + this.model.getProperty("/solarStationGuid"), response.filter,
+        Connector.post("SolarStationData/" + this.model.getProperty("/guid"), response.filter,
           this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
           () => this.byId("myPage").setBusy(false));

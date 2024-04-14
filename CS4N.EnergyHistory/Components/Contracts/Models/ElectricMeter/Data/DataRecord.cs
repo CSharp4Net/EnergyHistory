@@ -2,7 +2,6 @@
 {
   public sealed class DataRecord 
   {
-    public string MeterGuid { get; set; } = "";
     public string MeterUnitCode { get; set; } = "";
     public DateTime ReadingDate { get; set; }
     public double Value { get; set; }
