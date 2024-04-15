@@ -167,6 +167,10 @@
       onApiGetInitData: function (response) {
         this.model.setProperty("/viewData", response);
 
+        //const bindingContext = this.byId("myTable").getBinding("items");
+
+        //bindingContext.sort([new sap.ui.model.Sorter("", true, true)]);
+
         //Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
         //  this.onApiGetViewData.bind(this),
         //  this.handleApiError.bind(this),

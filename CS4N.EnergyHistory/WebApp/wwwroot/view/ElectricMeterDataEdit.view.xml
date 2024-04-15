@@ -34,7 +34,7 @@
               <Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}">
                 <core:ListItem key="{code}" text="{code}" />
               </Select>
-              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{isNew}" />
+              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{isNew}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
               <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{isNew}" textAlign="End" description="{/definition/capacityUnit}" />
               <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
             </cells>

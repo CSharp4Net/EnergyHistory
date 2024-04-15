@@ -49,9 +49,9 @@ namespace CS4N.EnergyHistory.WebApp.Services
       };
     }
 
-    internal ActionReply PostData(DataObject data)
+    internal DataObject PostData(DataObject data)
     {
-      throw new NotImplementedException();
+      return repository.SetData(data);
     }
   }
 }

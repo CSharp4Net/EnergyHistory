@@ -103,12 +103,16 @@ namespace CS4N.EnergyHistory.DataStore.File
 
     public void UpsertElectricMeterData(DataObject data)
     {
-      throw new NotImplementedException();
+      WriteDataFile(data);
+
+      cachedElectricMeterDatas.Clear();
     }
 
     public void DeleteElectricMeterData(string guid)
     {
-      throw new NotImplementedException();
+      DeleteDataFile<DataObject>(guid);
+
+      cachedElectricMeterDatas.Clear();
     }
     #endregion
   }

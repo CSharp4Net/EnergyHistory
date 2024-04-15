@@ -25,7 +25,7 @@
                   headerMode="Inline">
         <items>
           <IconTabFilter text="{i18n>text_Recording}">
-            <Table items="{/viewData/datas}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+            <Table id="myTable" items="{/viewData/datas}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
               <columns>
                 <Column>
                   <Text text="{i18n>text_Meter}" />
@@ -36,7 +36,7 @@
                 <Column>
                   <Text text="{i18n>text_LastReadingDate}" />
                 </Column>
-                <Column>
+                <Column hAlign="End">
                   <Text text="{i18n>text_LastReadingValue}" />
                 </Column>
               </columns>
@@ -48,8 +48,8 @@
                       <Text text="{definition/name}" class="sapUiSmallMarginBegin"/>
                     </HBox>
                     <Text text="{definition/number}"/>
-                    <Text text="{data/lastReadingDate}"/>
-                    <Text text="{data/lastReadingValue}"/>
+                    <Text text="{ path: 'data/lastRecordDate', formatter: '.formatDate' }"/>
+                    <ObjectNumber number="{data/lastRecordValue}" unit="{definition/capacityUnit}"/>
                   </cells>
                 </ColumnListItem>
               </items>

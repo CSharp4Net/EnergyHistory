@@ -60,13 +60,18 @@
       },
 
       onAddRowPress: function () {
-        this.model.getProperty("/data/records").unshift({
-          readingDate: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-          readingDateState: "None",
-          value: "",
-          valueState: "None",
-          isNew: true
-        });
+        const units = this.model.getProperty("/definition/units");
+
+        for (let i = 0; i < units.length; i++) {
+          this.model.getProperty("/data/records").unshift({
+            meterUnitCode: units[i].code,
+            readingDate: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+            readingDateState: "None",
+            value: "",
+            valueState: "None",
+            isNew: true
+          });
+        }
         this.model.refresh();
       },
 
@@ -81,6 +86,20 @@
 
       onSavePress: function () {
         const data = this.model.getProperty("/data");
+
+        //let allValid = true;
+        for (let i = 0; i < data.records.length; i++) {
+          const record = data.records[i];
+
+          record.value = Number(record.value) || 0;
+        }
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.post("ElectricMeterData/data", data,
+          this.onApiPostData.bind(this),
+          this.handleApiError.bind(this),
+          () => this.byId("myPage").setBusy(false));
       },
       // #endregion
 
@@ -90,6 +109,16 @@
         this.model.setProperty("/data", response.data);
 
         response.data.records.map(entry => entry.isNew = false);
+      },
+
+      onApiPostData: function (response) {
+        if (response.errorMessage) {
+          this.showResponseError(response);
+          return;
+        }
+
+        this.model.setProperty("/data", response);
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterDataSaved"));
       }
       // #endregion
     });

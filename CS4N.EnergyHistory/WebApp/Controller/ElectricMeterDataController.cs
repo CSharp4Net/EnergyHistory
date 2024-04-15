@@ -31,7 +31,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       return new OkObjectResult(dataView);
     }
 
-    [HttpPost]
+    [HttpPost("data")]
     public IActionResult PostData([FromBody] DataObject data)
       => new OkObjectResult(service.PostData(data));
   }
