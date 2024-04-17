@@ -13,7 +13,7 @@
       </Bar>
     </customHeader>
     <content>
-      <Table items="{/data/records}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+      <Table items="{ path: '/data/records', sorter: { path: 'readingDate', descending: true } }" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
         <columns>
           <Column>
             <Text text="{i18n>text_MeterUnit}" />
@@ -31,12 +31,15 @@
         <items>
           <ColumnListItem vAlign="Middle">
             <cells>
-              <Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}">
+              <Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}" editable="{editable}">
                 <core:ListItem key="{code}" text="{code}" />
               </Select>
-              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{isNew}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
-              <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{isNew}" textAlign="End" description="{/definition/capacityUnit}" />
-              <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
+              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{editable}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
+              <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{editable}" textAlign="End" description="{/definition/capacityUnit}" />
+              <HBox justifyContent="End">
+                <Button icon="sap-icon://edit" type="Transparent" press="onEditRowPress" visible="{= !${editable} }" />
+                <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
+              </HBox>
             </cells>
           </ColumnListItem>
         </items>

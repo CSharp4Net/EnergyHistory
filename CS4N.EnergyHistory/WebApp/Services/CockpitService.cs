@@ -24,18 +24,17 @@ namespace CS4N.EnergyHistory.WebApp.Services
       List<GenericTileData> result = [];
 
       result.AddRange(GetStationItems(solarSolarStationDefinitions));
-      //result.AddRange(GetMeterItems(electricMeterDefinitions));
 
       result.Add(new GenericTileData("basic", "text_MeterReadings", "ElectricMeterData")
       {
         IconUrl = "sap-icon://business-objects-experience",
         TileFooter = "text_ElectricMeter",
-        Kpi = new KpiData
-        {
-          Value = "0",
-          ValueColor = "Error",
-          Unit = "kWh"
-        }
+        //Kpi = new KpiData
+        //{
+        //  Value = "0",
+        //  ValueColor = "Error",
+        //  Unit = "kWh"
+        //}
       });
       result.Add(new GenericTileData("basic", "text_ManageSolarStation", "SolarStationDefinitionOverview")
       {

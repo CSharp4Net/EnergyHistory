@@ -38,7 +38,7 @@
 
       formatDate: function (value) {
         if (this.isNullOrEmpty(value))
-          return value;
+          return this.i18n.getText("text_NotYetDone");
 
         return new Date(value).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       },

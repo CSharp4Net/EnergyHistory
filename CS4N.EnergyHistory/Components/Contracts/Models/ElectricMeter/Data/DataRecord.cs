@@ -3,7 +3,7 @@
   public sealed class DataRecord 
   {
     public string MeterUnitCode { get; set; } = "";
-    public DateTime ReadingDate { get; set; }
+    public string ReadingDate { get; set; } = "";
     public double Value { get; set; }
   }
 }

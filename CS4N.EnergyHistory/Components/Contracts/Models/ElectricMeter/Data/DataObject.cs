@@ -12,11 +12,11 @@
       }
     }
 
-    public DateTime LastRecordDate
+    public string LastRecordDate
     {
       get
       {
-        return LastRecord?.ReadingDate ?? DateTime.MinValue;
+        return LastRecord?.ReadingDate ?? string.Empty;
       }
     }
     public double LastRecordValue

@@ -40,6 +40,10 @@
 
         return new Date(value).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       },
+
+      convertDateTime: function (value) {
+        return value.substring(0, 10);
+      },
       // #endregion
 
       // #region Events
@@ -65,11 +69,11 @@
         for (let i = 0; i < units.length; i++) {
           this.model.getProperty("/data/records").unshift({
             meterUnitCode: units[i].code,
-            readingDate: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+            readingDate: this.convertDateTime(new Date().toISOString()),
             readingDateState: "None",
             value: "",
             valueState: "None",
-            isNew: true
+            editable: true
           });
         }
         this.model.refresh();
@@ -81,6 +85,13 @@
           arrayIndex = pathElements[pathElements.length - 1];
 
         this.model.getProperty("/data/records").splice(arrayIndex, 1);
+        this.model.refresh();
+      },
+
+      onEditRowPress: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath();
+
+        this.model.getProperty(modelPath).editable = true;
         this.model.refresh();
       },
 
@@ -105,10 +116,10 @@
 
       // #region API-Events
       onApiGetData: function (response) {
+        response.data.records.map(entry => entry.editable = false);
+
         this.model.setProperty("/definition", response.definition);
         this.model.setProperty("/data", response.data);
-
-        response.data.records.map(entry => entry.isNew = false);
       },
 
       onApiPostData: function (response) {
@@ -117,6 +128,7 @@
           return;
         }
 
+        response.records.map(entry => entry.editable = false);
         this.model.setProperty("/data", response);
         MessageToast.show(this.i18n.getText("toast_ElectricMeterDataSaved"));
       }
