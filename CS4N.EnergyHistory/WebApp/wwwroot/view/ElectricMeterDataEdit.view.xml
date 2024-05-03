@@ -13,37 +13,138 @@
       </Bar>
     </customHeader>
     <content>
-      <Table items="{ path: '/data/records', sorter: { path: 'readingDate', descending: true } }" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
-        <columns>
-          <Column>
-            <Text text="{i18n>text_MeterUnit}" />
-          </Column>
-          <Column>
-            <Text text="{i18n>text_ReadingAt}" />
-          </Column>
-          <Column>
-            <Text text="{i18n>text_ReadingValue}" />
-          </Column>
-          <Column hAlign="End" styleClass="sapUiSizeCompact">
-            <Button icon="sap-icon://add" type="Transparent" press="onAddRowPress" />
-          </Column>
-        </columns>
+      <IconTabBar id="myTabBar"
+          expandable="false"
+          stretchContentHeight="true"
+          select="onTabSelect"
+          applyContentPadding="false"
+          headerMode="Inline">
         <items>
-          <ColumnListItem vAlign="Middle">
-            <cells>
-              <Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}" editable="{editable}">
-                <core:ListItem key="{code}" text="{code}" />
-              </Select>
-              <DatePicker value="{readingDate}" valueState="{valueState}" editable="{editable}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />
-              <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{editable}" textAlign="End" description="{/definition/capacityUnit}" />
-              <HBox justifyContent="End">
-                <Button icon="sap-icon://edit" type="Transparent" press="onEditRowPress" visible="{= !${editable} }" />
-                <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
-              </HBox>
-            </cells>
-          </ColumnListItem>
+          <IconTabFilter text="{i18n>text_Recording}">
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout columnsL="1" />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_ReadingAt}">
+                      <f:fields>
+                        <DatePicker value="{/newRecord/readingDate}"
+                                    valueState="{/newRecord/valueState}"
+                                    valueFormat="yyyy-MM-dd"
+                                    displayFormat="{i18n>format_Date}" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <VBox fitContainer="true">
+              <Table items="{/newRecord/units}"
+                     alternateRowColors="true"
+                     fixedLayout="false"
+                     noDataText="{i18n>text_NoRecords}">
+                <columns>
+                  <Column>
+                    <Text text="{i18n>text_MeterUnit}" />
+                  </Column>
+                  <Column>
+                    <Text text="{i18n>text_ReadingValue}" />
+                  </Column>
+                  <!--<Column hAlign="End" styleClass="sapUiSizeCompact">
+                              <Button icon="sap-icon://add" type="Transparent" press="onAddRowPress" />
+                            </Column>-->
+                </columns>
+                <items>
+                  <ColumnListItem vAlign="Middle">
+                    <cells>
+                      <!--<Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}" editable="{editable}">
+                      <core:ListItem key="{code}" text="{code}" />
+                    </Select>-->
+                      <Text text="{meterUnitCode}" />
+                      <!--<DatePicker value="{readingDate}" valueState="{valueState}" editable="{editable}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />-->
+                      <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{editable}" textAlign="End" description="{/definition/capacityUnit}" />
+                      <HBox justifyContent="End">
+                        <Button icon="sap-icon://edit" type="Transparent" press="onEditRowPress" visible="{= !${editable} }" />
+                        <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
+                      </HBox>
+                    </cells>
+                  </ColumnListItem>
+                </items>
+              </Table>
+              <Table id="myTable"
+                     items="{ path: '/data/lastRecords', sorter: [ { path: 'readingDate', descending: true } ] }"
+                     alternateRowColors="true"
+                     fixedLayout="false"
+                     noDataText="{i18n>text_NoRecords}"
+                     headerText="{i18n>text_LastRecording}">
+                <columns>
+                  <Column>
+                    <Text text="{i18n>text_MeterUnit}" />
+                  </Column>
+                  <Column>
+                    <Text text="{i18n>text_ReadingAt}" />
+                  </Column>
+                  <Column>
+                    <Text text="{i18n>text_ReadingValue}" />
+                  </Column>
+                  <!--<Column hAlign="End" styleClass="sapUiSizeCompact">
+                  <Button icon="sap-icon://add" type="Transparent" press="onAddRowPress" />
+                </Column>-->
+                </columns>
+                <items>
+                  <ColumnListItem vAlign="Middle">
+                    <cells>
+                      <!--<Select items="{ path: '/definition/units', templateShareable: true }" selectedKey="{meterUnitCode}" editable="{editable}">
+                      <core:ListItem key="{code}" text="{code}" />
+                    </Select>-->
+                      <Text text="{meterUnitCode}" />
+                      <Text text="{ path: 'readingDate', formatter: '.formatDate' }" />
+                      <!--<DatePicker value="{readingDate}" valueState="{valueState}" editable="{editable}" valueFormat="yyyy-MM-dd" displayFormat="{i18n>format_Date}" />-->
+                      <ObjectNumber number="{value}" unit="{/definition/capacityUnit}"/>
+                      <Input value="{value}" valueState="{valueState}" type="Number" placeholder="0" editable="{editable}" textAlign="End" description="{/definition/capacityUnit}" />
+                      <!--<HBox justifyContent="End">
+                      <Button icon="sap-icon://edit" type="Transparent" press="onEditRowPress" visible="{= !${editable} }" />
+                      <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRowPress" />
+                    </HBox>-->
+                    </cells>
+                  </ColumnListItem>
+                </items>
+              </Table>
+            </VBox>
+          </IconTabFilter>
+          <!--Historie-->
+          <IconTabFilter text="{i18n>text_History}">
+            <ScrollContainer vertical="true" height="100%">
+              <Table items="{ path: '/data/records', 
+                            sorter: [                              
+                              { path: 'meterUnitCode', descending: false, group: true },
+                              { path: 'readingDate', descending: true }] }"
+                     alternateRowColors="true"
+                     fixedLayout="false"
+                     noDataText="{i18n>text_NoRecords}">
+                <columns>
+                  <Column hAlign="End">
+                    <Text text="{i18n>text_ReadingValue}" />
+                  </Column>
+                  <Column hAlign="End">
+                    <Text text="{i18n>text_ReadingAt}" />
+                  </Column>
+                </columns>
+                <items>
+                  <ColumnListItem vAlign="Middle">
+                    <cells>
+                      <ObjectNumber number="{value}" unit="{/definition/capacityUnit}"/>
+                      <Text text="{ path: 'readingDate', formatter: '.formatDate' }" />
+                    </cells>
+                  </ColumnListItem>
+                </items>
+              </Table>
+            </ScrollContainer>
+          </IconTabFilter>
         </items>
-      </Table>
+      </IconTabBar>
     </content>
     <footer>
       <Bar>

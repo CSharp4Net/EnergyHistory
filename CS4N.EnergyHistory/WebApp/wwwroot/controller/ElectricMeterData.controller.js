@@ -23,17 +23,19 @@
       // #region Methods
       resetModel: function () {
         this.model.setData({
+          guid: "",
+          newRecord: null,
           viewData: {
-            chartData: [],
-            datas: []
-          }
+            definiton: null,
+            data: []
+          },
+          readingDateState: "None",
+          readingValueState: "None"
         });
       },
 
-      formatPowerValue: function (value) {
-        value = Number(value) || 0;
-
-        return value.toLocaleString();
+      convertDateTime: function (value) {
+        return value.substring(0, 10);
       },
 
       formatDate: function (value) {
@@ -43,99 +45,15 @@
         return new Date(value).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       },
 
-      createChartControl: function (chartType) {
-        const chartContainerId = this.createId("chartControl");
-        this.chartContainer = document.getElementById(chartContainerId).getContext('2d');
+      buildNewRecord() {
+        const definition = this.model.getProperty("/viewData/definition");
 
-        if (this.chartControl)
-          this.chartControl.destroy();
-
-        this.chartControl = new Chart(this.chartContainer, {
-          type: chartType,
-          options: {
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                enabled: false
-              }
-            },
-            elements: {
-              bar: {
-                borderColor: "rgba(0, 100, 217, 1)",
-                backgroundColor: "rgba(0, 100, 217, 0.5)"
-              }
-            },
-            scales: {
-              y: {
-                title: {
-                  display: true,
-                  text: this.model.getProperty("/viewData/definition/capacityUnit"),
-                  color: "rgba(0, 100, 217, 1)"
-                },
-                ticks: {
-                  display: false,
-                  beginAtZero: true
-                }
-              },
-              x: {
-                ticks: {
-                  color: "rgba(0, 100, 217, 1)"
-                }
-              }
-            },
-            animation: {
-              duration: 1,
-              onComplete: function ({ chart }) {
-                const ctx = chart.ctx;
-
-                chart.config.data.datasets.forEach((dataset, i) => {
-                  const meta = chart.getDatasetMeta(i);
-
-                  meta.data.forEach((bar, index) => {
-                    const data = dataset.data[index];
-                    if (data.y > 0) {
-                      ctx.fillStyle = "rgba(0, 100, 217, 1)";
-                      ctx.textAlign = 'center';
-                      ctx.textBaseline = 'bottom';
-                      ctx.fillText(data.y.toLocaleString(), bar.x, bar.y - 5);
-                    }
-                  });
-                });
-              }
-            }
-          }
+        this.model.setProperty("/newRecord", {
+          readingDate: new Date(),
+          readingValue: "",
+          kilowattHourPrice: definition.kilowattHourPrice,
+          currencyUnit: definition.currencyUnit
         });
-      },
-
-      resetChart: function () {
-        const chartData = this.model.getProperty("/viewData/chartData");
-
-        this.chartControl.data.datasets = [{
-          data: chartData,
-          borderWidth: 1
-        }];
-        this.chartControl.update();
-      },
-
-      drawElementValues: function () {
-        const ctx = this.chartContainer.ctx;
-        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-        ctx.fillStyle = this.chartControlFontColor;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "bottom";
-
-        this.chartControl.data.datasets.forEach((dataset, i) => {
-          const meta = this.chartControl.controller.getDatasetMeta(i);
-          meta.data.forEach((bar, index) =>
-            ctx.fillText(dataset.data[index].y.toLocaleString(), bar._model.x, bar._model.y - 5));
-        });
-      },
-
-      detectDisplayFormat: function (chartDataStepType) {
-        return "MM.yyyy";
       },
       // #endregion
 
@@ -145,38 +63,70 @@
 
         const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("ElectricMeterData/init",
-          this.onApiGetInitData.bind(this),
+        Connector.get("ElectricMeterData/" + evt.getParameters().arguments.guid,
+          this.onApiGetViewData.bind(this),
           this.handleApiError.bind(this),
-          () => this.byId("myPage").setBusy(false));
+          () => container.setBusy(false));
       },
 
       onBackPress: function () {
         this.navigateTo("Cockpit");
       },
 
-      onRowPress: function (evt) {
+      onAddPress: function () {
+        const newRecord = this.model.getProperty("/newRecord");
+
+        newRecord.readingValue = Number(newRecord.readingValue) || 0;
+        newRecord.kilowattHourPrice = Number(newRecord.kilowattHourPrice) || 0;
+
+        let allValid = true;
+
+        if (!newRecord.readingDate) {
+          this.model.setProperty("/readingDateState", "Error");
+          allValid = false;
+        }
+        else
+          this.model.setProperty("/readingDateState", "None");
+
+        if (newRecord.readingValue < 0) {
+          this.model.setProperty("/readingValueState", "Error");
+          allValid = false;
+        }
+        else
+          this.model.setProperty("/readingValueState", "None");
+
+        if (newRecord.kilowattHourPrice < 0) {
+          this.model.setProperty("/kilowattHourPriceState", "Error");
+          allValid = false;
+        }
+        else
+          this.model.setProperty("/kilowattHourPriceState", "None");
+
+        if (!allValid)
+          return;
+
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.post("ElectricMeterData/" + this.model.getProperty("/viewData/definition/guid"), newRecord,
+          this.onApiPostNewRecord.bind(this),
+          this.handleApiError.bind(this),
+          () => this.byId("myPage").setBusy(false));
+      },
+
+      onDeleteRecordPress: function (evt) {
         const modelPath = evt.getSource().getBindingContext().getPath(),
           modelData = this.model.getProperty(modelPath);
 
-        this.navigateTo("ElectricMeterDataEdit", { guid: modelData.definition.guid });
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.delete("ElectricMeterData/" + this.model.getProperty("/viewData/definition/guid") + "/record", modelData,
+          this.onApiDeleteRecord.bind(this),
+          this.handleApiError.bind(this),
+          () => this.byId("myPage").setBusy(false));
       },
       // #endregion
 
       // #region API-Events
-      onApiGetInitData: function (response) {
-        this.model.setProperty("/viewData", response);
-
-        //const bindingContext = this.byId("myTable").getBinding("items");
-
-        //bindingContext.sort([new sap.ui.model.Sorter("", true, true)]);
-
-        //Connector.post("ElectricMeterData/" + this.model.getProperty("/guid"), response.filter,
-        //  this.onApiGetViewData.bind(this),
-        //  this.handleApiError.bind(this),
-        //  () => this.byId("myPage").setBusy(false));
-      },
-
       onApiGetViewData: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);
@@ -185,8 +135,32 @@
 
         this.model.setProperty("/viewData", response);
 
-        this.createChartControl("bar");
-        this.resetChart();
+        this.buildNewRecord();
+        this.setFocus("readingValueInput", 100);
+      },
+
+      onApiPostNewRecord: function (response) {
+        if (response.errorMessage) {
+          this.showResponseError(response);
+          return;
+        }
+
+        this.model.setProperty("/viewData/data", response);
+
+        this.buildNewRecord();
+        this.setFocus("readingValueInput", 100);
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterDataSaved"));
+      },
+
+      onApiDeleteRecord: function (response) {
+        if (response.errorMessage) {
+          this.showResponseError(response);
+          return;
+        }
+
+        this.model.setProperty("/viewData/data", response);
+
+        MessageToast.show(this.i18n.getText("toast_ElectricMeterDataDeleted"));
       }
       // #endregion
     });

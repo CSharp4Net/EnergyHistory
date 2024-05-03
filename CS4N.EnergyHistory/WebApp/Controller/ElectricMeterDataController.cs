@@ -15,15 +15,7 @@ namespace CS4N.EnergyHistory.WebApp.Controller
 
     private ElectricMeterDataService service;
 
-    [HttpGet("init")]
-    public IActionResult GetInitData()
-    { 
-      var dataView = service.GetDatas();
-
-      return new OkObjectResult(dataView);
-    }
-
-    [HttpGet("data/{guid}")]
+    [HttpGet("{guid}")]
     public IActionResult GetData(string guid)
     {
       var dataView = service.GetData(guid);
@@ -31,8 +23,12 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       return new OkObjectResult(dataView);
     }
 
-    [HttpPost("data")]
-    public IActionResult PostData([FromBody] DataObject data)
-      => new OkObjectResult(service.PostData(data));
+    [HttpPost("{guid}")]
+    public IActionResult PostNewRecord(string guid, [FromBody] DataRecord record)
+      => new OkObjectResult(service.PostNewRecord(guid, record));
+
+    [HttpDelete("{guid}/record")]
+    public IActionResult DeleteRecord(string guid, [FromBody] DataRecord record)
+      => new OkObjectResult(service.DeleteRecord(guid, record));
   }
 }

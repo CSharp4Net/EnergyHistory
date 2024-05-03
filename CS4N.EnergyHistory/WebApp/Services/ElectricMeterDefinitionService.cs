@@ -23,6 +23,9 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(collection);
     }
 
+    internal Definition GetNewDefinition()
+     => new Definition();
+
     internal IActionResult GetDefinition(string guid)
     {
       logger.LogDebug($"Load electric meter definition '{guid}'");

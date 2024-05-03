@@ -20,13 +20,14 @@
         <items>
           <IconTabFilter key="all" text="{i18n>text_All}" />
           <IconTabFilter key="solarStation" text="{i18n>text_SolarStations}" count="{/solarStationCount}" visible="{/solarStationAdded}" />
+          <IconTabFilter key="electricMeter" text="{i18n>text_ElectricMeters}" count="{/electricMeterCount}" visible="{/electricMeterAdded}" />
           <IconTabFilter key="basic" text="{i18n>text_Basic}" />
         </items>
         <content>
-          <HBox id="myTiles" items="{/items}">
+          <HBox id="myTiles" items="{/items}" wrap="Wrap">
             <GenericTile header="{ path: 'name', formatter: '.formatTileHeader' }" press="onTilePress" class="sapUiTinyMargin" headerImage="{iconUrl}">
               <TileContent footer="{ path: 'tileFooter', formatter: '.formatTileFooter' }">
-                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" scale="{kpi/unit}" />
+                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" scale="{kpi/unit}" icon="{kpi/iconUrl}" nullifyValue="false" />
               </TileContent>
             </GenericTile>
           </HBox>

@@ -6,59 +6,149 @@
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
-          <Title text="{i18n>text_MeterReadings}"/>
+          <Title text="{i18n>text_ElectricMeter}"/>
           <Image src="image/flash-energy-pastel-32.png" height="2rem"/>
-          <Title text="{i18n>text_Reading}"/>
+          <Title text="{/viewData/definition/number}"/>
         </contentMiddle>
-        <!--<contentRight>
-          <Button icon="sap-icon://filter" press="onFilterPress" />          
-          <Button icon="sap-icon://edit" press="onEditPress" />          
-        </contentRight>-->
       </Bar>
     </customHeader>
     <content>
-      <IconTabBar id="myTabBar" 
-                  expandable="false" 
-                  stretchContentHeight="true" 
-                  select="onTabSelect" 
-                  applyContentPadding="false" 
+      <IconTabBar id="myTabBar"
+                  expandable="false"
+                  stretchContentHeight="true"
+                  applyContentPadding="false"
                   headerMode="Inline">
         <items>
+          <!--Erfassung-->
           <IconTabFilter text="{i18n>text_Recording}">
-            <Table id="myTable" items="{/viewData/datas}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+            <f:Form editable="false">
+              <f:layout>
+                <f:ResponsiveGridLayout columnsM="2" />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_MeterNumber}" visible="{= ${/viewData/definition/name}.length > 0 }">
+                      <f:fields>
+                        <Text text="{/viewData/definition/name}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_MeterUnit}">
+                      <f:fields>
+                        <Text text="{/viewData/definition/unitCode}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_PriceOfKilowattHour}">
+                      <f:fields>
+                        <ObjectNumber number="{/viewData/definition/kilowattHourPrice}" unit="{/viewData/definition/currencyUnit}" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_LastRecording}">
+                      <f:fields>
+                        <Text text="{ path: '/viewData/data/lastRecordDate', formatter: '.formatDate' }" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_ReadingValue}">
+                      <f:fields>
+                        <ObjectNumber number="{/viewData/data/lastRecordValue}" unit="{/viewData/definition/capacityUnit}" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout columnsM="2" />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_ReadingAt}">
+                      <f:fields>
+                        <DatePicker value="{ path: '/newRecord/readingDate', type: 'sap.ui.model.type.Date', strictParsing: 'true' }"
+                                    valueState="{/readingDateState}"
+                                    valueFormat="yyyy-MM-dd"
+                                    required="true"
+                                    displayFormat="{i18n>format_Date}"/>
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_ReadingValue}">
+                      <f:fields>
+                        <Input id="readingValueInput"
+                               value="{/newRecord/readingValue}"
+                               valueState="{/readingValueState}"
+                               type="Number"
+                               placeholder="0"
+                               editable="{editable}"
+                               textAlign="End"
+                               description="{/viewData/definition/capacityUnit}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_PriceOfKilowattHour}">
+                      <f:fields>
+                        <Input value="{/newRecord/kilowattHourPrice}"
+                               valueState="{/kilowattHourPriceState}"
+                               type="Number"
+                               textAlign="End"
+                               placeholder="0"
+                               description="{/newRecord/currencyUnit}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement>
+                      <f:fields>
+                        <HBox justifyContent="End">
+                          <Button text="{i18n>text_Add}" type="Accept" icon="sap-icon://save" width="150px" press="onAddPress" />
+                        </HBox>
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+
+          </IconTabFilter>
+          <!--Historie-->
+          <IconTabFilter text="{i18n>text_History}">
+            <Table items="{ path: '/viewData/data/records', sorter: [ { path: 'readingDate', descending: true } ] }"
+                   alternateRowColors="true"
+                   fixedLayout="false"
+                   noDataText="{i18n>text_NoRecords}">
               <columns>
                 <Column>
-                  <Text text="{i18n>text_Meter}" />
-                </Column>
-                <Column>
-                  <Text text="{i18n>text_MeterNumber}" />
-                </Column>
-                <Column>
-                  <Text text="{i18n>text_LastReadingDate}" />
+                  <Text text="{i18n>text_ReadingAt}" />
                 </Column>
                 <Column hAlign="End">
-                  <Text text="{i18n>text_LastReadingValue}" />
+                  <Text text="{i18n>text_ReadingValue}" />
                 </Column>
+                <Column hAlign="End">
+                  <Text text="{i18n>text_Difference}" />
+                </Column>
+                <Column hAlign="End">
+                  <Text text="{i18n>text_Days}" />
+                </Column>
+                <Column hAlign="End">
+                  <Text text="{i18n>text_PerDay}" />
+                </Column>
+                <Column hAlign="End" />
               </columns>
               <items>
-                <ColumnListItem vAlign="Middle" type="Navigation" press="onRowPress">
+                <ColumnListItem vAlign="Middle">
                   <cells>
-                    <HBox renderType="Bare" alignItems="Center">
-                      <core:Icon src="{definition/iconUrl}" size="2rem" color="Tile"/>
-                      <Text text="{definition/name}" class="sapUiSmallMarginBegin"/>
-                    </HBox>
-                    <Text text="{definition/number}"/>
-                    <Text text="{ path: 'data/lastRecordDate', formatter: '.formatDate' }"/>
-                    <ObjectNumber number="{data/lastRecordValue}" unit="{definition/capacityUnit}"/>
+                    <Text text="{ path: 'readingDate', formatter: '.formatDate' }" />
+                    <ObjectNumber number="{readingValue}" unit="{/viewData/definition/capacityUnit}"/>
+                    <ObjectNumber number="{differenceValue}" unit="{/viewData/definition/capacityUnit}"/>
+                    <Text text="{differenceDays}" />
+                    <ObjectNumber number="{differenceValuePerDay}" unit="{/viewData/definition/capacityUnit}"/>
+                    <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRecordPress" />
                   </cells>
                 </ColumnListItem>
               </items>
             </Table>
-          </IconTabFilter>
-          <IconTabFilter text="{i18n>text_Analysis}" enabled="false">
-            <Panel id="chartContainer" busyIndicatorDelay="100" height="100%">
-              <html:canvas id="chartControl" />
-            </Panel>
           </IconTabFilter>
         </items>
       </IconTabBar>

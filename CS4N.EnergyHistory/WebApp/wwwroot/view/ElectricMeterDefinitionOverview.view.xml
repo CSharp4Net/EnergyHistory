@@ -13,13 +13,20 @@
       </Bar>
     </customHeader>
     <content>
-      <Table items="{/definitions}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
+      <Table items="{ path: '/definitions', sorter: [ { path: 'number', group: true } ] }" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
         <columns>
+          <Column width="2rem" />
           <Column>
             <Text text="{i18n>text_Meter}" />
           </Column>
           <Column>
-            <Text text="{i18n>text_MeterNumber}" />
+            <Text text="{i18n>text_MeterUnit}" />
+          </Column>
+          <Column hAlign="Center">
+            <Text text="{i18n>text_ConsumptionMeter}" />
+          </Column>
+          <Column hAlign="End">
+            <Text text="{i18n>text_PriceOfKilowattHour}" />
           </Column>
           <Column hAlign="End" styleClass="sapUiSizeCompact">
             <Button icon="sap-icon://add" type="Transparent" press="onAddPress" />
@@ -28,11 +35,11 @@
         <items>
           <ColumnListItem vAlign="Middle" type="Active" press="onRowPress">
             <cells>
-              <HBox renderType="Bare" alignItems="Center">
-                <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
-                <Text text="{name}" class="sapUiSmallMarginBegin"/>
-              </HBox>
-              <Text text="{number}"/>
+              <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
+              <ObjectIdentifier title="{name}" />
+              <Text text="{unitCode}"/>
+              <CheckBox selected="{isConsumptionMeter}" displayOnly="true"/>
+              <ObjectNumber number="{kilowattHourPrice}" unit="{currencyUnit}"/>
               <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
             </cells>
           </ColumnListItem>

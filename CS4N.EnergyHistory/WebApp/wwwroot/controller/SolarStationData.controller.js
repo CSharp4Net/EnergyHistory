@@ -23,8 +23,8 @@
       // #region Methods
       resetModel: function () {
         this.model.setData({
-          filter: null,
           guid: "",
+          filter: null,
           viewData: {
             definition: null,
             generatedElectricityAmount: 0,
@@ -90,7 +90,7 @@
               }
             },
             animation: {
-              duration: 1,
+              duration: 0,
               onComplete: function ({ chart }) {
                 const ctx = chart.ctx;
 
@@ -103,7 +103,10 @@
                       ctx.fillStyle = "rgba(0, 100, 217, 1)";
                       ctx.textAlign = 'center';
                       ctx.textBaseline = 'bottom';
-                      ctx.fillText(data.y.toLocaleString(), bar.x, bar.y - 5);
+
+                      const height = bar.y < 25 ? bar.y + 20 : bar.y - 5;
+
+                      ctx.fillText(data.y.toLocaleString(), bar.x, height);
                     }
                   });
                 });
@@ -210,7 +213,6 @@
 
       // #region API-Events
       onApiGetInitData: function (response) {
-
         response.filter.dateFormat = "MM.yyyy";
 
         this.model.setProperty("/filter", response.filter);

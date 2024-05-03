@@ -75,8 +75,11 @@
         this.model.setProperty("/solarStationCount", solarStations.length);
         this.model.setProperty("/solarStationAdded", solarStations.length > 0);
 
+        const electricMeters = response.filter(item => item.category === "electricMeter");
+        this.model.setProperty("/electricMeterCount", electricMeters.length);
+        this.model.setProperty("/electricMeterAdded", electricMeters.length > 0);
+
         this.byId("myTiles").getBinding("items").filter();
-        //this.byId("myTiles").getBinding("items").filter(new Filter("category", "EQ", this.model.getProperty("/selectedTabKey")));
       }
       // #endregion
     });

@@ -24,7 +24,8 @@
       resetModel: function () {
         this.model.setData({
           definition: null,
-          data: null
+          data: null,
+          newRecord: null
         });
       },
 
@@ -43,6 +44,16 @@
 
       convertDateTime: function (value) {
         return value.substring(0, 10);
+      },
+
+      getMeterUnitCode: function (oContext) {
+        return oContext.getProperty('meterUnitCode');
+      },
+
+      getGroupHeader: function (oGroup) {
+        return new sap.m.GroupHeaderListItem({
+          title: oGroup.key
+        });
       },
       // #endregion
 
@@ -120,6 +131,17 @@
 
         this.model.setProperty("/definition", response.definition);
         this.model.setProperty("/data", response.data);
+        this.model.setProperty("/newRecord", {
+          readingDate: this.convertDateTime(new Date().toISOString()),
+          readingDateState: "None",
+          units: response.definition.units.map(entry => {
+            return {
+              meterUnitCode: entry.code,
+              value: "",
+              valueState: "None",
+            };
+          })
+        });
       },
 
       onApiPostData: function (response) {

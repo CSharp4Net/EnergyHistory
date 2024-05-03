@@ -19,6 +19,10 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     public IActionResult GetOverview()
       => service.GetDefinitions();
 
+    [HttpGet("new")]
+    public IActionResult GetNew()
+      => new OkObjectResult(service.GetNewDefinition());
+
     [HttpGet("{guid}")]
     public IActionResult Get(string guid)
       => service.GetDefinition(guid);

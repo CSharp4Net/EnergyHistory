@@ -18,35 +18,15 @@
       resetModel: function () {
         this.model.setData({
           newRecord: true,
-          definition: {
-            guid: "",
-            name: "",
-            powerPeak: "",
-            powerUnit: "W",
-            capacityUnit: "kW",
-            installedAt: "",
-            currencyUnit: "",
-            generatedElectricityEnabled: false,
-            generatedElectricityKilowattHourPrice: 0,
-            fedInEnabled: false,
-            fedInElectricityKilowattHourPrice: 0
-          },
+          definition: null,
           commonPropertiesAreValid: "Default",
           nameState: "None",
-          powerPeakState: "None",
-          validValues: null
+          numberState: "None"
         });
       },
 
       validateInput: function (definition) {
         let allValid = true;
-
-        if (this.isNullOrEmpty(definition.name)) {
-          this.model.setProperty("/nameState", "Error");
-          allValid = false;
-        }
-        else
-          this.model.setProperty("/nameState", "None");
 
         if (this.isNullOrEmpty(definition.number)) {
           this.model.setProperty("/numberState", "Error");
@@ -62,17 +42,6 @@
           this.model.setProperty("/commonPropertiesAreValid", "Default");
         else
           this.model.setProperty("/commonPropertiesAreValid", "Negative");
-
-        for (var i = 0; i < definition.units.length; i++) {
-          const unit = definition.units[i];
-
-          if (this.isNullOrEmpty(unit.code)) {
-            unit.codeState = "Error";
-            allValid = false;
-          }
-          else
-            unit.codeState = "None";
-        }
 
         this.model.refresh();
 
@@ -91,18 +60,22 @@
       onRouteMatched: function (evt) {
         this.resetModel();
 
-        const guid = evt.getParameters().arguments.guid;
-        if (!guid) {
-          this.setFocus("nameInput", 100);
-          return;
-        }
+        const container = this.byId("myPage"),
+          guid = evt.getParameters().arguments.guid;
 
-        const container = this.byId("myPage");
         container.setBusy(true);
-        Connector.get("ElectricMeterDefinition/" + guid,
-          this.onApiGetElectricMeter.bind(this),
-          this.handleApiError.bind(this),
-          () => container.setBusy(false));
+        if (!guid) {
+          Connector.get("ElectricMeterDefinition/new",
+            this.onApiGetNewElectricMeter.bind(this),
+            this.handleApiError.bind(this),
+            () => container.setBusy(false));
+        }
+        else {
+          Connector.get("ElectricMeterDefinition/" + guid,
+            this.onApiGetElectricMeter.bind(this),
+            this.handleApiError.bind(this),
+            () => container.setBusy(false));
+        }
       },
 
       onBackPress: function () {
@@ -174,6 +147,13 @@
       // #endregion
 
       // #region API-Events
+      onApiGetNewElectricMeter: function (response) {
+        this.model.setProperty("/newRecord", true);
+        this.model.setProperty("/definition", response);
+
+        this.setFocus("numberInput", 100);
+      },
+
       onApiAddElectricMeter: function (response) {
         if (response.errorMessage) {
           this.showResponseError(response);

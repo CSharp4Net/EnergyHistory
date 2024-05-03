@@ -6,6 +6,7 @@
           <Button type="Back" text="{i18n>text_Cockpit}" press="onBackPress"/>
         </contentLeft>
 				<contentMiddle>
+          <Title text="{i18n>text_SolarStation}"/>
 					<Image src="image/flash-energy-pastel-32.png" height="2rem"/>
 					<Title text="{/viewData/definition/name}"/>
 				</contentMiddle>
@@ -45,6 +46,11 @@
                 </f:FormContainer>
                 <f:FormContainer>
                   <f:formElements>
+                    <f:FormElement label="{i18n>text_AgeInDays}">
+                      <f:fields>
+                        <Text text="{/viewData/ageInDays}" />
+                      </f:fields>
+                    </f:FormElement>
                     <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
                       <f:fields>
                         <ObjectNumber number="{ path: '/viewData/generatedElectricityAmount', formatter: '.formatPowerValue' }" 
@@ -52,18 +58,59 @@
                                       state="Success"/>
                       </f:fields>
                     </f:FormElement>
+                    <f:FormElement label="{i18n>text_GeneratedElectricityAmountPerDay}">
+                      <f:fields>
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmountPerDay', formatter: '.formatPowerValue' }" 
+                                      unit="{/viewData/definition/capacityUnit}"
+                                      state="Success"/>
+                      </f:fields>
+                    </f:FormElement>
+                    
                     <f:FormElement label="{i18n>text_GeneratedElectricityValue}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
                       <f:fields>
                         <ObjectNumber number="{ path: '/viewData/generatedElectricityValue', formatter: '.formatPowerValue' }" 
+                                      emphasized="false"
                                       unit="{/viewData/definition/currencyUnit}"
                                       state="Success"/>
                       </f:fields>
                     </f:FormElement>
+                    <f:FormElement label="{i18n>text_GeneratedElectricityValuePerDay}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
+                      <f:fields>
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValuePerDay', formatter: '.formatPowerValue' }" 
+                                      emphasized="false"
+                                      unit="{/viewData/definition/currencyUnit}"
+                                      state="Success"/>
+                      </f:fields>
+                    </f:FormElement>
+                    
                     <f:FormElement label="{i18n>text_FedInElectricityValue}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
                       <f:fields>
                         <ObjectNumber number="{ path: '/viewData/fedInElectricityValue', formatter: '.formatPowerValue' }"
                                       unit="{/viewData/definition/currencyUnit}" 
                                       state="Success" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_FedInElectricityValuePerDay}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
+                      <f:fields>
+                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValuePerDay', formatter: '.formatPowerValue' }"
+                                      unit="{/viewData/definition/currencyUnit}" 
+                                      state="Success" />
+                      </f:fields>
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <f:Form editable="false">
+              <f:layout>
+                <f:ResponsiveGridLayout  columnsM="1" />
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_Comments}">
+                      <f:fields>
+                        <Text text="{/viewData/definition/commonComments}"/>
                       </f:fields>
                     </f:FormElement>
                   </f:formElements>

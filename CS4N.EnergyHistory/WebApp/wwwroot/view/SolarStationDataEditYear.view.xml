@@ -6,6 +6,7 @@
           <Button type="Back" text="{i18n>text_Record}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
+          <Title text="{/viewData/definition/name}"/>
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{/viewData/yearData/number}"/>
         </contentMiddle>

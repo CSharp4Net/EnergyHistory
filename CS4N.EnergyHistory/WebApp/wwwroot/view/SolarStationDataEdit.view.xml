@@ -6,15 +6,16 @@
           <Button type="Back" text="{/viewData/definition/name}" press="onBackPress"/>
         </contentLeft>
         <contentMiddle>
+          <Title text="{/viewData/definition/name}"/>
           <Image src="image/flash-energy-64.png" height="2rem"/>
           <Title text="{i18n>text_Record}"/>
         </contentMiddle>
       </Bar>
     </customHeader>
     <content>
-      <f:Form editable="true">
+      <f:Form editable="edit">
         <f:layout>
-          <f:ResponsiveGridLayout columnsM="2" labelSpanS="6" labelSpanM="6" />
+          <f:ResponsiveGridLayout columnsL="1" />
         </f:layout>
         <f:formContainers>
           <f:FormContainer>

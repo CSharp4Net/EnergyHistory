@@ -15,28 +15,26 @@
     <content>
       <IconTabBar expandable="false" stretchContentHeight="true" applyContentPadding="false" headerMode="Inline">
         <items>
-          <IconTabFilter text="{i18n>text_Common}" iconColor="{/commonPropertiesAreValid}">
+          <IconTabFilter text="{i18n>text_Common}" iconColor="{/commonPropertiesAreValid}" icon="{/definition/iconUrl}">
             <f:Form editable="true">
               <f:layout>
-                <f:ResponsiveGridLayout labelSpanM="3" breakpointL="1000" />
+                <f:ResponsiveGridLayout columnsM="2"/>
               </f:layout>
               <f:formContainers>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement label="{i18n>text_Name}">
+                    <f:FormElement label="{i18n>text_MeterNumber}">
                       <f:fields>
-                        <Input id="nameInput" required="true" value="{/definition/name}" valueState="{/nameState}" placeholder="{i18n>place_UniqueName}"/>
+                        <Input id="numberInput"
+                               value="{/definition/number}"
+                               valueState="{/numberState}"
+                               required="true"
+                               placeholder="{i18n>place_MeterNumber}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_Image}">
                       <f:fields>
-                        <HBox renderType="Bare" alignItems="Center">
-                          <core:Icon src="{/definition/iconUrl}"
-                                     class="sapUiTinyMarginEnd"
-                                     size="2rem"
-                                     color="Tile"/>
-                          <Input value="{/definition/iconUrl}" placeholder="sap-icon://photo-voltaic" showValueHelp="true" valueHelpRequest="onIconExplorerPress" />
-                        </HBox>
+                        <Input value="{/definition/iconUrl}" placeholder="sap-icon://photo-voltaic" showValueHelp="true" valueHelpRequest="onIconExplorerPress" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_InstalledAt}">
@@ -48,14 +46,6 @@
                 </f:FormContainer>
                 <f:FormContainer>
                   <f:formElements>
-                    <f:FormElement label="{i18n>text_MeterNumber}">
-                      <f:fields>
-                        <Input value="{/definition/number}"
-                               valueState="{/numberState}"
-                               required="true"
-                               placeholder="{i18n>place_MeterNumber}" />
-                      </f:fields>
-                    </f:FormElement>
                     <f:FormElement label="{i18n>text_CapacityUnit}">
                       <f:fields>
                         <Select selectedKey="{/definition/capacityUnit}" showSecondaryValues="true">
@@ -69,44 +59,45 @@
                     <f:FormElement label="{i18n>text_Currency}">
                       <Input value="{/definition/currencyUnit}" placeholder="{i18n>place_CurrencyUnit}" width="50%" />
                     </f:FormElement>
+                    <f:FormElement label="{i18n>text_PriceOfKilowattHour}">
+                      <Input value="{/definition/kilowattHourPrice}"
+                             textAlign="End"
+                             type="Number"
+                             placeholder="0"
+                             description="{/definition/currencyUnit}" />
+                    </f:FormElement>
+                  </f:formElements>
+                </f:FormContainer>
+              </f:formContainers>
+            </f:Form>
+            <f:Form editable="true">
+              <f:layout>
+                <f:ResponsiveGridLayout columnsL="1"/>
+              </f:layout>
+              <f:formContainers>
+                <f:FormContainer>
+                  <f:formElements>
+                    <f:FormElement label="{i18n>text_MeterUnit}">
+                      <f:fields>
+                        <Input value="{/definition/unitCode}" placeholder="{i18n>place_MeterUnitCode}" />
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_DisplayName}">
+                      <f:fields>
+                        <Input value="{/definition/name}" valueState="{/nameState}" placeholder="{i18n>place_DisplayName}"/>
+                      </f:fields>
+                    </f:FormElement>
+                    <f:FormElement label="{i18n>text_ConsumptionMeter}">
+                      <f:fields>
+                        <CheckBox selected="{/definition/isConsumptionMeter}" text="{i18n>place_ConsumptionMeter}" wrapping="true"/>
+                      </f:fields>
+                    </f:FormElement>
                   </f:formElements>
                 </f:FormContainer>
               </f:formContainers>
             </f:Form>
           </IconTabFilter>
-          <IconTabFilter text="{i18n>text_MeterUnits}">
-            <Table items="{/definition/units}" alternateRowColors="true" fixedLayout="false" noDataText="{i18n>text_NoRecords}">
-              <columns>
-                <Column >
-                  <Text text="{i18n>text_Code}" />
-                </Column>
-                <Column hAlign="Center">
-                  <Text text="{i18n>text_IsConsumptionMeter}" />
-                </Column>
-                <Column>
-                  <Text text="{i18n>text_PriceOfKilowattHour}" />
-                </Column>
-                <Column hAlign="End" styleClass="sapUiSizeCompact">
-                  <Button icon="sap-icon://add" type="Transparent" press="AddMeterUnitPress" />
-                </Column>
-              </columns>
-              <items>
-                <ColumnListItem vAlign="Middle" press="onStationPress">
-                  <cells>
-                    <Input required="true" value="{code}" valueState="{codeState}" placeholder="{i18n>place_MeterUnitCode}"/>
-                    <CheckBox selected="{isConsumptionMeter}"/>
-                    <Input value="{kilowattHourPrice}"
-                           textAlign="End"
-                           type="Number"
-                           placeholder="0"
-                           description="{/definition/currencyUnit}" />
-                    <Button icon="sap-icon://delete" press="DeleteMeterUnitPress" type="Transparent" />
-                  </cells>
-                </ColumnListItem>
-              </items>
-            </Table>
-          </IconTabFilter>
-          <IconTabFilter text="{i18n>text_Internal}">
+          <IconTabFilter text="{i18n>text_Internal}" enabled="{= !${/newRecord} }">
             <f:Form editable="false">
               <f:layout>
                 <f:ResponsiveGridLayout  columnsL="1" labelSpanM="6" />
