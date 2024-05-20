@@ -74,6 +74,10 @@ namespace CS4N.EnergyHistory.WebApp.Services
         var recordInListDate = DateTime.Parse(recordInList.ReadingDate);
         var recordBeforeDate = DateTime.Parse(recordBefore.ReadingDate);
 
+        // Zeiten entfernen
+        recordInListDate = new DateTime(recordInListDate.Year, recordInListDate.Month, recordInListDate.Day);
+        recordBeforeDate = new DateTime(recordBeforeDate.Year, recordBeforeDate.Month, recordBeforeDate.Day);
+
         recordInList.DifferenceValue = recordInList.ReadingValue - recordBefore.ReadingValue;
         recordInList.DifferenceDays = (recordInListDate - recordBeforeDate).Days;
       }
