@@ -2,7 +2,9 @@
 using CS4N.EnergyHistory.Core;
 using CS4N.EnergyHistory.Core.Logging;
 using CS4N.EnergyHistory.DataStore.File;
+using CS4N.EnergyHistory.WebApp.Internals.Models;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
@@ -29,7 +31,11 @@ namespace CS4N.EnergyHistory.WebApp
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
+      // Lade lokale Settings-Datei
+      Builder.Configuration.AddJsonFile("appsettings.json", true);
+
       ConfigureServices(Builder.Services);
+
       ConfigureWebHost(Builder.WebHost);
 
       // Generiere App
@@ -55,6 +61,9 @@ namespace CS4N.EnergyHistory.WebApp
 
       // Erweitert die Server-Implementierung um die Nutzung von Controller-Klassen für die API
       services.AddControllers();
+
+      // Erweitert die Implementierung um die Instanziierung der Settings-Datei
+      services.AddOptions();
     }
 
     public static void ConfigureApplication(WebApplication app)
@@ -87,14 +96,24 @@ namespace CS4N.EnergyHistory.WebApp
       app.UseAuthorization();
 
       // Mache alle Controller im Projekt für die API bekannt
-      app.MapControllers();
+      app.MapControllers(); ;
     }
 
-    static void ConfigureWebHost(ConfigureWebHostBuilder webHost)
+    private void ConfigureWebHost(ConfigureWebHostBuilder webHost)
     {
+      int portNumber = 5678;
+
+      var configSection = Builder.Configuration.GetSection("ServerSettings");
+      if (configSection.Exists())
+      {
+        string? portNumberSettingValue = configSection["PortNumber"];
+        if (!int.TryParse(portNumberSettingValue, out portNumber))
+          portNumber = 5678;
+      }
+
       webHost.ConfigureKestrel(options =>
       {
-        options.ListenAnyIP(5678);
+        options.ListenAnyIP(portNumber);
       });
     }
   }
