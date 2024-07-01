@@ -55,7 +55,16 @@
     /// <summary>
     /// Produkt aus <see cref="GeneratedElectricityAmount"/> * <see cref="GeneratedElectricityKilowattHourPrice"/>
     /// </summary>
-    public decimal GeneratedElectricityValue => Convert.ToDecimal(GeneratedElectricityAmount) * GeneratedElectricityKilowattHourPrice;
+    public decimal GeneratedElectricityValue
+    {
+      get
+      {
+        if (AutomaticSummation)
+          return Months.Sum(month => month.GeneratedElectricityValue);
+        else
+          return Convert.ToDecimal(GeneratedElectricityAmount) * GeneratedElectricityKilowattHourPrice;
+      }
+    }
 
     /// <summary>
     /// Preis pro eingespeister Kilowattstunde verfügbar
