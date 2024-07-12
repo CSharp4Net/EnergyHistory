@@ -66,6 +66,10 @@
     /// Finanzielle Bemerkungen
     /// </summary>
     public string FinanceComments { get; set; } = "";
+    /// <summary>
+    /// API-Verbindungsdefinition
+    /// </summary>
+    public ApiDefinition ApiDefinition { get; set; } = new ApiDefinition();
 
     //public Location? Location { get; set; }
     //public List<Inverter> Inverters { get; set; } = new List<Inverter>();
