@@ -34,7 +34,7 @@
                   <f:formElements>
                     <f:FormElement label="{i18n>text_MaximumPerformance}">
                       <f:fields>
-                        <ObjectNumber number="{/viewData/definition/powerPeak}" unit="{/viewData/definition/powerUnit}"/>
+                        <ObjectNumber number="{ path: '/viewData/definition/powerPeak', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/powerUnit}"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_InstalledAt}">
@@ -53,14 +53,15 @@
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_GeneratedElectricityAmount}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmount', formatter: '.formatPowerValue' }" 
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmount', type: 'sap.ui.model.type.Float' }" 
                                       unit="{/viewData/definition/capacityUnit}"
                                       state="Success"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_GeneratedElectricityAmountPerDay}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmountPerDay', formatter: '.formatPowerValue' }" 
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityAmountPerDay', type: 'sap.ui.model.type.Float' }" 
+                                      emphasized="false"
                                       unit="{/viewData/definition/capacityUnit}"
                                       state="Success"/>
                       </f:fields>
@@ -68,15 +69,14 @@
                     
                     <f:FormElement label="{i18n>text_GeneratedElectricityValue}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValue', formatter: '.formatPowerValue' }" 
-                                      emphasized="false"
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValue', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }"
                                       unit="{/viewData/definition/currencyUnit}"
                                       state="Success"/>
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_GeneratedElectricityValuePerDay}" visible="{= ${/viewData/generatedElectricityValue} > 0 }">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValuePerDay', formatter: '.formatPowerValue' }" 
+                        <ObjectNumber number="{ path: '/viewData/generatedElectricityValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" 
                                       emphasized="false"
                                       unit="{/viewData/definition/currencyUnit}"
                                       state="Success"/>
@@ -85,14 +85,15 @@
                     
                     <f:FormElement label="{i18n>text_FedInElectricityValue}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValue', formatter: '.formatPowerValue' }"
+                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValue', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }"
                                       unit="{/viewData/definition/currencyUnit}" 
                                       state="Success" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_FedInElectricityValuePerDay}" visible="{= ${/viewData/fedInElectricityValue} > 0 }">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValuePerDay', formatter: '.formatPowerValue' }"
+                        <ObjectNumber number="{ path: '/viewData/fedInElectricityValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }"
+                                      emphasized="false"
                                       unit="{/viewData/definition/currencyUnit}" 
                                       state="Success" />
                       </f:fields>

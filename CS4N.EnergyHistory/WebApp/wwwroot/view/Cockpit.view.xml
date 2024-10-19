@@ -25,9 +25,16 @@
         </items>
         <content>
           <HBox id="myTiles" items="{/items}" wrap="Wrap">
-            <GenericTile header="{ path: 'name', formatter: '.formatTileHeader' }" press="onTilePress" class="sapUiTinyMargin" headerImage="{iconUrl}">
+            <GenericTile header="{ path: 'name', formatter: '.formatTileHeader' }" 
+                         press="onTilePress" 
+                         class="sapUiTinyMargin" 
+                         headerImage="{iconUrl}">
               <TileContent footer="{ path: 'tileFooter', formatter: '.formatTileFooter' }">
-                  <NumericContent value="{kpi/value}" valueColor="{kpi/valueColor}" scale="{kpi/unit}" icon="{kpi/iconUrl}" nullifyValue="false" />
+                  <NumericContent value="{ path: 'kpi/value', type: 'sap.ui.model.type.Float' }" 
+                                  valueColor="{kpi/valueColor}" 
+                                  scale="{kpi/unit}" 
+                                  icon="{kpi/iconUrl}" 
+                                  nullifyValue="false" />
               </TileContent>
             </GenericTile>
           </HBox>

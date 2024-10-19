@@ -32,7 +32,7 @@
                 <core:Icon src="{iconUrl}" size="2rem" color="Tile"/>
                 <Text text="{name}" class="sapUiSmallMarginBegin"/>
               </HBox>
-              <ObjectNumber number="{powerPeak}" unit=" {powerUnit}"/>
+              <ObjectNumber number="{powerPeak}" unit="{powerUnit}"/>
               <Button icon="sap-icon://navigation-right-arrow" type="Transparent" press="onRowPress" />
             </cells>
           </ColumnListItem>

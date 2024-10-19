@@ -40,7 +40,7 @@
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_PriceOfKilowattHour}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/definition/kilowattHourPrice', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 4 } }" 
+                        <ObjectNumber number="{ path: '/viewData/definition/kilowattHourPrice', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" 
                                       unit="{/viewData/definition/currencyUnit}" />
                       </f:fields>
                     </f:FormElement>
@@ -55,20 +55,20 @@
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_ReadingValue}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/data/lastRecordValue', type: 'sap.ui.model.type.Float', formatOptions: { maxIntegerDigits: 2 } }" 
+                        <ObjectNumber number="{ path: '/viewData/data/lastRecordValue', type: 'sap.ui.model.type.Float' }" 
                                       unit="{/viewData/definition/capacityUnit}" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_AverageAmountPerDay}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/data/averageAmountPerDay', type: 'sap.ui.model.type.Float', formatOptions: { maxIntegerDigits: 2 } }" 
+                        <ObjectNumber number="{ path: '/viewData/data/averageAmountPerDay', type: 'sap.ui.model.type.Float' }" 
                                       unit="{/viewData/definition/capacityUnit}" 
                                       state="Information" />
                       </f:fields>
                     </f:FormElement>
                     <f:FormElement label="{i18n>text_AverageValuePerDay}">
                       <f:fields>
-                        <ObjectNumber number="{ path: '/viewData/data/averageValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { maxIntegerDigits: 2 } }" 
+                        <ObjectNumber number="{ path: '/viewData/data/averageValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" 
                                       unit="{/viewData/definition/currencyUnit}" 
                                       state="Information" />
                       </f:fields>
@@ -159,11 +159,11 @@
                   <ColumnListItem vAlign="Middle">
                     <cells>
                       <Text text="{ path: 'readingDate', formatter: '.formatDate' }" />
-                      <ObjectNumber number="{readingValue}" unit="{/viewData/definition/capacityUnit}"/>
-                      <ObjectNumber number="{differenceValue}" unit="{/viewData/definition/capacityUnit}"/>
+                      <ObjectNumber number="{ path: 'readingValue', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}"/>
+                      <ObjectNumber number="{ path: 'differenceValue', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}"/>
                       <Text text="{differenceDays}" />
-                      <ObjectNumber number="{differenceAmountPerDay}" unit="{/viewData/definition/capacityUnit}" state="Information"/>
-                      <ObjectNumber number="{differenceValuePerDay}" unit="{currencyUnit}" state="Information"/>
+                      <ObjectNumber number="{ path: 'differenceAmountPerDay', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}" state="Information"/>
+                      <ObjectNumber number="{ path: 'differenceValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" unit="{currencyUnit}" state="Information"/>
                       <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRecordPress" />
                     </cells>
                   </ColumnListItem>

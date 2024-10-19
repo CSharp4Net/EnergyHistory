@@ -77,7 +77,22 @@
     /// <summary>
     /// Produkt aus <see cref="GeneratedElectricityAmount"/> * <see cref="FedInElectricityKilowattHourPrice"/>
     /// </summary>
-    public decimal FedInElectricityValue => Convert.ToDecimal(GeneratedElectricityAmount) * FedInElectricityKilowattHourPrice;
+    public decimal FedInElectricityValue
+    {
+      get
+      {
+        if (Months.Count == 0)
+          // Wenn keine Monatswerte erfasst wurden, nehmen wir einen Preis für das ganze Jahr
+          return (decimal)GeneratedElectricityAmount * FedInElectricityKilowattHourPrice;
+
+        decimal result = 0M;
+        foreach (DataOfMonth month in Months)
+        {
+          result += (decimal)month.GeneratedElectricityAmount * month.FedInElectricityKilowattHourPrice;
+        }
+        return result;
+      }
+    }
 
     /// <summary>
     /// Auflistung der Monate

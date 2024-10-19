@@ -58,12 +58,8 @@
           options: {
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                enabled: false
-              }
+              legend: { display: false },
+              tooltip: { enabled: false }
             },
             elements: {
               bar: {
