@@ -10,14 +10,14 @@
     /// <summary>
     /// Insgesamt erzeugter Strom
     /// </summary>
-    public double GeneratedElectricityAmount => Years.Sum(year => year.GeneratedElectricityAmount);
+    public double GeneratedElectricityAmount => Math.Round(Years.Sum(year => year.GeneratedElectricityAmount), 2);
     /// <summary>
     /// Erzeugter Stromwert über alle Jahre
     /// </summary>
-    public decimal GeneratedElectricityValue => Years.Sum(year => year.GeneratedElectricityValue);
+    public decimal GeneratedElectricityValue => Math.Round(Years.Sum(year => year.GeneratedElectricityValue), 2);
     /// <summary>
     /// Eingespeister Stromwert über alle Jahre
     /// </summary>
-    public decimal FedInElectricityValue => Years.Sum(year => year.FedInElectricityValue);
+    public decimal FedInElectricityValue => Math.Round(Years.Sum(year => year.FedInElectricityValue), 2);
   }
 }

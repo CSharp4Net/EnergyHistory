@@ -41,5 +41,38 @@
         return LastRecord?.ReadingValue ?? 0D;
       }
     }
+
+    /// <summary>
+    /// Durchschnittliche Strommenge pro Tag
+    /// </summary>
+    public double AverageAmountPerDay
+    {
+      get
+      {
+        if (Records.Count <= 1)
+          // Bei keinem oder nur einem Starteintrag erfolgt keine Berechnung
+          return 0D;
+
+        var records = Records[1..];
+
+        return Math.Round(records.Sum(record => record.DifferenceAmountPerDay) / records.Count, 2);
+      }
+    }
+    /// <summary>
+    /// Durchschrnittlicher Stromwert pro Tag
+    /// </summary>
+    public decimal AverageValuePerDay
+    {
+      get
+      {
+        if (Records.Count <= 1)
+          // Bei keinem oder nur einem Starteintrag erfolgt keine Berechnung
+          return 0M;
+
+        var records = Records[1..];
+
+        return Math.Round(records.Sum(record => record.DifferenceValuePerDay) / records.Count, 2);
+      }
+    }
   }
 }

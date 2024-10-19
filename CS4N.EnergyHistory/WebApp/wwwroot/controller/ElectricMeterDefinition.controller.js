@@ -88,6 +88,8 @@
         if (!this.validateInput(definition))
           return;
 
+        definition.kilowattHourPrice = Number(definition.kilowattHourPrice) || 0;
+
         const container = this.byId("myPage");
         container.setBusy(true);
         if (this.isNullOrEmpty(definition.guid))

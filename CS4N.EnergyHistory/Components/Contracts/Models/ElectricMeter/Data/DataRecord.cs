@@ -11,11 +11,11 @@
     /// </summary>
     public string ReadingDate { get; set; } = "";
     /// <summary>
-    /// Abgelesener Wert
+    /// Abgelesenen Strommenge
     /// </summary>
     public double ReadingValue { get; set; }
     /// <summary>
-    /// Wertdifferenz zur vorherigen Ablesung
+    /// Mengendifferenz zur vorherigen Ablesung
     /// </summary>
     public double DifferenceValue { get; set; }
     /// <summary>
@@ -33,8 +33,12 @@
     public string CurrencyUnit { get; set; } = "€";
 
     /// <summary>
-    /// Wert pro Tag
+    /// Strompreis pro Tag
     /// </summary>
-    public double DifferenceValuePerDay => DifferenceDays > 0D ? Math.Round(DifferenceValue / DifferenceDays, 1) : 0D;
+    public double DifferenceAmountPerDay => DifferenceDays > 0D ? Math.Round(DifferenceValue / DifferenceDays, 2) : 0D;
+    /// <summary>
+    /// Stromwert pro Tag
+    /// </summary>
+    public decimal DifferenceValuePerDay => Math.Round((decimal)DifferenceAmountPerDay * KilowattHourPrice, 2);
   }
 }
