@@ -27,10 +27,14 @@
           newRecord: null,
           viewData: {
             definiton: null,
-            data: []
+            data: {
+              records: [],
+              originRecords: null
+            }
           },
           readingDateState: "None",
-          readingValueState: "None"
+          readingValueState: "None",
+          compareRecordsActive: false
         });
       },
 
@@ -55,11 +59,27 @@
           currencyUnit: definition.currencyUnit
         });
       },
+
+      compareRecords: function (records) {
+        const container = this.byId("myPage");
+        container.setBusy(true);
+        Connector.post("ElectricMeterData/" + this.model.getProperty("/guid") + "/compare",
+          records,
+          this.onApiPostCompareRecords.bind(this),
+          this.handleApiError.bind(this),
+          () => container.setBusy(false));
+      },
+
+      restoreRecords: function () {
+        this.model.setProperty("/viewData/data/records", JSON.parse(JSON.stringify(this.model.getProperty("/viewData/data/originRecords"))));
+        this.model.refresh();
+      },
       // #endregion
 
       // #region Events
       onRouteMatched: function (evt) {
         this.resetModel();
+        this.model.setProperty("/guid", evt.getParameters().arguments.guid);
 
         const container = this.byId("myPage");
         container.setBusy(true);
@@ -124,6 +144,44 @@
           this.handleApiError.bind(this),
           () => this.byId("myPage").setBusy(false));
       },
+
+      onRecordSelect: function (evt) {
+        const modelPath = evt.getSource().getBindingContext().getPath(),
+          recordData = this.model.getProperty(modelPath),
+          modelData = this.model.getProperty("/viewData");
+
+        const beforeSelectedRecords = modelData.data.records
+          .filter(record => record.selectedIndex > -1)
+          .sort((a, b) => (a.selectedIndex > b.selectedIndex ? 1 : -1));
+
+        if (!recordData.selected)
+          recordData.selectedIndex = -1;
+        else if (beforeSelectedRecords.length > 1) {
+          beforeSelectedRecords[0].selectedIndex = 0;
+          // Vorherigen Eintrag abwählen
+          beforeSelectedRecords[1].selected = false;
+          beforeSelectedRecords[1].selectedIndex = -1;
+          // Neuen Eintrag auswählen
+          recordData.selectedIndex = 1;
+        }
+        else
+          recordData.selectedIndex = beforeSelectedRecords.length;
+
+        const afterSelectedRecords = modelData.data.records
+          .filter(record => record.selected)
+          .sort(record => record.selectedIndex);
+
+        if (afterSelectedRecords.length > 1) {
+          this.compareRecords(afterSelectedRecords);
+          this.model.setProperty("/compareRecordsActive", true);
+        }
+        else if (this.model.getProperty("/compareRecordsActive")) {
+          this.restoreRecords();
+          this.model.setProperty("/compareRecordsActive", false);
+        }
+
+        this.model.refresh();
+      },
       // #endregion
 
       // #region API-Events
@@ -132,6 +190,9 @@
           this.showResponseError(response);
           return;
         }
+
+        response.data.records.map(record => record.selected = false);
+        response.data.records.map(record => record.selectedIndex = -1);
 
         this.model.setProperty("/viewData", response);
 
@@ -161,6 +222,15 @@
         this.model.setProperty("/viewData/data", response);
 
         MessageToast.show(this.i18n.getText("toast_ElectricMeterDataDeleted"));
+      },
+
+      onApiPostCompareRecords: function (response) {
+        response.map(record => record.selected = true);
+
+        // Backup erstellen
+        this.model.setProperty("/viewData/data/originRecords", JSON.parse(JSON.stringify(this.model.getProperty("/viewData/data/records"))));
+        this.model.setProperty("/viewData/data/records", response);
+        this.model.refresh();
       }
       // #endregion
     });

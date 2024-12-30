@@ -30,5 +30,14 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     [HttpDelete("{guid}/record")]
     public IActionResult DeleteRecord(string guid, [FromBody] DataRecord record)
       => new OkObjectResult(service.DeleteRecord(guid, record));
+
+    [HttpPost("{guid}/compare")]
+    public IActionResult PostCompareRecords(string guid, [FromBody] DataRecord[] records)
+    {
+      var comparedRecords = service.CompareRecords(guid, records);
+
+      return new OkObjectResult(comparedRecords);
+    }
+
   }
 }

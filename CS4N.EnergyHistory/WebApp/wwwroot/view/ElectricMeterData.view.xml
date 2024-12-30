@@ -136,6 +136,9 @@
                      noDataText="{i18n>text_NoRecords}">
                 <columns>
                   <Column>
+                    <Text text="{i18n>text_Compare}" />
+                  </Column>
+                  <Column>
                     <Text text="{i18n>text_ReadingAt}" />
                   </Column>
                   <Column hAlign="End">
@@ -158,12 +161,19 @@
                 <items>
                   <ColumnListItem vAlign="Middle">
                     <cells>
+                      <CheckBox selected="{selected}" select="onRecordSelect" />
                       <Text text="{ path: 'readingDate', formatter: '.formatDate' }" />
-                      <ObjectNumber number="{ path: 'readingValue', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}"/>
-                      <ObjectNumber number="{ path: 'differenceValue', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}"/>
+                      <ObjectNumber number="{ path: 'readingValue', type: 'sap.ui.model.type.Float' }" 
+                                    unit="{/viewData/definition/capacityUnit}"/>
+                      <ObjectNumber number="{ path: 'differenceValue', type: 'sap.ui.model.type.Float' }" 
+                                    unit="{/viewData/definition/capacityUnit}"/>
                       <Text text="{differenceDays}" />
-                      <ObjectNumber number="{ path: 'differenceAmountPerDay', type: 'sap.ui.model.type.Float' }" unit="{/viewData/definition/capacityUnit}" state="Information"/>
-                      <ObjectNumber number="{ path: 'differenceValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" unit="{currencyUnit}" state="Information"/>
+                      <ObjectNumber number="{ path: 'differenceAmountPerDay', type: 'sap.ui.model.type.Float' }" 
+                                    unit="{/viewData/definition/capacityUnit}" 
+                                    state="Information"/>
+                      <ObjectNumber number="{ path: 'differenceValuePerDay', type: 'sap.ui.model.type.Float', formatOptions: { minFractionDigits: 2 } }" 
+                                    unit="{currencyUnit}" 
+                                    state="Information"/>
                       <Button icon="sap-icon://delete" type="Transparent" press="onDeleteRecordPress" />
                     </cells>
                   </ColumnListItem>

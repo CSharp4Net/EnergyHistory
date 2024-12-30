@@ -82,5 +82,35 @@ namespace CS4N.EnergyHistory.WebApp.Services
         recordInList.DifferenceDays = (recordInListDate - recordBeforeDate).Days;
       }
     }
+
+    internal List<DataRecord> CompareRecords(string guid, DataRecord[] records)
+    {
+      var sortedRecords = records.OrderBy(entry => entry.ReadingDate).ToList();
+
+      for (int i = 0; i < sortedRecords.Count; i++)
+      {
+        var recordInList = sortedRecords[i];
+        if (i == 0)
+        {
+          recordInList.DifferenceValue = 0;
+          recordInList.DifferenceDays = 0;
+          continue;
+        }
+
+        var recordBefore = sortedRecords[i - 1];
+
+        var recordInListDate = DateTime.Parse(recordInList.ReadingDate);
+        var recordBeforeDate = DateTime.Parse(recordBefore.ReadingDate);
+
+        // Zeiten entfernen
+        recordInListDate = new DateTime(recordInListDate.Year, recordInListDate.Month, recordInListDate.Day);
+        recordBeforeDate = new DateTime(recordBeforeDate.Year, recordBeforeDate.Month, recordBeforeDate.Day);
+
+        recordInList.DifferenceValue = recordInList.ReadingValue - recordBefore.ReadingValue;
+        recordInList.DifferenceDays = (recordInListDate - recordBeforeDate).Days;
+      }
+
+      return sortedRecords;
+    }
   }
 }
