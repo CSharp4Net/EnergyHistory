@@ -15,7 +15,3 @@ Beim Löschen eines Stromzählers, müssen auch die erfassten Werte (JSON-Datei)
 CSV-Import
 ----------
 Import von CSV-Datei aus Fritzbox (2 Jahre-Format) zur Datenerfassung.
-
-Dienstleister
--------------
-Anbindung von TSUN als Datenlieferant
