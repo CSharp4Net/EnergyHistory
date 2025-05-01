@@ -141,19 +141,19 @@
                   <Column>
                     <Text text="{i18n>text_ReadingAt}" />
                   </Column>
-                  <Column hAlign="End">
+                  <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline"  hAlign="End">
                     <Text text="{i18n>text_ReadingValue}" />
                   </Column>
-                  <Column hAlign="End">
+                  <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline"  hAlign="End">
                     <Text text="{i18n>text_Difference}" />
                   </Column>
-                  <Column hAlign="End">
+                  <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline"  hAlign="End">
                     <Text text="{i18n>text_Days}" />
                   </Column>
-                  <Column hAlign="End">
+                  <Column demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline"  hAlign="End">
                     <Text text="{i18n>text_PerDay}" />
                   </Column>
-                  <Column hAlign="End">
+                  <Column demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline"  hAlign="End">
                     <Text text="{i18n>text_PerDay}" />
                   </Column>
                   <Column hAlign="End" />

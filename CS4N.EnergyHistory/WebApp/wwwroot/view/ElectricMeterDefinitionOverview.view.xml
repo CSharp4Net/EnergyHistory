@@ -19,13 +19,13 @@
           <Column>
             <Text text="{i18n>text_Meter}" />
           </Column>
-          <Column>
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
             <Text text="{i18n>text_MeterUnit}" />
           </Column>
           <Column hAlign="Center">
             <Text text="{i18n>text_ConsumptionMeter}" />
           </Column>
-          <Column hAlign="End">
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline" hAlign="End">
             <Text text="{i18n>text_PriceOfKilowattHour}" />
           </Column>
           <Column hAlign="End" styleClass="sapUiSizeCompact">
