@@ -3,15 +3,31 @@ TODO-Liste:
 
 Cockpit
 -------
+Andere Darstellung und oder schönere Kacheln, muss man mal bissel rumschauen...
 
 PV-Stationen
 ------------
-Beim Löschen einer Solarstation, müssen auch die erfassten Werte (JSON-Datei) gelöscht werden.
+Beim Löschen einer Solarstation, müssen auch die erfassten Werte (JSON-Datei) gelöscht (oder über Dateinamen entsprechend ausgesondert) werden.
 
 Stromzähler
 ----------
-Beim Löschen eines Stromzählers, müssen auch die erfassten Werte (JSON-Datei) gelöscht werden.
+Beim Löschen eines Stromzählers, müssen auch die erfassten Werte (JSON-Datei) gelöscht (oder über Dateinamen entsprechend ausgesondert) werden.
+
+Neue Tab-Reiter "Auswertung":
+- in dem ein Start- und Enddatum aus den erfassten Einträgen ausgewählt werden können.
+- aus den zwei Daten werden anhand beider Daten die Differenz, die Tage und die Durchschnittswerte ermittelt
+- ggf. werden weitere Durchschnittswerte hinzufügt, wie Verbrauch "pro Monat", "pro Jahr, usw.
+- die Vergleichsfunktion im Tab-Reiter "Historie" wird entfernt und die Spalte ggf. noch umsortiert
 
 CSV-Import
 ----------
 Import von CSV-Datei aus Fritzbox (2 Jahre-Format) zur Datenerfassung.
+
+CSV-Export
+----------
+Export als CSV-Datei
+
+Vergleich von Stationen und/oder Stromzähler
+============================================
+Linien-Diagramm über 1 bis N PV-Stationen hinzufügen, um mehrere Stationen zu vergleichen.
+Linien-Diagramm über 1 bis N Stromzählern hinzufügen, um mehrere Stromzählern zu vergleichen.
