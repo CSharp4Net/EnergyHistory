@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CS4N.EnergyHistory.MobileApp.Views.SolarStationDetailPage"
+             Title="SolarStation">
+
+  <ContentPage.Content>
+    <ScrollView>
+      <VerticalStackLayout Padding="12" Spacing="12">
+        <Image x:Name="iconImage" HeightRequest="120" WidthRequest="120" HorizontalOptions="Center"/>
+        <Label x:Name="nameLabel" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <Label x:Name="kpiLabel" FontSize="16" HorizontalOptions="Center"/>
+        <Label x:Name="installedLabel" FontSize="14" TextColor="Gray"/>
+        <Label x:Name="commentsLabel" FontSize="14" />
+
+        <Frame HasShadow="False" Padding="6" CornerRadius="8" BackgroundColor="#FFF">
+          <!-- GraphicsView: custom drawable zeichnet das Linien-Chart -->
+          <GraphicsView x:Name="chartView" HeightRequest="280" />
+        </Frame>
+
+      </VerticalStackLayout>
+    </ScrollView>
+  </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CS4N.EnergyHistory.MobileApp.MainPage">
+
+  <ContentPage.Content>
+    <ScrollView>
+      <VerticalStackLayout Spacing="2" Padding="2">
+
+        <ActivityIndicator x:Name="loadingIndicator" 
+                           IsRunning="True" 
+                           IsVisible="False" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"/>
+
+        <CollectionView x:Name="GroupedCollectionView"
+                        ItemsSource="{Binding Groups}"
+                        IsGrouped="True"
+                        SelectionMode="Single"
+                        SelectionChanged="GroupedCollectionView_SelectionChanged">
+          <CollectionView.GroupHeaderTemplate>
+            <!--Template für die Darstellung der Gruppen-->
+            <DataTemplate>
+              <Label Text="{Binding Key}" 
+                     FontSize="20" 
+                     FontAttributes="Bold" 
+                     TextColor="Gold"/>
+            </DataTemplate>
+          </CollectionView.GroupHeaderTemplate>
+
+          <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical" Span="1"/>
+          </CollectionView.ItemsLayout>
+
+          <CollectionView.ItemTemplate>
+            <DataTemplate>
+              <!--Template für die Darstellung der Einträge-->
+              <Border Padding="10" Margin="6">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                  <Label Grid.Column="0" 
+                         Text="{Binding Name}" 
+                         FontAttributes="Bold" FontSize="16" 
+                         VerticalOptions="Center"/>
+                  <Label Grid.Column="1" 
+                         Text="{Binding KpiText}" 
+                         FontSize="14" 
+                         VerticalOptions="Center" 
+                         TextColor="{Binding KpiColor}"
+                         HorizontalOptions="End"/>
+                  <Label Grid.Row="1" 
+                         Grid.Column="1" 
+                         Text="{Binding FooterText}" 
+                         FontSize="12" 
+                         TextColor="Gray" 
+                         VerticalOptions="Start"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </CollectionView.ItemTemplate>
+        </CollectionView>
+
+      </VerticalStackLayout>
+    </ScrollView>
+  </ContentPage.Content>
+</ContentPage>
