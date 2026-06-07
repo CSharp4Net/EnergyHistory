@@ -10,6 +10,6 @@
   public enum ElectricMeterChartDataStepType
   {
     Year = 0,
-    Month= 1
+    Month = 1
   }
 }

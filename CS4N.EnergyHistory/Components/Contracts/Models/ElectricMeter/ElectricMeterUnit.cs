@@ -1,6 +1,6 @@
 ﻿//namespace CS4N.EnergyHistory.Contracts.Models.ElectricMeter
 //{
-//  public sealed class MeterUnit
+//  public sealed class ElectricMeterMeterUnit
 //  {
 //    public string Code { get; set; } = "1.8.0";
 

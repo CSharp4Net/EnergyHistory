@@ -1,6 +1,6 @@
 ﻿namespace CS4N.EnergyHistory.Contracts.Models.SolarStation
 {
-  public sealed class ApiDefinition
+  public sealed class SolarStationApiDefinition
   {
     public string? RootUrl { get; set; }
 

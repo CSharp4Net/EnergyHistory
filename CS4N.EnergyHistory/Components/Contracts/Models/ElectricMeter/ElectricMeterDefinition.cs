@@ -3,7 +3,7 @@
   /// <summary>
   /// Model für eine Stromzähleinheit
   /// </summary>
-  public sealed class Definition
+  public sealed class ElectricMeterDefinition
   {
     /// <summary>
     /// Eindeutige ID

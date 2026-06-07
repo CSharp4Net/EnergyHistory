@@ -3,7 +3,7 @@
   /// <summary>
   /// Model für eine Ablesung
   /// </summary>
-  public sealed class DataRecord
+  public sealed class ElectricMeterDataRecord
   {
     public int Id { get; set; }
     /// <summary>

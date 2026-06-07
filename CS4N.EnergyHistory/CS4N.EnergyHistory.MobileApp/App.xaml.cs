@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace CS4N.EnergyHistory.MobileApp
+﻿namespace CS4N.EnergyHistory.MobileApp
 {
   public partial class App : Application
   {

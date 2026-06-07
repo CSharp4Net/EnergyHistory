@@ -24,15 +24,15 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetDefinition(guid);
 
     [HttpPost]
-    public IActionResult Post([FromBody] Definition definition)
+    public IActionResult Post([FromBody] SolarStationDefinition definition)
       => service.AddDefinition(definition);
 
     [HttpPatch]
-    public IActionResult Patch([FromBody] Definition definition)
+    public IActionResult Patch([FromBody] SolarStationDefinition definition)
       => service.UpdateDefinition(definition);
 
     [HttpDelete]
-    public IActionResult Delete([FromBody] Definition definition)
+    public IActionResult Delete([FromBody] SolarStationDefinition definition)
       => service.DeleteDefinition(definition);
   }
 }

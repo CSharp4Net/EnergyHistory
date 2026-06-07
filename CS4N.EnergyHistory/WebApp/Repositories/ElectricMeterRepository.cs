@@ -10,15 +10,15 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal ElectricMeterRepository(IDataStore dataStore) : base(dataStore) { }
 
     #region Definition
-    internal List<Definition> GetDefinitions()
+    internal List<ElectricMeterDefinition> GetDefinitions()
       => DataStore.GetElectricMeterDefinitions();
 
-    internal Definition? GetDefinition(string guid)
+    internal ElectricMeterDefinition? GetDefinition(string guid)
       => DataStore.GetElectricMeterDefinition(guid);
 
-    internal ActionReply AddDefinition(Definition station)
+    internal ActionReply AddDefinition(ElectricMeterDefinition station)
     {
-      List<Definition> collection = DataStore.GetElectricMeterDefinitions();
+      List<ElectricMeterDefinition> collection = DataStore.GetElectricMeterDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
@@ -28,9 +28,9 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
       return new ActionReply();
     }
 
-    internal ActionReply UpdateDefinition(Definition station)
+    internal ActionReply UpdateDefinition(ElectricMeterDefinition station)
     {
-      List<Definition> collection = DataStore.GetElectricMeterDefinitions();
+      List<ElectricMeterDefinition> collection = DataStore.GetElectricMeterDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
@@ -40,7 +40,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
       return new ActionReply();
     }
 
-    internal ActionReply DeleteDefinition(Definition station)
+    internal ActionReply DeleteDefinition(ElectricMeterDefinition station)
     {
       DataStore.DeleteElectricMeterDefinition(station.Guid);
       //DataStore.DeleteElectricMeterData(station.Guid); // TODO
@@ -50,10 +50,10 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     #endregion
 
     #region Data
-    internal DataObject GetData(string guid)
+    internal ElectricMeterDataObject GetData(string guid)
       => DataStore.GetElectricMeterData(guid);
 
-    internal DataObject SetData(DataObject data)
+    internal ElectricMeterDataObject SetData(ElectricMeterDataObject data)
     {
       DataStore.UpsertElectricMeterData(data);
 

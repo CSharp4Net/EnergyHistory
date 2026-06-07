@@ -18,18 +18,18 @@ namespace CS4N.EnergyHistory.WebApp.Services
     internal IActionResult GetDefinitions()
     {
       logger.LogDebug("Load all electric meter definitions");
-      List<Definition> collection = repository.GetDefinitions();
+      List<ElectricMeterDefinition> collection = repository.GetDefinitions();
 
       return new OkObjectResult(collection);
     }
 
-    internal Definition GetNewDefinition()
-     => new Definition();
+    internal ElectricMeterDefinition GetNewDefinition()
+     => new ElectricMeterDefinition();
 
     internal IActionResult GetDefinition(string guid)
     {
       logger.LogDebug($"Load electric meter definition '{guid}'");
-      Definition? station = repository.GetDefinition(guid);
+      ElectricMeterDefinition? station = repository.GetDefinition(guid);
 
       if (station == null)
         return new OkObjectResult(new ActionReply("message_ElectricMeterNotFound"));
@@ -37,7 +37,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(station);
     }
 
-    internal IActionResult AddDefinition(Definition definition)
+    internal IActionResult AddDefinition(ElectricMeterDefinition definition)
     {
       logger.LogInformation($"Add electric meter definition '{definition.Name}'");
       ActionReply actionReply = repository.AddDefinition(definition);
@@ -50,7 +50,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult UpdateDefinition(Definition definition)
+    internal IActionResult UpdateDefinition(ElectricMeterDefinition definition)
     {
       logger.LogInformation($"Update electric meter definition '{definition.Guid}'");
       ActionReply actionReply = repository.UpdateDefinition(definition);
@@ -61,7 +61,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult DeleteDefinition(Definition definition)
+    internal IActionResult DeleteDefinition(ElectricMeterDefinition definition)
     {
       logger.LogInformation($"Delete electric meter definition '{definition.Guid}'");
       ActionReply actionReply = repository.DeleteDefinition(definition);

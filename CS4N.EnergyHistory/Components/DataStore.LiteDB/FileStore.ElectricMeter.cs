@@ -7,19 +7,19 @@ namespace CS4N.EnergyHistory.DataStore.File
   {
     private const string electricMeterDefinitionsFileName = "ElectricMeters.json";
 
-    private static List<Definition> cachedElectricMeterDefinitions = [];
-    private static List<DataObject> cachedElectricMeterDatas = [];
+    private static List<ElectricMeterDefinition> cachedElectricMeterDefinitions = [];
+    private static List<ElectricMeterDataObject> cachedElectricMeterDatas = [];
 
     #region Definition
-    public List<Definition> GetElectricMeterDefinitions()
+    public List<ElectricMeterDefinition> GetElectricMeterDefinitions()
     {
       if (cachedElectricMeterDefinitions.Count > 0)
         return cachedElectricMeterDefinitions;
 
-      return cachedElectricMeterDefinitions = LoadDefinitionsFile<Definition>(electricMeterDefinitionsFileName) ?? [];
+      return cachedElectricMeterDefinitions = LoadDefinitionsFile<ElectricMeterDefinition>(electricMeterDefinitionsFileName) ?? [];
     }
 
-    public Definition? GetElectricMeterDefinition(string guid)
+    public ElectricMeterDefinition? GetElectricMeterDefinition(string guid)
     {
       var definition = GetElectricMeterDefinitions()
         .SingleOrDefault(entry => entry.Guid.Equals(guid));
@@ -27,7 +27,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       return definition;
     }
 
-    public void UpsertElectricMeterDefinition(Definition definition)
+    public void UpsertElectricMeterDefinition(ElectricMeterDefinition definition)
     {
       var definitions = GetElectricMeterDefinitions();
 
@@ -67,7 +67,7 @@ namespace CS4N.EnergyHistory.DataStore.File
     #endregion
 
     #region Data
-    public List<DataObject> GetElectricMeterDatas()
+    public List<ElectricMeterDataObject> GetElectricMeterDatas()
     {
       if (cachedElectricMeterDatas.Count > 0)
         return cachedElectricMeterDatas;
@@ -83,15 +83,15 @@ namespace CS4N.EnergyHistory.DataStore.File
 
     }
 
-    public DataObject GetElectricMeterData(string guid)
+    public ElectricMeterDataObject GetElectricMeterData(string guid)
     {
       var data = cachedElectricMeterDatas.SingleOrDefault(entry => entry.Guid == guid);
       if (data != null)
         return data;
 
-      data = LoadDataFile<DataObject>(guid);
+      data = LoadDataFile<ElectricMeterDataObject>(guid);
 
-      data ??= new DataObject
+      data ??= new ElectricMeterDataObject
       {
         Guid = guid
       };
@@ -101,7 +101,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       return data;
     }
 
-    public void UpsertElectricMeterData(DataObject data)
+    public void UpsertElectricMeterData(ElectricMeterDataObject data)
     {
       WriteDataFile(data);
 
@@ -110,7 +110,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
     public void DeleteElectricMeterData(string guid)
     {
-      DeleteDataFile<DataObject>(guid);
+      DeleteDataFile<ElectricMeterDataObject>(guid);
 
       cachedElectricMeterDatas.Clear();
     }

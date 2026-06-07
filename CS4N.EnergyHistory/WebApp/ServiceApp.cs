@@ -2,9 +2,7 @@
 using CS4N.EnergyHistory.Core;
 using CS4N.EnergyHistory.Core.Logging;
 using CS4N.EnergyHistory.DataStore.File;
-using CS4N.EnergyHistory.WebApp.Internals.Models;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 

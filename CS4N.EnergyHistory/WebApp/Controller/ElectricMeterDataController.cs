@@ -24,15 +24,15 @@ namespace CS4N.EnergyHistory.WebApp.Controller
     }
 
     [HttpPost("{guid}")]
-    public IActionResult PostNewRecord(string guid, [FromBody] DataRecord record)
+    public IActionResult PostNewRecord(string guid, [FromBody] ElectricMeterDataRecord record)
       => new OkObjectResult(service.PostNewRecord(guid, record));
 
     [HttpDelete("{guid}/record")]
-    public IActionResult DeleteRecord(string guid, [FromBody] DataRecord record)
+    public IActionResult DeleteRecord(string guid, [FromBody] ElectricMeterDataRecord record)
       => new OkObjectResult(service.DeleteRecord(guid, record));
 
     [HttpPost("{guid}/compare")]
-    public IActionResult PostCompareRecords(string guid, [FromBody] DataRecord[] records)
+    public IActionResult PostCompareRecords(string guid, [FromBody] ElectricMeterDataRecord[] records)
     {
       var comparedRecords = service.CompareRecords(guid, records);
 

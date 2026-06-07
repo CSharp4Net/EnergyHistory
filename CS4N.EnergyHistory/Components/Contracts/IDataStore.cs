@@ -1,11 +1,13 @@
-﻿namespace CS4N.EnergyHistory.Contracts
+﻿using CS4N.EnergyHistory.Contracts.Models.SolarStation;
+
+namespace CS4N.EnergyHistory.Contracts
 {
   public interface IDataStore
   {
     #region SolarStation
-    List<Models.SolarStation.Definition> GetSolarStationDefinitions();
-    Models.SolarStation.Definition? GetSolarStationDefinition(string guid);
-    void UpsertSolarStationDefinition(Models.SolarStation.Definition definition);
+    List<SolarStationDefinition> GetSolarStationDefinitions();
+    SolarStationDefinition? GetSolarStationDefinition(string guid);
+    void UpsertSolarStationDefinition(SolarStationDefinition definition);
     void DeleteSolarStationDefinition(string guid);
 
     List<Models.SolarStation.Data.DataSummary> GetSolarStationDatas();
@@ -15,14 +17,14 @@
     #endregion
 
     #region ElectricMeter
-    List<Models.ElectricMeter.Definition> GetElectricMeterDefinitions();
-    Models.ElectricMeter.Definition? GetElectricMeterDefinition(string guid);
-    void UpsertElectricMeterDefinition(Models.ElectricMeter.Definition definition);
+    List<Models.ElectricMeter.ElectricMeterDefinition> GetElectricMeterDefinitions();
+    Models.ElectricMeter.ElectricMeterDefinition? GetElectricMeterDefinition(string guid);
+    void UpsertElectricMeterDefinition(Models.ElectricMeter.ElectricMeterDefinition definition);
     void DeleteElectricMeterDefinition(string guid);
 
-    List<Models.ElectricMeter.Data.DataObject> GetElectricMeterDatas();
-    Models.ElectricMeter.Data.DataObject GetElectricMeterData(string guid);
-    void UpsertElectricMeterData(Models.ElectricMeter.Data.DataObject data);
+    List<Models.ElectricMeter.Data.ElectricMeterDataObject> GetElectricMeterDatas();
+    Models.ElectricMeter.Data.ElectricMeterDataObject GetElectricMeterData(string guid);
+    void UpsertElectricMeterData(Models.ElectricMeter.Data.ElectricMeterDataObject data);
     void DeleteElectricMeterData(string guid);
     #endregion
   }

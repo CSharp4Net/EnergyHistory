@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CS4N.EnergyHistory.MobileApp.ViewModels"
+             x:Class="CS4N.EnergyHistory.MobileApp.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel">
+
+  <ContentPage.Content>
+    <Grid RowDefinitions="Auto,*">
+
+      <!-- Kopfzeile -->
+      <Grid Grid.Row="0"
+            BackgroundColor="{AppThemeBinding Light=#37474F, Dark=#1C1C1E}"
+            Padding="8,10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0"
+                Text="‹"
+                FontSize="24"
+                TextColor="White"
+                BackgroundColor="Transparent"
+                Clicked="OnBackClicked"
+                WidthRequest="44"/>
+        <Label Grid.Column="1"
+               Text="Einstellungen"
+               TextColor="White"
+               FontSize="18"
+               FontAttributes="Bold"
+               VerticalOptions="Center"/>
+      </Grid>
+
+      <ScrollView Grid.Row="1">
+        <VerticalStackLayout Padding="16" Spacing="20">
+
+          <!-- Abschnitt: Datenspeicher -->
+          <Label Text="DATENSPEICHER"
+                 FontSize="12"
+                 FontAttributes="Bold"
+                 TextColor="Gray"
+                 CharacterSpacing="1.5"/>
+
+          <Frame Padding="16" CornerRadius="12" HasShadow="False"
+                 BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1E}">
+            <VerticalStackLayout Spacing="12">
+
+              <Label Text="Wo sollen deine Energiedaten gespeichert werden?"
+                     FontSize="14"/>
+
+              <!-- Option: Lokal auf dem Gerät -->
+              <Grid ColumnDefinitions="Auto,*" Padding="4" ColumnSpacing="12">
+                <RadioButton Grid.Column="0"
+                             IsChecked="{Binding IsLocalMode}"
+                             GroupName="StorageMode"/>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                  <Label Text="Lokal auf dem Gerät" FontSize="15" FontAttributes="Bold"/>
+                  <Label Text="Daten werden im App-Datenverzeichnis gespeichert. Kein Netzwerk nötig."
+                         FontSize="12"
+                         TextColor="Gray"/>
+                </VerticalStackLayout>
+              </Grid>
+
+              <!-- Option: Netzwerk / URL (WebApp-Backend) -->
+              <Grid ColumnDefinitions="Auto,*" Padding="4" ColumnSpacing="12">
+                <RadioButton Grid.Column="0"
+                             IsChecked="{Binding IsRemoteMode}"
+                             GroupName="StorageMode"/>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                  <Label Text="WebApp-Server / Netzwerk" FontSize="15" FontAttributes="Bold"/>
+                  <Label Text="Verbindet sich mit dem EnergyHistory-Backend (ASP.NET). Daten liegen zentral auf dem Server."
+                         FontSize="12"
+                         TextColor="Gray"/>
+                </VerticalStackLayout>
+              </Grid>
+
+              <!-- URL-Eingabe, nur sichtbar wenn Remote ausgewählt -->
+              <VerticalStackLayout IsVisible="{Binding IsRemoteMode}" Spacing="6" Margin="0,4,0,0">
+                <Label Text="Server-URL" FontSize="13" TextColor="Gray"/>
+                <Entry Text="{Binding RemoteUrl}"
+                       Placeholder="http://192.168.1.10:5000"
+                       Keyboard="Url"
+                       ClearButtonVisibility="WhileEditing"/>
+                <Label Text="Gib die Adresse des EnergyHistory WebApp-Servers an. Diese muss vom Gerät aus erreichbar sein (z.B. im gleichen WLAN)."
+                       FontSize="12"
+                       TextColor="Gray"/>
+              </VerticalStackLayout>
+
+            </VerticalStackLayout>
+          </Frame>
+
+          <!-- Speichern-Button -->
+          <Button Text="Einstellungen speichern"
+                  BackgroundColor="{AppThemeBinding Light=#37474F, Dark=#555}"
+                  TextColor="White"
+                  CornerRadius="8"
+                  Clicked="OnSaveClicked"/>
+
+          <!-- Bestätigungsmeldung -->
+          <Label Text="{Binding SavedMessage}"
+                 IsVisible="{Binding HasSavedMessage}"
+                 TextColor="ForestGreen"
+                 FontSize="14"
+                 HorizontalOptions="Center"/>
+
+          <!-- Hinweis-Box -->
+          <Frame Padding="14" CornerRadius="10" HasShadow="False"
+                 BackgroundColor="{AppThemeBinding Light=#E3F2FD, Dark=#1A2D3E}">
+            <VerticalStackLayout Spacing="6">
+              <Label Text="ℹ️  Hinweis zum Netzwerkspeicher"
+                     FontSize="13"
+                     FontAttributes="Bold"
+                     TextColor="SteelBlue"/>
+              <Label Text="Die App verbindet sich mit dem REST-API des EnergyHistory WebApp-Servers. Stelle sicher, dass der Server läuft und du dich im gleichen Netzwerk befindest. Auf dem Server werden die JSON-Dateien im konfigurierten FileStore-Verzeichnis abgelegt — genau wie wenn du die WebApp im Browser nutzt."
+                     FontSize="12"
+                     TextColor="{AppThemeBinding Light=#1A2D3E, Dark=#A0C4E8}"/>
+            </VerticalStackLayout>
+          </Frame>
+
+        </VerticalStackLayout>
+      </ScrollView>
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>

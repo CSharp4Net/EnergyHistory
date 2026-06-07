@@ -26,7 +26,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       };
     }
 
-    internal DataObject PostNewRecord(string guid, DataRecord record)
+    internal ElectricMeterDataObject PostNewRecord(string guid, ElectricMeterDataRecord record)
     {
       var definition = repository.GetDefinition(guid)!;
       var dataObject = repository.GetData(guid);
@@ -41,7 +41,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return repository.SetData(dataObject);
     }
 
-    internal object? DeleteRecord(string guid, DataRecord record)
+    internal object? DeleteRecord(string guid, ElectricMeterDataRecord record)
     {
       var definition = repository.GetDefinition(guid)!;
       var dataObject = repository.GetData(guid);
@@ -62,7 +62,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
       return repository.SetData(dataObject);
     }
-    private void CompleteRecords(DataObject dataObject)
+    private void CompleteRecords(ElectricMeterDataObject dataObject)
     {
       var sortedRecords = dataObject.Records.OrderBy(entry => entry.ReadingDate).ToList();
 
@@ -83,7 +83,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       }
     }
 
-    internal List<DataRecord> CompareRecords(string guid, DataRecord[] records)
+    internal List<ElectricMeterDataRecord> CompareRecords(string guid, ElectricMeterDataRecord[] records)
     {
       var sortedRecords = records.OrderBy(entry => entry.ReadingDate).ToList();
 

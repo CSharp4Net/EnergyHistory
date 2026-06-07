@@ -5,8 +5,8 @@ namespace CS4N.EnergyHistory.WebApp.ViewModels.ElectricMeter
 {
   public sealed class DataView
   {
-    public Definition? Definition { get; set; }
+    public ElectricMeterDefinition? Definition { get; set; }
 
-    public DataObject? Data { get; set; }
+    public ElectricMeterDataObject? Data { get; set; }
   }
 }

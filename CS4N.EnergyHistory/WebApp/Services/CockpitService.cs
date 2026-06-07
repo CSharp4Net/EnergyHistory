@@ -1,4 +1,5 @@
 ﻿using CS4N.EnergyHistory.Contracts;
+using CS4N.EnergyHistory.Contracts.Models.SolarStation;
 using CS4N.EnergyHistory.WebApp.Repositories;
 using CS4N.EnergyHistory.WebApp.ViewModels.Cockpit;
 using System.Text.Json;
@@ -55,7 +56,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return result;
     }
 
-    private List<GenericTileData> GetSolarStationItems(List<Contracts.Models.SolarStation.Definition> definitions)
+    private List<GenericTileData> GetSolarStationItems(List<SolarStationDefinition> definitions)
     {
       List<GenericTileData> result = [];
 
@@ -80,7 +81,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return result;
     }
 
-    private List<GenericTileData> GetElectricMeterItems(List<Contracts.Models.ElectricMeter.Definition> definitions)
+    private List<GenericTileData> GetElectricMeterItems(List<Contracts.Models.ElectricMeter.ElectricMeterDefinition> definitions)
     {
       List<GenericTileData> result = [];
 

@@ -1,6 +1,6 @@
 ﻿namespace CS4N.EnergyHistory.Contracts.Models.SolarStation
 {
-  public sealed class Definition
+  public sealed class SolarStationDefinition
   {
     /// <summary>
     /// Eindeutige ID
@@ -69,7 +69,7 @@
     /// <summary>
     /// API-Verbindungsdefinition
     /// </summary>
-    public ApiDefinition ApiDefinition { get; set; } = new ApiDefinition();
+    public SolarStationApiDefinition ApiDefinition { get; set; } = new SolarStationApiDefinition();
 
     //public Location? Location { get; set; }
     //public List<Inverter> Inverters { get; set; } = new List<Inverter>();

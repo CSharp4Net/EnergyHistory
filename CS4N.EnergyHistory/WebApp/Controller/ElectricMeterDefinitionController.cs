@@ -28,15 +28,15 @@ namespace CS4N.EnergyHistory.WebApp.Controller
       => service.GetDefinition(guid);
 
     [HttpPost]
-    public IActionResult Post([FromBody] Definition definition)
+    public IActionResult Post([FromBody] ElectricMeterDefinition definition)
       => service.AddDefinition(definition);
 
     [HttpPatch]
-    public IActionResult Patch([FromBody] Definition definition)
+    public IActionResult Patch([FromBody] ElectricMeterDefinition definition)
       => service.UpdateDefinition(definition);
 
     [HttpDelete]
-    public IActionResult Delete([FromBody] Definition definition)
+    public IActionResult Delete([FromBody] ElectricMeterDefinition definition)
       => service.DeleteDefinition(definition);
   }
 }

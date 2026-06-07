@@ -7,19 +7,19 @@ namespace CS4N.EnergyHistory.DataStore.File
   {
     private const string solarStationDefinitionsFileName = "SolarStations.json";
 
-    private static List<Definition> cachedSolarStationDefinitions = [];
+    private static List<SolarStationDefinition> cachedSolarStationDefinitions = [];
     private static List<DataSummary> cachedSolarStationDatas = [];
 
     #region Definition
-    public List<Definition> GetSolarStationDefinitions()
+    public List<SolarStationDefinition> GetSolarStationDefinitions()
     {
       if (cachedSolarStationDefinitions.Count > 0)
         return cachedSolarStationDefinitions;
 
-      return cachedSolarStationDefinitions = LoadDefinitionsFile<Definition>(solarStationDefinitionsFileName) ?? [];
+      return cachedSolarStationDefinitions = LoadDefinitionsFile<SolarStationDefinition>(solarStationDefinitionsFileName) ?? [];
     }
 
-    public Definition? GetSolarStationDefinition(string guid)
+    public SolarStationDefinition? GetSolarStationDefinition(string guid)
     {
       var definition = GetSolarStationDefinitions()
         .SingleOrDefault(entry => entry.Guid.Equals(guid));
@@ -27,7 +27,7 @@ namespace CS4N.EnergyHistory.DataStore.File
       return definition;
     }
 
-    public void UpsertSolarStationDefinition(Definition definition)
+    public void UpsertSolarStationDefinition(SolarStationDefinition definition)
     {
       var definitions = GetSolarStationDefinitions();
 
@@ -60,7 +60,7 @@ namespace CS4N.EnergyHistory.DataStore.File
 
       definitions.RemoveAll(entry => entry.Guid == guid);
 
-      WriteDefinitionsFile<Definition>(definitions, solarStationDefinitionsFileName);
+      WriteDefinitionsFile<SolarStationDefinition>(definitions, solarStationDefinitionsFileName);
 
       cachedSolarStationDefinitions.Clear();
     }

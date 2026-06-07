@@ -8,12 +8,12 @@ namespace CS4N.EnergyHistory.DataImport.FritzBox
 {
   public sealed class DataImport : IDataImport
   {
-    public DataImport(Definition stationDefinition)
+    public DataImport(SolarStationDefinition stationDefinition)
     {
       this.stationDefinition = stationDefinition;
     }
 
-    private readonly Definition stationDefinition;
+    private readonly SolarStationDefinition stationDefinition;
 
     public List<DataOfYear> ReadCsvFile(string filePath)
     {

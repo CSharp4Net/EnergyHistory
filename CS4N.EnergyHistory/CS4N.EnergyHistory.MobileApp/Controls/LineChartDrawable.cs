@@ -1,7 +1,3 @@
-using Microsoft.Maui.Graphics;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace CS4N.EnergyHistory.MobileApp.Controls
 {
   // Minimales DTO für Chart-Daten

@@ -1,6 +1,6 @@
 ﻿namespace CS4N.EnergyHistory.WebApp.ViewModels.Cockpit
 {
-  public sealed class GenericTileData (string category, string name, string entryViewName)
+  public sealed class GenericTileData(string category, string name, string entryViewName)
   {
     public string Category { get; set; } = category;
     public string Name { get; set; } = name;

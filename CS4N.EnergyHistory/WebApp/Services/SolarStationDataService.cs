@@ -28,7 +28,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
 
     internal IActionResult GetData(string guid, ChartDataFilter filter)
     {
-      Definition definition = repository.GetDefinition(guid)!;
+      SolarStationDefinition definition = repository.GetDefinition(guid)!;
 
       var viewData = new DataView
       {

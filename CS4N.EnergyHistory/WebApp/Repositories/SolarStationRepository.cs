@@ -10,15 +10,15 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
     internal SolarStationRepository(IDataStore dataStore) : base(dataStore) { }
 
     #region Definition
-    internal List<Definition> GetDefinitions()
+    internal List<SolarStationDefinition> GetDefinitions()
       => DataStore.GetSolarStationDefinitions();
 
-    internal Definition? GetDefinition(string guid)
+    internal SolarStationDefinition? GetDefinition(string guid)
       => DataStore.GetSolarStationDefinition(guid);
 
-    internal ActionReply AddDefinition(Definition station)
+    internal ActionReply AddDefinition(SolarStationDefinition station)
     {
-      List<Definition> collection = DataStore.GetSolarStationDefinitions();
+      List<SolarStationDefinition> collection = DataStore.GetSolarStationDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
@@ -28,9 +28,9 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
       return new ActionReply();
     }
 
-    internal ActionReply UpdateDefinition(Definition station)
+    internal ActionReply UpdateDefinition(SolarStationDefinition station)
     {
-      List<Definition> collection = DataStore.GetSolarStationDefinitions();
+      List<SolarStationDefinition> collection = DataStore.GetSolarStationDefinitions();
 
       if (collection.Any(entry => entry.Name.Equals(station.Name, StringComparison.InvariantCultureIgnoreCase) && entry.Guid != station.Guid))
         return new ActionReply("message_NameAlreadyExists", "text_ValidationFailed");
@@ -40,7 +40,7 @@ namespace CS4N.EnergyHistory.WebApp.Repositories
       return new ActionReply();
     }
 
-    internal ActionReply DeleteDefinition(Definition station)
+    internal ActionReply DeleteDefinition(SolarStationDefinition station)
     {
       DataStore.DeleteSolarStationDefinition(station.Guid);
       DataStore.DeleteSolarStationData(station.Guid);

@@ -5,8 +5,8 @@ namespace CS4N.EnergyHistory.WebApp.ViewModels.SolarStation
 {
   public sealed class DataEditView
   {
-    public Definition? Definition { get; set; }
+    public SolarStationDefinition? Definition { get; set; }
 
-    public DataSummary? Data { get; set; } 
+    public DataSummary? Data { get; set; }
   }
 }

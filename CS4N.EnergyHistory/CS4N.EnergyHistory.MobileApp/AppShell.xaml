@@ -2,12 +2,22 @@
 <Shell x:Class="CS4N.EnergyHistory.MobileApp.AppShell"
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:CS4N.EnergyHistory.MobileApp">
-  <!--Burger-Menu-->  
-  <FlyoutItem Title="Main">
-    <ShellContent
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage" />
-  </FlyoutItem>
+       xmlns:local="clr-namespace:CS4N.EnergyHistory.MobileApp"
+       xmlns:views="clr-namespace:CS4N.EnergyHistory.MobileApp.Views"
+       Shell.NavBarIsVisible="False"
+       FlyoutBehavior="Disabled">
+
+  <!--
+    Die Shell ist der Navigationsrahmen der App.
+    Durch Shell.RegisterRoute() in AppShell.xaml.cs werden die
+    Detail-Routen für die URL-basierte Navigation (GoToAsync) registriert.
+    Diese Seiten erscheinen nicht im Flyout-Menü, da sie als modale 
+    Detailseiten gedacht sind.
+  -->
+
+  <ShellContent
+    Title="EnergyHistory"
+    ContentTemplate="{DataTemplate local:MainPage}"
+    Route="MainPage" />
 
 </Shell>

@@ -3,7 +3,7 @@
   public sealed class DataOfYear
   {
     public DataOfYear() { }
-    public DataOfYear(Definition stationDefinition, int year)
+    public DataOfYear(SolarStationDefinition stationDefinition, int year)
     {
       Number = year;
 

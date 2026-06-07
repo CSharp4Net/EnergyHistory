@@ -1,9 +1,7 @@
 ﻿using CS4N.EnergyHistory.Contracts;
 using CS4N.EnergyHistory.Contracts.Models;
-using CS4N.EnergyHistory.Contracts.Models.ElectricMeter.Data;
 using CS4N.EnergyHistory.Core;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace CS4N.EnergyHistory.DataStore.File

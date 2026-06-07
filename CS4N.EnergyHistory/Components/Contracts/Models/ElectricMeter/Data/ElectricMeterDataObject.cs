@@ -3,14 +3,14 @@
   /// <summary>
   /// Datenobjekt mit Ablesungen für einen Stromzähler
   /// </summary>
-  public sealed class DataObject : DataObjectBase
+  public sealed class ElectricMeterDataObject : DataObjectBase
   {
     /// <summary>
     /// Auflistung von Ablesungen
     /// </summary>
-    public List<DataRecord> Records { get; set; } = [];
+    public List<ElectricMeterDataRecord> Records { get; set; } = [];
 
-    public DataRecord? LastRecord
+    public ElectricMeterDataRecord? LastRecord
     {
       get
       {

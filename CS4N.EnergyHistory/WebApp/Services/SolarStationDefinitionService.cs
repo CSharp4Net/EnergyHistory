@@ -18,7 +18,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
     internal IActionResult GetDefinitions()
     {
       logger.LogDebug("Load all solar station definitions");
-      List<Definition> collection = repository.GetDefinitions();
+      List<SolarStationDefinition> collection = repository.GetDefinitions();
 
       return new OkObjectResult(collection);
     }
@@ -26,7 +26,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
     internal IActionResult GetDefinition(string guid)
     {
       logger.LogDebug($"Load solar station definition '{guid}'");
-      Definition? station = repository.GetDefinition(guid);
+      SolarStationDefinition? station = repository.GetDefinition(guid);
 
       if (station == null)
         return new OkObjectResult(new ActionReply("message_SolarStationNotFound"));
@@ -34,7 +34,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(station);
     }
 
-    internal IActionResult AddDefinition(Definition definition)
+    internal IActionResult AddDefinition(SolarStationDefinition definition)
     {
       logger.LogInformation($"Add solar station definition '{definition.Name}'");
       ActionReply actionReply = repository.AddDefinition(definition);
@@ -47,7 +47,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult UpdateDefinition(Definition definition)
+    internal IActionResult UpdateDefinition(SolarStationDefinition definition)
     {
       logger.LogInformation($"Update solar station definition '{definition.Guid}'");
       ActionReply actionReply = repository.UpdateDefinition(definition);
@@ -58,7 +58,7 @@ namespace CS4N.EnergyHistory.WebApp.Services
       return new OkObjectResult(actionReply);
     }
 
-    internal IActionResult DeleteDefinition(Definition definition)
+    internal IActionResult DeleteDefinition(SolarStationDefinition definition)
     {
       logger.LogInformation($"Delete solar station definition '{definition.Guid}'");
       ActionReply actionReply = repository.DeleteDefinition(definition);

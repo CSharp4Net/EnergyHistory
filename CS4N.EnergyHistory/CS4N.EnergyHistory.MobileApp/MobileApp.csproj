@@ -66,6 +66,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Components\Contracts\Contracts.csproj" />
+	  <ProjectReference Include="..\Components\Core\Core.csproj" />
 	  <ProjectReference Include="..\Components\DataStore.LiteDB\DataStore.File.csproj" />
 	</ItemGroup>
 

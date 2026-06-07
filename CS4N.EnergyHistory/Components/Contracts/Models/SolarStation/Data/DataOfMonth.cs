@@ -3,7 +3,7 @@
   public sealed class DataOfMonth
   {
     public DataOfMonth() { }
-    public DataOfMonth(Definition stationDefinition, int year, int month)
+    public DataOfMonth(SolarStationDefinition stationDefinition, int year, int month)
     {
       Number = month;
 

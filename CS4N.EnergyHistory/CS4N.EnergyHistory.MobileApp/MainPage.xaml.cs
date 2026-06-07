@@ -1,126 +1,49 @@
-﻿using CS4N.EnergyHistory.DataStore.File;
-using System.Collections.ObjectModel;
+using CS4N.EnergyHistory.MobileApp.ViewModels;
 
 namespace CS4N.EnergyHistory.MobileApp
 {
   public partial class MainPage : ContentPage
   {
-    public ObservableCollection<GroupModel> Groups { get; } = [];
+    private readonly MainViewModel _vm = new();
 
     public MainPage()
     {
       InitializeComponent();
-      BindingContext = this;
-      _ = LoadGroupsAsync();
+      BindingContext = _vm;
     }
 
-    private async Task LoadGroupsAsync()
+    // OnAppearing wird jedes Mal aufgerufen, wenn die Seite sichtbar wird —
+    // also auch nach dem Zurücknavigieren von der Detail- oder Einstellungsseite.
+    // Das stellt sicher, dass nach einer Einstellungsänderung (Speicherort) oder
+    // nach dem Erfassen neuer Daten immer frische Werte angezeigt werden.
+    protected override async void OnAppearing()
     {
-      try
-      {
-        MainThread.BeginInvokeOnMainThread(() => loadingIndicator.IsVisible = true);
-
-        await Task.Run(() =>
-        {
-          var store = new FileStore();
-
-          var groupSolarStations = new GroupModel("PV-Stationen");
-          var solarStationDefinitions = store.GetSolarStationDefinitions();
-
-          foreach (var solarStationDefinition in solarStationDefinitions)
-          {
-            var solarStationData = store.GetSolarStationData(solarStationDefinition.Guid);
-
-            var kpi = Math.Round(solarStationData.GeneratedElectricityAmount);
-            var kpiUnit = solarStationDefinition.CapacityUnit ?? "";
-
-            var tile = new TileModel
-            {
-              Category = "solarStation",
-              Name = solarStationDefinition.Name,
-              IconUrl = solarStationDefinition.IconUrl ?? "",
-              FooterText = $"{solarStationData.GeneratedElectricityValue:C2} {solarStationDefinition.CurrencyUnit}",
-              KpiText = $"{kpi:N} {kpiUnit}",
-              KpiColor = Colors.Green,
-              Guid = solarStationDefinition.Guid
-            };
-
-            MainThread.BeginInvokeOnMainThread(() => groupSolarStations.Add(tile));
-          }
-
-          var electricMeterGroup = new GroupModel("Stromzähler");
-          var electricMeterDefinitions = store.GetElectricMeterDefinitions();
-
-          foreach (var electricMeterDefinition in electricMeterDefinitions)
-          {
-            var data = store.GetElectricMeterData(electricMeterDefinition.Guid);
-
-            double lastValue = 0;
-            try { lastValue = data.LastRecordValue; } catch { lastValue = 0; }
-
-            var tile = new TileModel
-            {
-              Category = "electricMeter",
-              Name = string.IsNullOrEmpty(electricMeterDefinition.Name) ? electricMeterDefinition.Number : electricMeterDefinition.Name,
-              IconUrl = electricMeterDefinition.IconUrl ?? "",
-              FooterText = "ElectricMeter",
-              KpiText = $"{Math.Round(lastValue):G} {electricMeterDefinition.CapacityUnit}",
-              KpiColor = Colors.Red,
-              Guid = electricMeterDefinition.Guid
-            };
-
-            MainThread.BeginInvokeOnMainThread(() => electricMeterGroup.Add(tile));
-          }
-
-          MainThread.BeginInvokeOnMainThread(() =>
-          {
-            Groups.Clear();
-            if (groupSolarStations.Count > 0) Groups.Add(groupSolarStations);
-            if (electricMeterGroup.Count > 0) Groups.Add(electricMeterGroup);
-          });
-        });
-      }
-      finally
-      {
-        MainThread.BeginInvokeOnMainThread(() => loadingIndicator.IsVisible = false);
-      }
+      base.OnAppearing();
+      await _vm.LoadAsync();
+      lastRefreshLabel.Text = $"Zuletzt aktualisiert: {DateTime.Now:HH:mm}";
     }
 
-    private async void GroupedCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnTileSelected(object sender, SelectionChangedEventArgs e)
     {
-      if (e.CurrentSelection?.FirstOrDefault() is TileModel tile)
-      {
-        try
-        {
-          var route = tile.Category == "solarStation" ? 
-            "SolarStation.Detail" : "ElectricMeter.Detail";
-          var uri = $"{route}?guid={Uri.EscapeDataString(tile.Guid)}";
-          await Shell.Current.GoToAsync(uri);
-        }
-        catch (Exception ex)
-        {
-          await DisplayAlert("Navigation Error", ex.Message, "OK");
-        }
+      if (e.CurrentSelection?.FirstOrDefault() is not TileModel tile)
+        return;
 
-        ((CollectionView)sender).SelectedItem = null;
-      }
+      // CollectionView-Selektion sofort zurücksetzen, damit dieselbe Kachel
+      // nochmals angetippt werden kann (kein visuelles "hängen bleiben").
+      ((CollectionView)sender).SelectedItem = null;
+
+      // Navigation über Shell-Routing mit GUID als Query-Parameter.
+      // Das entspricht dem navigateTo() in BaseController.js.
+      var route = tile.Category == "solarStation"
+        ? "SolarStation.Detail"
+        : "ElectricMeter.Detail";
+
+      await Shell.Current.GoToAsync($"{route}?guid={Uri.EscapeDataString(tile.Guid)}");
     }
 
-    public sealed class TileModel
+    private async void OnSettingsClicked(object sender, EventArgs e)
     {
-      public required string Category { get; set; }
-      public required string Name { get; set; }
-      public string? IconUrl { get; set; }
-      public string? FooterText { get; set; }
-      public required string KpiText { get; set; }
-      public required string Guid { get; set; }
-      public required Color KpiColor { get; set; } = Colors.White;
-    }
-
-    public sealed class GroupModel : ObservableCollection<TileModel>
-    {
-      public GroupModel(string key) => Key = key;
-      public string Key { get; }
+      await Shell.Current.GoToAsync("Settings");
     }
   }
 }
